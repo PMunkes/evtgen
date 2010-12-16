@@ -1,0 +1,30 @@
+This version of EvtGen is a merger of the latest LHCb and BaBar code.
+
+To build the EvtGen code, do
+
+./configure
+
+then
+
+make
+
+This should create the libraries lib/libEvtGen.so and lib/archive/libEvtGen.a.
+
+Since EvtGen still uses Fortran routines for some calculations gfortran is needed
+to compile the code. The alternative (not recommended) compilers g77 (f77) can be
+used instead by changing the FC variable in the configure script.
+
+Note that PHOTOS and PYTHIA are required to run EvtGen. Suitable versions are 
+available here:
+
+/afs/cern.ch/sw/lcg/external/MCGenerators/photos/215.5
+
+/afs/cern.ch/sw/lcg/external/MCGenerators/pythia6/420
+
+To create an EvtGen executable, the following libraries need to be included
+in the link path, owing to the dependence on PHOTOS, PYTHIA and Fortran code: 
+
+-lphotos -lpythia6 -lpythia6_dummy -lgfortran
+
+Two example programs using EvtGen can be seen in the test sub-directory along 
+with the required Makefile.

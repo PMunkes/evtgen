@@ -1,0 +1,188 @@
+#! /bin/bash
+
+#Package-specific:>
+
+GENERATOR=EvtGen
+#VERSION=8.16
+
+# === Default values of input parameters ====
+PATH_TO_EXTERNAL=
+CLHEP_VERSION=
+LCGPLATFORM=         #LCG platform. Can be needed if external libraries are specified
+COMPMODE=OPT                        # Default: compiler optimization mode
+
+#<
+
+#--------------------------------------------------------------
+
+check_arguments () {
+  for arg in $* ; do
+    if   [ "x$arg" = "x--enable-debug" ] ; then
+      COMPMODE=DBG
+    elif [ "x$arg" = "x--help" ] ; then
+      echo -e \
+      "\nUsage: ./configure [options] , where options are:\n\n"\
+      "--help                       : prints this help\n"\
+      "--enable-debug               : turns on debugging flags\n"\
+      "--lcgplatform=LCGPLATFORM    : ${LCGPLATFORM} by default\n"
+      exit
+    else
+      if [ "x${arg}" = "x${arg/=/}" ] ; then
+        echo "${arg}: wrong option. Ignored." >&2
+      else
+        option=${arg/=*/}
+        value=${arg/*=/}
+	if [ "x${option}" = "x--lcgplatform" ] ; then
+	    LCGPLATFORM=${value}
+	else
+	  echo "${arg}: wrong option. Ignored." >&2
+	fi
+      fi
+    fi
+  done
+  return
+}
+		
+#---------------------------------------
+
+check_arguments $* 
+
+echo  "Compilation mode is ${COMPMODE}"
+
+#Package-specific:>
+
+#
+# User-changeable part, experts  -----------------------------
+#
+FFLAGS_OPT="-O2 -Wuninitialized"
+FFLAGS_DBG="-g"
+CFLAGS_OPT=-O2
+CFLAGS_DBG=-g
+CXX="g++"
+CXXFLAGS_OPT="-O2 -Wall"
+CXXFLAGS_DBG="-g -Wall"
+ 
+FFLAGSSHARED=-fPIC
+CFLAGSSHARED=-fPIC
+CXXFLAGSSHARED=-fPIC
+ 
+LDFLAGSSHARED="${CXXFLAGS_OPT} -pthread -fPIC"
+
+#
+# Find platform.
+#
+ARCH=`uname`
+theGcc=`g++ --version | grep '[0-9]\.[0-9]\.[0-9]' -o | head -1 | awk -F . '{print $1}'`
+if [ ${theGcc} = 4 ]; then
+  ARCH=${ARCH}-gcc4
+fi
+echo "Platform is $ARCH"
+
+#default platform settings:
+FC=gfortran
+CC=g++
+FFLAGS="${FFLAGS_OPT}"
+CFLAGS="${CFLAGS_OPT}"
+CXXFLAGS="${CXXFLAGS_OPT}"
+FLIBS="-lfrtbegin -lg2c"
+if [ ${COMPMODE} = OPT ]; then
+  FFLAGS="${FFLAGS_OPT}"
+  CFLAGS="${CFLAGS_OPT}"
+  CXXFLAGS="${CXXFLAGS_OPT}"
+fi
+if [ ${COMPMODE} = DBG ]; then
+  FFLAGS="${FFLAGS_DBG}"
+  CFLAGS="${CFLAGS_DBG}"
+  CXXFLAGS="${CXXFLAGS_DBG}"
+fi
+if [ $ARCH = Linux ]; then
+  FC=gfortran
+  FFLAGS="${FFLAGS_OPT} -Wno-globals"
+  CFLAGS="${CFLAGS_OPT}"
+  CXXFLAGS="${CXXFLAGS_OPT}"
+  FLIBS="-lfrtbegin -lg2c"
+  if [ ${COMPMODE} = OPT ]; then
+    FFLAGS="${FFLAGS_OPT}"
+    CFLAGS="${CFLAGS_OPT}"
+    CXXFLAGS="${CXXFLAGS_OPT}"
+  fi
+  if [ ${COMPMODE} = DBG ]; then
+    FFLAGS="${FFLAGS_DBG} -Wno-globals"
+    CFLAGS="${CFLAGS_DBG}"
+    CXXFLAGS="${CXXFLAGS_DBG}"
+  fi
+fi
+# Linux platform with gcc4: new Fortran90 compiler.
+if [ $ARCH = Linux-gcc4 ]; then
+  FC=gfortran
+  FFLAGS="${FFLAGS_OPT}"
+  CFLAGS="${CFLAGS_OPT}"
+  CXXFLAGS="${CXXFLAGS_OPT}"
+  FLIBS="-lgfortran -lgfortranbegin"
+  if [ ${COMPMODE} = OPT ]; then
+    FFLAGS="${FFLAGS_OPT}"
+    CFLAGS="${CFLAGS_OPT}"
+    CXXFLAGS="${CXXFLAGS_OPT}"
+  fi
+  if [ ${COMPMODE} = DBG ]; then
+    FFLAGS="${FFLAGS_DBG}"
+    CFLAGS="${CFLAGS_DBG}"
+    CXXFLAGS="${CXXFLAGS_DBG}"
+  fi
+fi
+
+#Platform & opt/dbg - independent flags and variables:
+
+echo -n "Creating config.mk ... "
+
+rm -f config.mk 
+
+cat > config.mk << EOT
+
+GENERATOR = ${GENERATOR}
+#VERSION = ${VERSION}
+
+SHELL = /bin/bash 
+ARCH = ${ARCH} 
+LCGPLATFORM = ${LCGPLATFORM}
+FC = ${FC} 
+FFLAGS = ${FFLAGS} 
+CFLAGS = ${CFLAGS}
+CXX = ${CXX}
+CXXFLAGS = ${CXXFLAGS} -DEVTSTANDALONE
+
+TOPDIR = $(pwd)
+
+TMPDIR = \$(TOPDIR)/tmp
+INCLUDEDIR = \$(TOPDIR)
+SRCDIR = \$(TOPDIR)/src
+LIBDIR_SHARED = \$(TOPDIR)/lib
+LIBDIR_ARCHIVE = \$(TOPDIR)/lib/archive
+
+LIB_SHARED = \$(LIBDIR_SHARED)/lib\$(GENERATOR).so
+LIB_ARCHIVE = \$(LIBDIR_ARCHIVE)/lib\$(GENERATOR).a
+
+# flags:
+#
+FFLAGSSHARED = ${FFLAGSSHARED}
+CFLAGSSHARED = ${CFLAGSSHARED}
+CXXFLAGSSHARED = ${CXXFLAGSSHARED}
+
+LDFLAGSSHARED = ${LDFLAGSSHARED} 
+
+FLIBS = ${FLIBS}
+
+#Package-specific:>
+
+#<
+EOT
+
+echo " done"
+
+set -v
+mkdir -p tmp/ lib/ lib/archive/
+set +v 
+
+echo -e  "\n\nType 'make' to build everything or 'make help' to list build targets.\n\n"
+
+exit

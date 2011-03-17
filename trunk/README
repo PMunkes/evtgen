@@ -60,3 +60,14 @@ in the link path, owing to the dependence on PHOTOS, PYTHIA and Fortran code:
 
 Two example programs using EvtGen can be seen in the test sub-directory along 
 with the required Makefile.
+
+Examples
+========
+
+Some examples are provided in the test sub-directory. 
+
+To run these, first build EvtGen, then type "make" in the test directory. Note
+that these tests require ROOT to be installed. Running the script "./do_tests"
+will run a series of EvtGen examples. Example decay files are in the
+test/exampleFiles sub-directory.
+

@@ -56,6 +56,22 @@ Enddecay
 For these cases, EvtPythiaEngine will detect that no daughters are defined and will 
 just keep Pythia 8 defaults. Otherwise, errors are generated when such decays are used.
 
+At the moment, there is a limitation in that Pythia 8 anti-particle decays are assumed 
+to have the same decay modes as particle decays. When a decay.dec file is defined it
+is important that any Pythia modes defined for, say B+, are also the same as for B-
+(with the same branching fractions, but the daughter particles are charge conjugates).
+This was the case for the previous Pythia6-EvtGen implementation.
+It is possible to turn on/off (anti)particle Pythia decays to simulate "asymmetries", 
+but this option is not yet implemented in EvtPythiaEngine. For Pythia modes, CP 
+violation is simulated using the B mixing models in EvtGen, and not by Pythia itself. 
+It is possible to have two different decay channel definitions for B+ and B-
+in a decay.dec file, but the Pythia generator will use the B+ decay information only,
+applying charge conjugates to get all B- decays. For example, if a user.dec file only
+redefined B- to have one (Pythia) decay channel, Pythia 8 will actually use the B+
+decay table to generate the B- decay. However, it is unlikely that users will define
+B- and B+ to have different modes that are not charge-conjugates of each other.
+If there is a use case when such behaviour is required then this will be revisited.
+
 
 It is now possible to use alias particle definitions for Pythia decays, and
 these aliases in turn can use Pythia decays or other decay models. Each alias should 

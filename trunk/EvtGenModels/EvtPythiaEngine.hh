@@ -41,6 +41,8 @@ private:
   void storeDaughterInfo(EvtParticle* theParticle, int startInt);
 
   void clearDaughterVectors();
+  void clearPythiaModeMap();
+
   void createDaughterEvtParticles(EvtParticle* theParent);
 
   int getModeInt(EvtDecayBase* decayModel);

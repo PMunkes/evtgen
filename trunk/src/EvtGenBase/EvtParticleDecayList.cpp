@@ -108,6 +108,19 @@ void EvtParticleDecayList::removeDecay(){
   
 }
 
+EvtDecayBase* EvtParticleDecayList::getDecayModel(int imode) {
+
+  EvtDecayBase* theModel(0);
+  if (imode >= 0 && imode < _nmode) {
+    EvtParticleDecay* theDecay = _decaylist[imode];
+    if (theDecay != 0) {
+      theModel = theDecay->getDecayModel();
+    }
+  }
+
+  return theModel;
+
+}
 
 EvtDecayBase* EvtParticleDecayList::getDecayModel(EvtParticle *p){
 

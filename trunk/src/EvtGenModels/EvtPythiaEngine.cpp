@@ -47,7 +47,10 @@ EvtPythiaEngine::~EvtPythiaEngine() {
   delete _aliasPythiaGen; _aliasPythiaGen = 0;
 
   _thePythiaGenerator = 0;
-  _decayTable.clear(); _daugPDGVector.clear(); _daugP4Vector.clear();
+  _decayTable.clear();
+
+  this->clearDaughterVectors();
+  this->clearPythiaModeMap();
  
 }
 
@@ -56,9 +59,25 @@ void EvtPythiaEngine::clearDaughterVectors() {
   _daugP4Vector.clear();
 }
 
+void EvtPythiaEngine::clearPythiaModeMap() {
+
+  PythiaModeMap::iterator iter;
+  for (iter = _pythiaModeMap.begin(); iter != _pythiaModeMap.end(); ++iter) {
+
+    std::vector<int> modeVector = iter->second;
+    modeVector.clear();
+
+  }
+
+  _pythiaModeMap.clear();
+
+}
+
 void EvtPythiaEngine::initialise() {
 
   if (_initialised) {return;}
+
+  this->clearPythiaModeMap();
 
   this->updateParticleLists();
 
@@ -252,31 +271,33 @@ void EvtPythiaEngine::createDaughterEvtParticles(EvtParticle* theParent) {
     return;
   }
 
+  // Get the list of Pythia decay modes defined for this particle id alias.
+  // It would be easier to just use the decay channel number that Pythia chose to use 
+  // for the particle decay, but this is not accessible from the Pythia interface at present.
+
   int nDaughters = _daugPDGVector.size();
   std::vector<EvtId> daugAliasIdVect(0);
 
   EvtId particleId = theParent->getId();
+  // Check to see if we have an anti-particle. If we do, charge conjugate the particle id to get the
+  // Pythia "alias" we can compare with the defined (particle) Pythia modes.
+  int PDGId = EvtPDL::getStdHep(particleId);
   int aliasInt = particleId.getAlias();
-  EvtParticleDecayList decayList = _decayTable[aliasInt];
+  int pythiaAliasInt(aliasInt);
 
-  // Get the list of Pythia decay modes defined for this particle id alias.
-  // It would be easier to just use the decay channel number that Pythia chose to use 
-  // for the particle decay, but this is not accessible from the Pythia interface at present.
+  if (PDGId < 0) {
+    // We have an anti-particle.
+    EvtId conjPartId = EvtPDL::chargeConj(particleId);
+    pythiaAliasInt = conjPartId.getAlias();
+  }
+
+  std::vector<int> pythiaModes = _pythiaModeMap[pythiaAliasInt];
+  EvtParticleDecayList decayList = _decayTable[aliasInt];
 
   // Loop over all available Pythia decay modes and find the channel that matches
   // the daughter ids. Set each daughter id to also use the alias integer.
   // This will then convert the Pythia generated channel to the EvtGen alias defined one.
 
-  // Since Pythia modes are defined for "particles only" (anti-particles use the same modes), 
-  // we need to get to check the charge conjugate if we do not find any modes at first.
-
-  std::vector<int> pythiaModes = _pythiaModeMap[aliasInt];
-  if (pythiaModes.size() == 0) {
-    // Try the charge conjugate of the particle.
-    EvtId conjIdTest = EvtPDL::chargeConj(particleId);
-    pythiaModes = _pythiaModeMap[conjIdTest.getAlias()];
-  }
-  
   std::vector<int>::iterator modeIter;
   bool gotMode(false);
 
@@ -288,9 +309,11 @@ void EvtPythiaEngine::createDaughterEvtParticles(EvtParticle* theParent) {
     int pythiaModeInt = *modeIter;
 
     EvtDecayBase* decayModel = decayList.getDecayModel(pythiaModeInt);
+
     if (decayModel != 0) {
 
       int nModeDaug = decayModel->getNDaug();
+
       // We need to make sure that the number of daughters match
       if (nDaughters == nModeDaug) {
 

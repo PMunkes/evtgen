@@ -314,7 +314,7 @@ void EvtDDalitz::decay( EvtParticle *p){
     EvtId parId = p -> getParent()->getId ();                              
     if ( ( BP == parId ) || ( BM == parId ) || ( B0 == parId ) ||              
 	               ( B0B == parId ) )
-      if (EvtDecayTable::getDecayFunc(p->getParent())->getName() == "BTODDALITZCPK") isBToDK=true;   
+      if (EvtDecayTable::getInstance()->getDecayFunc(p->getParent())->getName() == "BTODDALITZCPK") isBToDK=true;   
   }                                                                            
   
 
@@ -380,13 +380,13 @@ void EvtDDalitz::decay( EvtParticle *p){
 
     if ( isBToDK ) {
       // Gamma angle in rad.                                                                       
-      double gamma = EvtDecayTable::getDecayFunc( p->getParent() )
+      double gamma = EvtDecayTable::getInstance()->getDecayFunc( p->getParent() )
         -> getArg( 0 )  ;
       // Strong phase in rad.                                                                      
-      double delta =  EvtDecayTable::getDecayFunc( p->getParent() )
+      double delta =  EvtDecayTable::getInstance()->getDecayFunc( p->getParent() )
         -> getArg( 1 )  ;
       // Ratio between B->D0K and B->D0barK                                                        
-      double A     =  EvtDecayTable::getDecayFunc( p->getParent() )
+      double A     =  EvtDecayTable::getInstance()->getDecayFunc( p->getParent() )
         -> getArg( 2 )  ;
 
       EvtComplex Factor( fabs( A ) * cos ( delta ) ,
@@ -463,13 +463,13 @@ void EvtDDalitz::decay( EvtParticle *p){
 
     if ( isBToDK ){
       // Gamma angle in rad.                                                                       
-      double gamma = EvtDecayTable::getDecayFunc( p->getParent() )
+      double gamma = EvtDecayTable::getInstance()->getDecayFunc( p->getParent() )
         -> getArg( 0 )  ;
       // Strong phase in rad.                                                                      
-      double delta =  EvtDecayTable::getDecayFunc( p->getParent() )
+      double delta =  EvtDecayTable::getInstance()->getDecayFunc( p->getParent() )
         -> getArg( 1 )  ;
       // Ratio between B->D0K and B->D0barK                                                        
-      double A     =  EvtDecayTable::getDecayFunc( p->getParent() )
+      double A     =  EvtDecayTable::getInstance()->getDecayFunc( p->getParent() )
         -> getArg( 2 )  ;
 
       EvtComplex Factor( fabs( A ) * cos ( delta ) ,

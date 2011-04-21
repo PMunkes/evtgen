@@ -47,7 +47,7 @@ public:
 
   EvtDecayBase* getDecayModel(EvtParticle *p);
   EvtDecayBase* getDecayModel(int imode) {return _decaylist[imode]->getDecayModel();}
-  const EvtDecayBase* getDecayModel(int imode) const {return _decaylist[imode]->getDecayModel();}
+  //const EvtDecayBase* getDecayModel(int imode) const {return _decaylist[imode]->getDecayModel();}
 
 
   EvtParticleDecay& getDecay(int nchannel) const;

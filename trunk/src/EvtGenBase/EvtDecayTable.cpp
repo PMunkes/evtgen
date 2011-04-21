@@ -41,7 +41,25 @@ using std::endl;
 using std::fstream;
 using std::ifstream;
 
-std::vector<EvtParticleDecayList> EvtDecayTable::_decaytable;
+EvtDecayTable::EvtDecayTable() {
+  _decaytable.clear();
+}
+
+EvtDecayTable::~EvtDecayTable() {
+  _decaytable.clear();
+}
+
+EvtDecayTable* EvtDecayTable::getInstance() {
+
+  static EvtDecayTable* theDecayTable = 0;
+
+  if (theDecayTable == 0) {
+    theDecayTable = new EvtDecayTable();
+  }
+
+  return theDecayTable;
+
+}
 
 int EvtDecayTable::getNMode(int ipar){
    return _decaytable[ipar].getNMode();

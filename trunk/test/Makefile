@@ -8,29 +8,35 @@ DIRNAME = ${PWD}
 # Base directory where the EvtGen libraries are
 BASEDIR = ${DIRNAME}/../
 
-# Directory locations of the photos and pythia libraries
-#PHOTOSDIR = ${DIRNAME}/../../photos_215_5/share
-#PYTHIADIR = ${DIRNAME}/../../pythia6_420/share
-#LIBS = -L${BASEDIR}/lib/archive -L${PHOTOSDIR}/lib/archive -L${PYTHIADIR}/lib/archive \
-#	-lEvtGen -lphotos -lpythia6 -lpythia6_dummy -lgfortran
-# CERN configuration
+# Specify the base location for the Pythia 8 libraries.
+# PYTHIA8DATA is the location of the xmldoc Pythia 8 directory.
+# Include files/libraries are usually located in the same main directory.
+PYTHIADIR = ${PYTHIA8DATA}/..
 
-CERNLIBDIR = /afs/cern.ch/sw/lcg/external/cernlib/2006b/x86_64-slc5-gcc41-opt
-LIBS = -L${BASEDIR}/lib/archive -L${CERNLIBDIR}/lib \
-        -lEvtGen -lphotos202 -lpythia6205 -lgfortran
+# Base directory location of the Photos library
+PHOTOSDIR = ${DIRNAME}/../../photos_215_5/share
+
+# Define the path to all required libraries
+LIBS = -L${BASEDIR}/lib/archive -L${PHOTOSDIR}/lib/archive -L${PYTHIADIR}/lib/archive \
+	-lEvtGen -lphotos -lpythia8 -llhapdfdummy -lgfortran
+
+# CERN configuration - need to find out where Pythia 8 libraries are installed...
+#CERNLIBDIR = /afs/cern.ch/sw/lcg/external/cernlib/2006b/x86_64-slc5-gcc41-opt
+#LIBS = -L${BASEDIR}/lib/archive -L${CERNLIBDIR}/lib \
+#        -lEvtGen -lphotos202 -lpythia6205 -lgfortran
 
 INCLUDEDIR = ${BASEDIR}
 
 # ROOT
 #ifndef ROOTSYS
-#  ROOTSYS = $(shell root-config --prefix)
-#  ifeq ($(ROOTSYS), )
-#    $(error running of root-config failed or reported null value)
-#  endif
+  ROOTSYS = $(shell root-config --prefix)
+  ifeq ($(ROOTSYS), )
+    $(error running of root-config failed or reported null value)
+  endif
 #endif
 
 # CERN configuration
-ROOTSYS = /afs/cern.ch/sw/lcg/external/root/5.21.04/slc4_amd64_gcc34/root
+#ROOTSYS = /afs/cern.ch/sw/lcg/external/root/5.21.04/slc4_amd64_gcc34/root
 
 ROOTCFLAGS    = $(shell ${ROOTSYS}/bin/root-config --cflags)
 ROOTLIBS      = $(shell ${ROOTSYS}/bin/root-config --libs)

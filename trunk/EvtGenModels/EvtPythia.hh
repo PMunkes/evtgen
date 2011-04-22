@@ -7,6 +7,7 @@
 //
 // Copyright Information: See EvtGen/COPYRIGHT
 //      Copyright (C) 1998      Caltech, UCSB
+//                    2011      University of Warwick, UK
 //
 // Module: EvtGen/EvtPythia.hh
 //
@@ -17,6 +18,7 @@
 // Modification history:
 //
 //    DJL/RYD     August 11, 1998         Module created
+//    JJB         April 2011         Modified to use new Pythia8 interface
 //
 //------------------------------------------------------------------------
 
@@ -49,6 +51,10 @@ public:
 protected:
 
   EvtAbsExternalGen* _pythiaEngine;
+
+private:
+
+  void fixPolarisations(EvtParticle *p);
 
 };
 

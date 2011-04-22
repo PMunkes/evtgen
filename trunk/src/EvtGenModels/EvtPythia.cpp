@@ -7,7 +7,7 @@
 //
 // Copyright Information: See EvtGen/COPYRIGHT
 //      Copyright (C) 1998      Caltech, UCSB
-//
+//                    2011      University of Warwick, UK
 // Module: EvtPythia.cc
 //
 // Description: Routine to decay a particle according th phase space
@@ -15,14 +15,18 @@
 // Modification history:
 //
 //    RYD       January 8, 1997       Module created
+//    JJB       April 2011            Modified to use new Pythia8 interface
 //
 //------------------------------------------------------------------------
-//
+
 #include "EvtGenBase/EvtPatches.hh"
 #include <stdlib.h>
-#include "EvtGenBase/EvtParticle.hh"
 
-#include "EvtGenBase/EvtReport.hh"
+#include "EvtGenBase/EvtParticle.hh"
+#include "EvtGenBase/EvtId.hh"
+#include "EvtGenBase/EvtPDL.hh"
+#include "EvtGenBase/EvtSpinDensity.hh"
+
 #include "EvtGenModels/EvtPythia.hh"
 
 #include "EvtGenModels/EvtExternalGenFactory.hh"
@@ -30,8 +34,8 @@
 #include "EvtGenBase/EvtDecayBase.hh"
 
 #include <string>
-
 #include <iostream>
+#include <cmath>
 
 EvtPythia::EvtPythia() {
 
@@ -87,4 +91,53 @@ void EvtPythia::decay( EvtParticle *p ){
     _pythiaEngine->doDecay(p);
   }
 
+  this->fixPolarisations(p);
+
+}
+
+void EvtPythia::fixPolarisations(EvtParticle *p) {
+
+  // Special case to handle the J/psi polarisation
+
+  if (p == 0) {return;}
+
+  int nDaug = p->getNDaug();  
+  int i(0);
+
+  static EvtId Jpsi = EvtPDL::getId("J/psi");
+
+  for (i = 0; i < nDaug; i++){
+
+    EvtParticle* theDaug = p->getDaug(i);
+
+    if (theDaug != 0) {
+
+      if (theDaug->getId() == Jpsi) {
+  
+	EvtSpinDensity rho;
+      
+	rho.setDim(3);
+	rho.set(0,0,0.5);
+	rho.set(0,1,0.0);
+	rho.set(0,2,0.0);
+
+	rho.set(1,0,0.0);
+	rho.set(1,1,1.0);
+	rho.set(1,2,0.0);
+
+	rho.set(2,0,0.0);
+	rho.set(2,1,0.0);
+	rho.set(2,2,0.5);
+
+	EvtVector4R p4Psi = theDaug->getP4();
+
+	double alpha = atan2(p4Psi.get(2),p4Psi.get(1));
+	double beta = acos(p4Psi.get(3)/p4Psi.d3mag());
+
+	theDaug->setSpinDensityForwardHelicityBasis(rho,alpha,beta,0.0);
+	setDaughterSpinDensity(i);
+
+      }
+    }
+  }
 }

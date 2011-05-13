@@ -93,15 +93,6 @@ EvtGen::EvtGen(const char* const decayName,
   report(INFO,"EvtGen") << "Main decay file name  :"<<decayName<<endl;
   report(INFO,"EvtGen") << "PDT table file name   :"<<pdtTableName<<endl;
   
-  report(INFO,"EvtGen") << "Initializing RadCorr=PHOTOS"<<endl;
-  if (isrEngine==0){
-    static EvtPHOTOS defaultRadCorrEngine;
-    EvtRadCorr::setRadCorrEngine(&defaultRadCorrEngine);
-  }
-  else{
-    EvtRadCorr::setRadCorrEngine(isrEngine);    
-  }
-
   _pdl.readPDT(pdtTableName);
 
   EvtDecayTable::getInstance()->readDecayFile(decayName,false);
@@ -110,12 +101,44 @@ EvtGen::EvtGen(const char* const decayName,
   report(INFO,"EvtGen") << "Mixing type integer set to "<<_mixingType<<endl;
   EvtCPUtil::getInstance()->setMixingType(_mixingType);
 
-  // Set the Pythia external generator
-  EvtExternalGenFactory* externalGenerators = EvtExternalGenFactory::getInstance();
-  std::string xmlDir("./xmldoc");
+  // Get the external generator factory interface initialised. Do this after
+  // the particle data table and decay.dec files have been read, since
+  // we normally need to pass particle data info using the EvtPDL class,
+  // which is only set-up properly once the previous steps have been done.
 
+  EvtExternalGenFactory* externalGenerators = EvtExternalGenFactory::getInstance();
+
+  // Set the radiative correction engine
+  report(INFO,"EvtGen") << "Defining the radiative correction engine"<<endl;
+
+  if (isrEngine != 0) {
+
+    EvtRadCorr::setRadCorrEngine(isrEngine);    
+
+  } else {
+
+    // Define the photon type (and pass it to the external generator, not EvtPHOTOS).
+    std::string photonType("gamma");
+    externalGenerators->definePhotosGenerator(photonType);
+
+    EvtPHOTOS* defaultRadCorrEngine = new EvtPHOTOS();
+    EvtRadCorr::setRadCorrEngine(defaultRadCorrEngine);
+
+  }
+
+  // Set the Pythia external generator
   // We are using Pythia 6 physics codes in the decay.dec file(s).
+  std::string xmlDir("./xmldoc");
   bool convertPhysCode(true);
+  if (convertPhysCode) {
+    report(INFO,"EvtGen") << "Defining the PYTHIA 8 generator: data tables in "
+			  << xmlDir << ".\n Will convert Pythia 6 codes in decayfiles "
+			  << "to Pythia 8 codes." << endl;
+  } else {
+    report(INFO,"EvtGen") << "Defining the PYTHIA 8 generator: data tables in "
+			  << xmlDir << ".\n Decay files must use Pythia 8 physics codes." << endl;
+  }
+
   externalGenerators->definePythiaGenerator(xmlDir, convertPhysCode);
 
   report(INFO,"EvtGen") << "Done initializing EvtGen"<<endl;

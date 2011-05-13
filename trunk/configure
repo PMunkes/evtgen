@@ -9,6 +9,8 @@ GENERATOR=EvtGen
 PATH_TO_EXTERNAL=
 CLHEP_VERSION=
 PYTHIADIR=${PYTHIA8DATA}/..
+PHOTOSDIR=${PHOTOSDIR}
+HEPMCDIR=${HEPMCDIR}
 COMPMODE=OPT        # Default: compiler optimization mode
 
 #<
@@ -24,7 +26,9 @@ check_arguments () {
       "\nUsage: ./configure [options] , where options are:\n\n"\
       "--help                       : prints this help\n"\
       "--enable-debug               : turns on debugging flags\n"\
-      "--pythiadir=[directory]      : specifies location of Pythia 8 base directory\n"
+      "--pythiadir=[directory]      : specifies location of Pythia 8 base directory\n"\
+      "--photosdir=[directory]      : specifies location of PHOTOS base directory\n"\
+      "--hepmcdir=[directory]       : specifies location of HepMC base directory\n"
       exit
     else
       if [ "x${arg}" = "x${arg/=/}" ] ; then
@@ -34,6 +38,10 @@ check_arguments () {
         value=${arg/*=/}
 	if [ "x${option}" = "x--pythiadir" ] ; then
 	    PYTHIADIR=${value}
+	elif [ "x${option}" = "x--photosdir" ] ; then
+	    PHOTOSDIR=${value}
+	elif [ "x${option}" = "x--hepmcdir" ] ; then
+	    HEPMCDIR=${value}
 	else
 	  echo "${arg}: wrong option. Ignored." >&2
 	fi
@@ -158,6 +166,12 @@ INCLUDEDIR = \$(TOPDIR)
 PYTHIADIR = ${PYTHIADIR}
 PYTHIAINCDIR = ${PYTHIADIR}/include
 PYTHIALIBDIR = ${PYTHIADIR}/lib/archive
+PHOTOSDIR = ${PHOTOSDIR}
+PHOTOSINCDIR = ${PHOTOSDIR}/include
+PHOTOSLIBDIR = ${PHOTOSDIR}/lib
+HEPMCDIR = ${HEPMCDIR}
+HEPMCINCDIR = ${HEPMCDIR}/include
+HEPMCLIBDIR = ${HEPMCDIR}/lib
 SRCDIR = \$(TOPDIR)/src
 LIBDIR_SHARED = \$(TOPDIR)/lib
 LIBDIR_ARCHIVE = \$(TOPDIR)/lib/archive

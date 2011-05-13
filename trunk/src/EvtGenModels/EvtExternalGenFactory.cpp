@@ -24,6 +24,7 @@
 #include "EvtGenModels/EvtExternalGenFactory.hh"
 
 #include "EvtGenModels/EvtPythiaEngine.hh"
+#include "EvtGenModels/EvtPhotosEngine.hh"
 
 #include <iostream>
 using std::cout;
@@ -67,6 +68,15 @@ void EvtExternalGenFactory::definePythiaGenerator(std::string xmlDir, bool conve
 
   EvtAbsExternalGen* pythiaGenerator = new EvtPythiaEngine(xmlDir, convertPhysCodes);
   _extGenMap[genId] = pythiaGenerator;
+
+}
+
+void EvtExternalGenFactory::definePhotosGenerator(std::string photonType) {
+
+  int genId = EvtExternalGenFactory::PhotosGenId;
+
+  EvtAbsExternalGen* photosGenerator = new EvtPhotosEngine(photonType);
+  _extGenMap[genId] = photosGenerator;
 
 }
 

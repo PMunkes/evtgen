@@ -30,13 +30,14 @@ class EvtExternalGenFactory {
 
 public:
   
-  enum genId {PythiaGenId = 0};
+  enum genId {PythiaGenId = 0, PhotosGenId};
 
   static EvtExternalGenFactory* getInstance();
 
   EvtAbsExternalGen* getGenerator(int genId = 0);
 
   void definePythiaGenerator(std::string xmlDir, bool convertPhysCodes);
+  void definePhotosGenerator(std::string photonType = "gamma");
 
 protected:
 

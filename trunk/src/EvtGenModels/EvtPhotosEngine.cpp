@@ -29,7 +29,7 @@
 
 #include "HepMC/GenVertex.h"
 #include "HepMC/SimpleVector.h"
-#include "HepMC/IO_GenEvent.h"
+#include "HepMC/Units.h"
 
 #include <iostream>
 #include <sstream>
@@ -87,6 +87,7 @@ bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
 
   // Create the dummy event.
   HepMC::GenEvent* theEvent = new HepMC::GenEvent(1,1);
+  theEvent->use_units(HepMC::Units::GEV, HepMC::Units::MM);
 
   // Create the decay "vertex".
   HepMC::GenVertex* theVertex = new HepMC::GenVertex();

@@ -44,9 +44,9 @@ public:
 
   virtual bool doDecay(EvtParticle* theMother);
 
-protected:
-
   virtual void initialise();
+
+protected:
 
 private:
 

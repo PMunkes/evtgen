@@ -25,6 +25,7 @@
 
 #include "EvtGenModels/EvtPythiaEngine.hh"
 #include "EvtGenModels/EvtPhotosEngine.hh"
+#include "EvtGenModels/EvtTauolaEngine.hh"
 
 #include <iostream>
 using std::cout;
@@ -80,6 +81,15 @@ void EvtExternalGenFactory::definePhotosGenerator(std::string photonType) {
 
 }
 
+void EvtExternalGenFactory::defineTauolaGenerator() {
+
+  int genId = EvtExternalGenFactory::TauolaGenId;
+
+  EvtAbsExternalGen* tauolaGenerator = new EvtTauolaEngine();
+  _extGenMap[genId] = tauolaGenerator;
+
+}
+
 EvtAbsExternalGen* EvtExternalGenFactory::getGenerator(int genId) {
 
   EvtAbsExternalGen* theGenerator(0);
@@ -99,4 +109,18 @@ EvtAbsExternalGen* EvtExternalGenFactory::getGenerator(int genId) {
 
   return theGenerator;
 
+}
+
+void EvtExternalGenFactory::initialiseAllGenerators() {
+
+  ExtGenMap::iterator iter;
+  for (iter = _extGenMap.begin(); iter != _extGenMap.end(); ++iter) {
+
+    EvtAbsExternalGen* theGenerator = iter->second;
+    if (theGenerator != 0) {
+      theGenerator->initialise();
+    }
+
+  }
+  
 }

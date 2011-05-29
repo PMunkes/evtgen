@@ -7,7 +7,7 @@
 // Copyright Information: See EvtGen/COPYRIGHT
 //      Copyright (C) 2011      University of Warwick, UK
 //
-// Module: EvtPythiaEngine
+// Module: EvtPhotosEngine
 //
 // Description: Interface to the PHOTOS external generator
 //
@@ -85,6 +85,10 @@ bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
   // the original particles and will contain any new photon particles. 
   // We add these extra photons to the mother particle daughter list.
 
+  // Skip running Photos if the particle has no daughters, since we can't add FSR.
+  int nDaug(theMother->getNDaug());
+  if (nDaug == 0) {return false;}
+
   // Create the dummy event.
   HepMC::GenEvent* theEvent = new HepMC::GenEvent(1,1);
   theEvent->use_units(HepMC::Units::GEV, HepMC::Units::MM);
@@ -98,7 +102,6 @@ bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
   theVertex->add_particle_in(hepMCMother);
 
   // Find all daughter particles and assign them as outgoing particles to the vertex.
-  int nDaug(theMother->getNDaug());
   int iDaug(0);
   for (iDaug = 0; iDaug < nDaug; iDaug++) {
 
@@ -111,10 +114,10 @@ bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
   // Now pass the event to Photos for processing
   // Create a Photos event object
   PhotosHepMCEvent photosEvent(theEvent);
-  
+
   // Run the Photos algorithm
   photosEvent.process();    
- 
+
   // See if Photos has created new particles. If not, do nothing extra.
   int nDecayPart = theVertex->particles_out_size();
   int iLoop(0);
@@ -138,7 +141,6 @@ bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
 	px = HepMCP4.px();
 	py = HepMCP4.py();
 	pz = HepMCP4.pz();
-
       }
 
       // Create an empty 4-momentum vector for the new/modified daughters
@@ -196,12 +198,20 @@ HepMC::GenParticle* EvtPhotosEngine::createGenParticle(EvtParticle* theParticle,
   if (theParticle == 0) {return 0;}
 
   // Get the 4-momentum (E, px, py, pz) for the EvtParticle
-  const EvtVector4R p4 = theParticle->getP4();
+  EvtVector4R p4(0.0, 0.0, 0.0, 0.0);
+
+  if (incoming == true) {
+    p4 = theParticle->getP4Restframe();
+  } else {
+    p4 = theParticle->getP4();
+  }
+  
   // Convert this to the HepMC 4-momentum
   double E = p4.get(0);
   double px = p4.get(1);
   double py = p4.get(2);
   double pz = p4.get(3);
+
   HepMC::FourVector hepMC_p4(px, py, pz, E);
 
   int PDGInt = EvtPDL::getStdHep(theParticle->getId());

@@ -7,9 +7,9 @@
 // Copyright Information: See EvtGen/COPYRIGHT
 //      Copyright (C) 2011      University of Warwick, UK
 //
-// Module: EvtPhotosEngine
+// Module: EvtTauolaEngine
 //
-// Description: Interface to the PHOTOS external generator
+// Description: Interface to the TAUOLA external generator
 //
 // Modification history:
 //
@@ -17,23 +17,28 @@
 //
 //------------------------------------------------------------------------
 
-#ifndef EVTPHOTOSENGINE_HH
-#define EVTPHOTOSENGINE_HH
+#ifndef EVTTAUOLAENGINE_HH
+#define EVTTAUOLAENGINE_HH
 
 #include "EvtGenModels/EvtAbsExternalGen.hh"
 #include "EvtGenBase/EvtParticle.hh"
+#include "EvtGenBase/EvtParticleDecayList.hh"
 #include "EvtGenBase/EvtId.hh"
+#include "EvtGenBase/EvtDecayBase.hh"
 #include "EvtGenBase/EvtVector4R.hh"
 
 #include "HepMC/GenEvent.h"
 #include "HepMC/GenParticle.h"
 
-class EvtPhotosEngine : public EvtAbsExternalGen {
+#include <vector>
+#include <map>
+
+class EvtTauolaEngine : public EvtAbsExternalGen {
 
 public:
 
-  EvtPhotosEngine(std::string photonType = "gamma");
-  virtual ~EvtPhotosEngine();
+  EvtTauolaEngine();
+  virtual ~EvtTauolaEngine();
 
   virtual bool doDecay(EvtParticle* theMother);
 
@@ -43,11 +48,18 @@ protected:
 
 private:
 
-  EvtId _gammaId;
-  double _mPhoton;
   bool _initialised;
+  int _tauPDG, _nTauolaModes;
 
   HepMC::GenParticle* createGenParticle(EvtParticle* theParticle, bool incoming);
+
+  void setUpPossibleTauModes();
+
+  int getModeInt(EvtDecayBase* decayModel);
+
+  void decayTauEvent(EvtParticle* tauParticle);
+
+  std::vector<EvtParticleDecayList> _decayTable;
 
 };
 

@@ -141,6 +141,11 @@ EvtGen::EvtGen(const char* const decayName,
 
   externalGenerators->definePythiaGenerator(xmlDir, convertPhysCode);
 
+  // Set the Tauola external generator
+  externalGenerators->defineTauolaGenerator();
+
+  _initExternalGenerators = false;
+
   report(INFO,"EvtGen") << "Done initializing EvtGen"<<endl;
 
 }
@@ -168,6 +173,18 @@ void EvtGen::readUDecay(const char* const uDecayName){
   
 }
 
+void EvtGen::initExternalGenerators() {
+
+  report(INFO,"EvtGen")<<"Initialising all external generators"<<endl;
+  
+  EvtExternalGenFactory* externalGenerators = EvtExternalGenFactory::getInstance();
+  externalGenerators->initialiseAllGenerators();
+
+  _initExternalGenerators = true;
+
+  report(INFO,"EvtGen")<<"Done initialising external generators"<<endl;
+
+}
 
 void EvtGen::generateDecay(int stdhepid, 
 			   EvtVector4R P, 
@@ -175,7 +192,6 @@ void EvtGen::generateDecay(int stdhepid,
 			   EvtStdHep *evtStdHep,
 			   EvtSpinDensity *spinDensity ){
 
- 
   EvtParticle *p;
 
   if(spinDensity==0){    
@@ -187,7 +203,6 @@ void EvtGen::generateDecay(int stdhepid,
   }
 
   generateDecay(p);
-  //  p->Decay();
 
   evtStdHep->init();
 
@@ -202,6 +217,13 @@ void EvtGen::generateDecay(int stdhepid,
 
 void EvtGen::generateDecay(EvtParticle *p){
 
+  if (_initExternalGenerators == false) {
+    // Make sure any external generators are initialised. Check this for the
+    // first decay we want. This initialisation can only be done after all decay
+    // files have been read in.
+    this->initExternalGenerators();
+  }
+ 
   int times=0;
   do{
     times+=1;

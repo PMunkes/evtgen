@@ -121,8 +121,8 @@ bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
   // Run the Photos algorithm
 
   // Need to investigate suitable infrared cut-offs (see abort problem mentioned earlier).
-  double motherMass = theMother->mass();
-  Photos::setInfraredCutOff(0.01/motherMass);
+  //double motherMass = theMother->mass();
+  //Photos::setInfraredCutOff(0.01/motherMass);
 
   photosEvent.process();    
 

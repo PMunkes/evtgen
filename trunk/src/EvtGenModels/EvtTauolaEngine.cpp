@@ -147,6 +147,8 @@ void EvtTauolaEngine::setUpPossibleTauModes() {
       
       double totalTauModeBF(0.0);
 
+      int nNonTauolaModes(0);
+
       // Loop through each decay mode
       for (iMode = 0; iMode < nModes; iMode++) {
 
@@ -168,17 +170,23 @@ void EvtTauolaEngine::setUpPossibleTauModes() {
 	      totalTauModeBF += BF;
 	    }
 	    
-	  } else if (gotAnyTauolaModes == true) {
+	  } else {
 
-	    report(ERROR, "EvtGen") << "Please remove all non-TAUOLA decay modes for particle "
-				    <<EvtPDL::name(particleId)<<endl;
-	    ::abort();
+	    nNonTauolaModes++;
 
 	  }
-      
-	} // Decay model exists
+
+	} // Decay mode exists
 
       } // Loop over decay models
+
+      if (gotAnyTauolaModes == true && nNonTauolaModes > 0) {
+	
+	report(ERROR, "EvtGen") << "Please remove all non-TAUOLA decay modes for particle "
+				<<EvtPDL::name(particleId)<<endl;
+	::abort();
+	
+      }
     
       // Normalise all (non-zero) tau mode BFs to sum up to 1.0, and 
       // let Tauola know about these normalised branching fractions

@@ -64,7 +64,7 @@ void EvtPhotosEngine::initialise() {
     cout<<"Initialising PHOTOS."<<endl;
 
     Photos::initialize();
-    Photos::setInfraredCutOff(0.01/200);
+    Photos::setInfraredCutOff(0.01/200.0);
 
     _initialised = true;
 
@@ -86,8 +86,11 @@ bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
   // We add these extra photons to the mother particle daughter list.
 
   // Skip running Photos if the particle has no daughters, since we can't add FSR.
+  // Also skip Photos if there are too many daughters, since it can crash owing
+  // to its internal weights exceeding 1.0 (leading to an abrupt code abort).
+  // This should be investigated further: probably problems with the infrared cut.
   int nDaug(theMother->getNDaug());
-  if (nDaug == 0) {return false;}
+  if (nDaug == 0 || nDaug > 4) {return false;}
 
   // Create the dummy event.
   HepMC::GenEvent* theEvent = new HepMC::GenEvent(1,1);

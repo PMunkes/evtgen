@@ -64,7 +64,10 @@ void EvtPhotosEngine::initialise() {
     cout<<"Initialising PHOTOS."<<endl;
 
     Photos::initialize();
-    Photos::setInfraredCutOff(0.01/200.0);
+    // Set minimum photon energy (50keV at 1 GeV scale)
+    Photos::setInfraredCutOff(50.0e-6);
+    // Increase the maximum possible value of the interference weight
+    Photos::maxWtInterference(4.0); // 2^n, where n = number of charges (+,-)
 
     _initialised = true;
 
@@ -86,11 +89,8 @@ bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
   // We add these extra photons to the mother particle daughter list.
 
   // Skip running Photos if the particle has no daughters, since we can't add FSR.
-  // Also skip Photos if there are too many daughters, since it can crash owing
-  // to its internal weights exceeding 1.0 (leading to an abrupt code abort).
-  // This should be investigated further: probably problems with the infrared cut.
   int nDaug(theMother->getNDaug());
-  if (nDaug == 0 || nDaug > 4) {return false;}
+  if (nDaug == 0) {return false;}
 
   // Create the dummy event.
   HepMC::GenEvent* theEvent = new HepMC::GenEvent(1,1);
@@ -119,11 +119,6 @@ bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
   PhotosHepMCEvent photosEvent(theEvent);
 
   // Run the Photos algorithm
-
-  // Need to investigate suitable infrared cut-offs (see abort problem mentioned earlier).
-  //double motherMass = theMother->mass();
-  //Photos::setInfraredCutOff(0.01/motherMass);
-
   photosEvent.process();    
 
   // See if Photos has created new particles. If not, do nothing extra.

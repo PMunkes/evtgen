@@ -77,24 +77,6 @@ void EvtTauolaEngine::initialise() {
 
     Tauola::initialize();
 
-    cout<<"Setting up TAUOLA sub-mode branching fractions for any tau particles. "<<endl;
-    cout<<"This is only done for the first tau+/- (normal or aliased) encountered in the particle table"
-	<<" with at least one defined TAUOLA decay mode."<<endl;
-    cout<<"Any other TAUOLA decay definitions for other tau particles will be ignored."<<endl;
-    cout<<"If a tau particle decays via TAUOLA, then all other tau particles from the same parent decay"
-	<<" will also use TAUOLA in order to keep tau-pair spin correlations."<<endl;
-    cout<<"Make sure any tau pairs within a parent decay use the same TAUOLA decay mode definitions to ensure consistency."<<endl;
-    cout<<"TAUOLA modes can only have BFs for tau+ = the BFs for tau-."<<endl;
-    cout<<"These limitations are due to the Fortran-C++ TAUOLA interface."<<endl;
-    
-    cout<<"\nAllowed decay file example to ensure decay mode consistency for tau pairs:"<<endl;
-    cout<<"Decay B0\n1.0 Mytau+ Mytau- PHSP;\nEnddecay"<<endl;
-    cout<<"Decay Mytau-\n0.50 TAUOLA 13;\n0.50 TAUOLA 5;\nEnddecay\nCDecay Mytau+"<<endl;
-    cout<<"\nNot allowed decay file example which causes inconsistencies (results are not guaranteed to match input):"<<endl;
-    cout<<"Decay B0\n1.0 Mytau+ Mytau- PHSP;\nEnddecay"<<endl;
-    cout<<"Decay Mytau-\n0.6 e- anti-nu_e nu_tau PHSP;\n0.4 TAUOLA 5;\nEnddecay"<<endl;
-    cout<<"Decay Mytau+\n1.0 e+ nu_e anti-nu_tau PHSP;\nEnddecay\n"<<endl;
-
     this->setUpPossibleTauModes();
 
     _initialised = true;

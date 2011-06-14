@@ -22,7 +22,6 @@
 
 #include "EvtGenModels/EvtAbsExternalGen.hh"
 #include "EvtGenBase/EvtParticle.hh"
-#include "EvtGenBase/EvtParticleDecayList.hh"
 #include "EvtGenBase/EvtId.hh"
 #include "EvtGenBase/EvtDecayBase.hh"
 #include "EvtGenBase/EvtVector4R.hh"
@@ -58,8 +57,6 @@ private:
   int getModeInt(EvtDecayBase* decayModel);
 
   void decayTauEvent(EvtParticle* tauParticle);
-
-  std::vector<EvtParticleDecayList> _decayTable;
 
 };
 

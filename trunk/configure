@@ -27,10 +27,10 @@ check_arguments () {
       "\nUsage: ./configure [options] , where options are:\n\n"\
       "--help                       : prints this help\n"\
       "--pythiadir=[full directory path]      : specifies location of Pythia 8 base directory\n"\
-      "--hepmcdir=[full directory path]       : specifies location of HepMC base directory\n"
+      "--hepmcdir=[full directory path]       : specifies location of HepMC base directory\n"\
       "--photosdir=[full directory path]      : specifies location of PHOTOS base directory\n"\
       "--tauoladir=[full directory path]      : specifies location of TAUOLA base directory\n"\
-      "--enable-debug               : turns on debugging flags\n"\
+      "--enable-debug               : turns on debugging flags\n"
       exit
     else
       if [ "x${arg}" = "x${arg/=/}" ] ; then

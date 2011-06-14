@@ -47,14 +47,11 @@ EvtTauolaEngine::EvtTauolaEngine() {
   _tauPDG = abs(EvtPDL::getStdHep(tauId));
   _nTauolaModes = 22;
 
-  _decayTable.clear();
   _initialised = false;
 
 }
 
 EvtTauolaEngine::~EvtTauolaEngine() {
-
-  _decayTable.clear();
 
 }
 
@@ -96,8 +93,6 @@ void EvtTauolaEngine::setUpPossibleTauModes() {
   // separately (via selecting a random number and comparing it to be less than 
   // the cumulative BF) for each event.
 
-  _decayTable = EvtDecayTable::getInstance()->getDecayTable();
-
   int nPDL = EvtPDL::entries();
   int iPDL(0);
 
@@ -113,9 +108,7 @@ void EvtTauolaEngine::setUpPossibleTauModes() {
       int aliasInt = particleId.getAlias();
 
       // Get the list of decay modes for this tau particle (alias)
-      EvtParticleDecayList decayList = _decayTable[aliasInt];
-  
-      int nModes = decayList.getNMode();
+      int nModes = EvtDecayTable::getInstance()->getNModes(aliasInt);
       int iMode(0), iTauMode(0);
 
       // Vector to store tau mode branching fractions.
@@ -134,7 +127,7 @@ void EvtTauolaEngine::setUpPossibleTauModes() {
       // Loop through each decay mode
       for (iMode = 0; iMode < nModes; iMode++) {
 
-	EvtDecayBase* decayModel = decayList.getDecayModel(iMode);
+	EvtDecayBase* decayModel = EvtDecayTable::getInstance()->findDecayModel(aliasInt, iMode);
 	if (decayModel != 0) {
 
 	  // Check that the decay model name matches TAUOLA

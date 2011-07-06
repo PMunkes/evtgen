@@ -23,10 +23,6 @@
 #include "EvtGenBase/EvtParticle.hh"
 #include "EvtGenBase/EvtPDL.hh"
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 EvtHepMCEvent::EvtHepMCEvent() : 
   _theEvent(0), 
   _translation(0.0, 0.0, 0.0, 0.0)
@@ -60,8 +56,6 @@ void EvtHepMCEvent::constructEvent(EvtParticle* baseParticle, EvtVector4R& trans
 
   this->deleteEvent();
   if (baseParticle == 0) {return;}
-
-  cout<<"Constructing new HepMC event"<<endl;
 
   _theEvent = new HepMC::GenEvent(HepMC::Units::GEV, HepMC::Units::MM);
   _translation = translation;

@@ -176,16 +176,24 @@ HepMC::FourVector EvtHepMCEvent::getVertexCoord(EvtParticle* theParticle) {
 
   HepMC::FourVector vertexCoord(0.0, 0.0, 0.0, 0.0);
 
-  if (theParticle != 0) {
+  if (theParticle != 0 && theParticle->getNDaug() != 0) {
 
-    // Get the position (t,x,y,z) of the EvtParticle, offset by the translation vector
-    EvtVector4R vtxPosition = theParticle->get4Pos() + _translation;
+    // Get the position (t,x,y,z) of the EvtParticle, offset by the translation vector.
+    // This position will be the point where the particle decays. So we ask
+    // the position of the (1st) daughter particle.
+    EvtParticle* daugParticle = theParticle->getDaug(0);
+    
+    if (daugParticle != 0) {
 
-    // Create the HepMC 4 vector of the position (x,y,z,t)
-    vertexCoord.setX(vtxPosition.get(1));
-    vertexCoord.setY(vtxPosition.get(2));
-    vertexCoord.setZ(vtxPosition.get(3));
-    vertexCoord.setT(vtxPosition.get(0));
+      EvtVector4R vtxPosition = daugParticle->get4Pos() + _translation;
+
+      // Create the HepMC 4 vector of the position (x,y,z,t)
+      vertexCoord.setX(vtxPosition.get(1));
+      vertexCoord.setY(vtxPosition.get(2));
+      vertexCoord.setZ(vtxPosition.get(3));
+      vertexCoord.setT(vtxPosition.get(0));
+
+    }
 
   }
 

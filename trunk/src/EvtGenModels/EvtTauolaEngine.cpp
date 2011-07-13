@@ -241,8 +241,7 @@ void EvtTauolaEngine::decayTauEvent(EvtParticle* tauParticle) {
   // We also consider all other tau particles from the parent decay in the logic below.
   
   // Create the dummy event.
-  HepMC::GenEvent* theEvent = new HepMC::GenEvent(1,1);
-  theEvent->use_units(HepMC::Units::GEV, HepMC::Units::MM);
+  HepMC::GenEvent* theEvent = new HepMC::GenEvent(HepMC::Units::GEV, HepMC::Units::MM);
   
   // Create the decay "vertex".
   HepMC::GenVertex* theVertex = new HepMC::GenVertex();

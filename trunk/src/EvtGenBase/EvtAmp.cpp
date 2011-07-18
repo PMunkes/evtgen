@@ -194,7 +194,7 @@ EvtSpinDensity EvtAmp::getSpinDensity(){
 	int kk;
 
         int allloop = 1;
-        for (kk=0;kk<(_nontrivial-1); kk++ ) {
+        for (kk=0;kk<_ndaug; kk++ ) {
 	  allloop *= dstates[kk];
 	}
         

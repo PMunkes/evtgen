@@ -714,9 +714,14 @@ void EvtPythiaEngine::updatePhysicsParameters() {
   // what physics parameters to change. This will need to be done for the generic and
   // alias generator pointers, as appropriate.
 
-  // For now, do nothing extra.
+  // Set the multiplicity level for hadronic weak decays
+  std::string multiWeakCut("ParticleDecays:multIncreaseWeak = 2.0");
+  _genericPythiaGen->readString(multiWeakCut);
+  _aliasPythiaGen->readString(multiWeakCut);
 
-  //std::string multiCut("ParticleDecays:multIncrease = 1.0");
-  //_thePythiaGenerator->readString(multiCut);
+  // Set the multiplicity level for all other decays
+  std::string multiCut("ParticleDecays:multIncrease = 4.5");
+  _genericPythiaGen->readString(multiCut);
+  _aliasPythiaGen->readString(multiCut);
 
 }

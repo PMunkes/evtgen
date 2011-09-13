@@ -33,6 +33,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <list>
 
 using std::cout;
 using std::endl;

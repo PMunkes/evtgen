@@ -1479,7 +1479,7 @@ Decay anti-B0
 0.002082703 anti-u  u       s       anti-d                  PYTHIA         48; #[Reconstructed PDG2011]
 0.001704038 anti-d  d       s       anti-d                  PYTHIA         48; #[Reconstructed PDG2011]
 0.001420063 anti-s  s       s       anti-d                  PYTHIA         48; #[Reconstructed PDG2011]
-0.004733544 s       g       anti-d                          PYTHIA         33; #[Reconstructed PDG2011]
+0.004733544 s       anti-d                                  PYTHIA         32; #[Reconstructed PDG2011]
 0.000490000 D+      anti-K0 pi-                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
 0.000880000 D+      K-      K*0                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
 0.000000000 D*+     anti-K0 pi-                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
@@ -2757,7 +2757,7 @@ Decay B0
 0.002094113 u       anti-u  anti-s  d                       PYTHIA         48; #[Reconstructed PDG2011]
 0.001713374 d       anti-d  anti-s  d                       PYTHIA         48; #[Reconstructed PDG2011]
 0.001427843 s       anti-s  anti-s  d                       PYTHIA         48; #[Reconstructed PDG2011]
-0.004759477 anti-s  g       d                               PYTHIA         33; #[Reconstructed PDG2011]
+0.004759477 anti-s  d                                       PYTHIA         32; #[Reconstructed PDG2011]
 0.017600000 D*-     pi+     pi+     pi-     pi0             PHSP;  #[New mode added] #[Reconstructed PDG2011]
 0.004700000 D*-     pi+     pi+     pi+     pi-     pi-     PHSP;  #[New mode added] #[Reconstructed PDG2011]
 0.000110000 D_s-    pi+     K0                              PHSP;  #[New mode added] #[Reconstructed PDG2011]
@@ -3794,7 +3794,7 @@ Decay B-
 0.002170605 anti-u  u       s       anti-u                  PYTHIA         48; #[Reconstructed PDG2011]
 0.001775941 anti-d  d       s       anti-u                  PYTHIA         48; #[Reconstructed PDG2011]
 0.001479967 anti-s  s       s       anti-u                  PYTHIA         48; #[Reconstructed PDG2011]
-0.004933067 s       g       anti-u                          PYTHIA         33; #[Reconstructed PDG2011]
+0.004933067 s       anti-u                                  PYTHIA         32; #[Reconstructed PDG2011]
 #
 ####
 0.001500000 D*0     K-      anti-K*0                        PHSP;  #[New mode added] #[Reconstructed PDG2011]
@@ -4826,7 +4826,7 @@ Decay B+
 0.002170605 u       anti-u  anti-s  u                       PYTHIA         48; #[Reconstructed PDG2011]
 0.001775941 d       anti-d  anti-s  u                       PYTHIA         48; #[Reconstructed PDG2011]
 0.001479967 s       anti-s  anti-s  u                       PYTHIA         48; #[Reconstructed PDG2011]
-0.004933067 anti-s  g       u                               PYTHIA         33; #[Reconstructed PDG2011]
+0.004933067 anti-s  u                                       PYTHIA         32; #[Reconstructed PDG2011]
 ####
 0.001500000 anti-D*0 K+      K*0                            PHSP;  #[New mode added] #[Reconstructed PDG2011]
 0.018000000 anti-D*0 pi-     pi+     pi+     pi0            PHSP;  #[New mode added] #[Reconstructed PDG2011]
@@ -5327,7 +5327,7 @@ Decay anti-B_s0
 0.001953785 anti-u  u       s       anti-s                  PYTHIA         48; #[Reconstructed PDG2011] #[Reconstructed PDG2011]
 0.001563028 anti-d  d       s       anti-s                  PYTHIA         48; #[Reconstructed PDG2011] #[Reconstructed PDG2011]
 0.001269961 anti-s  s       s       anti-s                  PYTHIA         48; #[Reconstructed PDG2011] #[Reconstructed PDG2011]
-0.004884463 s       g       anti-s                          PYTHIA         33; #[Reconstructed PDG2011] #[Reconstructed PDG2011]
+0.004884463 s       anti-s                                  PYTHIA         32; #[Reconstructed PDG2011] #[Reconstructed PDG2011]
 
 # fkw 5/10/00 the b->ulnu decays are loosely modelled according to B0 in EvtGen
 0.000200    K+          e-         anti-nu_e         PHOTOS   ISGW2;
@@ -5833,7 +5833,7 @@ Decay B_s0
 0.001953785 u       anti-u  anti-s  s                       PYTHIA         48; #[Reconstructed PDG2011] #[Reconstructed PDG2011]
 0.001563028 d       anti-d  anti-s  s                       PYTHIA         48; #[Reconstructed PDG2011] #[Reconstructed PDG2011]
 0.001269961 s       anti-s  anti-s  s                       PYTHIA         48; #[Reconstructed PDG2011] #[Reconstructed PDG2011]
-0.004884463 anti-s  g       s                               PYTHIA         33; #[Reconstructed PDG2011] #[Reconstructed PDG2011]
+0.004884463 anti-s  s                                       PYTHIA         32; #[Reconstructed PDG2011] #[Reconstructed PDG2011]
 
 # fkw 5/10/00 the b->ulnu decays are loosely modelled according to B0 in EvtGen
 0.000200    K-          e+         nu_e         PHOTOS   ISGW2;

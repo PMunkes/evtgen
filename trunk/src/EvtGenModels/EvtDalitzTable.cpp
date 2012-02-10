@@ -166,14 +166,20 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
 
         EvtComplex ampFactor(parser.readAttributeDouble("ampFactorReal",1.),
                              parser.readAttributeDouble("ampFactorImag",0.));
-        double mag = parser.readAttributeDouble("mag",-1);
-        double phase = parser.readAttributeDouble("phase",-1);
-        double real = parser.readAttributeDouble("real",-1.);
-        double imag = parser.readAttributeDouble("imag",-1.);
+        double mag = parser.readAttributeDouble("mag",-999.);
+        double phase = parser.readAttributeDouble("phase",-999.);
+        double real = parser.readAttributeDouble("real",-999.);
+        double imag = parser.readAttributeDouble("imag",-999.);
 
-        if(real!=-1. && imag!=-1. && mag==-1. && phase==-1.) {
+        if((real!=-999. || imag!=-999.) && mag==-999. && phase==-999.) {
           mag = sqrt(real*real + imag*imag);
           phase = atan2(imag,real) * EvtConst::radToDegrees;
+        }
+        if( mag==-999. ) {
+          mag = 1.;
+        }
+        if( phase==-999. ) {
+          phase = 0.;
         }
 
         double lifetime = parser.readAttributeDouble("lifetime");

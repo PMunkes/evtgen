@@ -172,6 +172,8 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
         double imag = parser.readAttributeDouble("imag",-999.);
 
         if((real!=-999. || imag!=-999.) && mag==-999. && phase==-999.) {
+          if(real==-999.) { real = 0; }
+          if(imag==-999.) { imag = 0; }
           mag = sqrt(real*real + imag*imag);
           phase = atan2(imag,real) * EvtConst::radToDegrees;
         }

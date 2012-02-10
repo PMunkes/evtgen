@@ -102,11 +102,7 @@ int main(int argc, char** argv) {
     if (i%1000 == 0) {cout<<"Event number = "<<i+1<<" out of "<<nEvents<<std::endl;}
 
     // Set up the parent particle
-    //EvtVector4R pInit(EvtPDL::getMass(theId), 0.0, 0.0, 0.0);
-    double px(-0.2), py(1.87), pz(20.0);
-    double m0 = EvtPDL::getMass(theId);
-    double E = sqrt(px*px + py*py + pz*pz + m0*m0);
-    EvtVector4R pInit(E, px, py, pz);
+    EvtVector4R pInit(EvtPDL::getMass(theId), 0.0, 0.0, 0.0);
 
     baseParticle = EvtParticleFactory::particleFactory(theId, pInit);
     if (baseParticle->getSpinStates() == 3) {baseParticle->setVectorSpinDensity();}
@@ -141,7 +137,7 @@ int main(int argc, char** argv) {
 
     nDaugTree->Fill();
 
-    theParent->printTree();
+    //theParent->printTree();
 
     // Loop over the daughter tracks
     for (iDaug = 0; iDaug < nDaug; iDaug++) {

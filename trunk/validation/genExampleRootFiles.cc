@@ -41,19 +41,26 @@ int main(int argc, char** argv) {
   int nEvents(10);
   if (argc > 4) {nEvents = atoi(argv[4]);}
 
+  bool useXml = false;
+  if(argc > 5) {useXml = (atoi(argv[5])==1);}
+
   cout<<"Number of events is "<<nEvents<<endl;
 
   TFile* theFile = new TFile(rootFileName.c_str(), "recreate");
   TTree* theTree = new TTree("Data", "Data");
   TTree* nDaugTree = new TTree("nDaugTree", "nDaugTree");
+  TTree* dalitzTree = new TTree("dalitzTree", "dalitzTree");
 
   theTree->SetDirectory(theFile);
   nDaugTree->SetDirectory(theFile);
+  dalitzTree->SetDirectory(theFile);
 
   int event(0), nDaug(0), daugId(0);
   double E(0.0), p(0.0), px(0.0), py(0.0), pz(0.0);
   double t(0.0), x(0.0), y(0.0), z(0.0);
   double mass(0.0), lifetime(0.0);
+  double inv12(0.0), inv13(0.0), inv23(0.0);
+  double inv12Sq(0.0), inv13Sq(0.0), inv23Sq(0.0);
 
   theTree->Branch("event", &event, "event/I");
   theTree->Branch("nDaug", &nDaug, "nDaug/I");
@@ -73,6 +80,13 @@ int main(int argc, char** argv) {
   nDaugTree->Branch("event", &event, "event/I");
   nDaugTree->Branch("nDaug", &nDaug, "nDaug/I");
 
+  dalitzTree->Branch("invMass12", &inv12, "invMass12/D");
+  dalitzTree->Branch("invMass13", &inv13, "invMass13/D");
+  dalitzTree->Branch("invMass23", &inv23, "invMass23/D");
+  dalitzTree->Branch("invMass12Sq", &inv12Sq, "invMass12Sq/D");
+  dalitzTree->Branch("invMass13Sq", &inv13Sq, "invMass13Sq/D");
+  dalitzTree->Branch("invMass23Sq", &inv23Sq, "invMass23Sq/D");
+
   EvtParticle* baseParticle(0);
   EvtParticle* theParent(0);
 
@@ -82,7 +96,7 @@ int main(int argc, char** argv) {
   // For our validation purposes, we just want to read in one decay file and create
   // plots from that.
 
-  EvtGen myGenerator(decayFileName.c_str(), "../evt.pdl", myRandomEngine);
+  EvtGen myGenerator(decayFileName.c_str(), "../evt.pdl", myRandomEngine, 0, 0, 1, useXml);
 
   // If I wanted a user decay file, I would read it in now, e.g:
   // myGenerator.readUDecay(otherFileName);
@@ -174,6 +188,21 @@ int main(int argc, char** argv) {
       
     } // Number of daughters
 
+    if(nDaug == 3) {
+      EvtVector4R p4_d1 = theParent->getDaug(0)->getP4Lab();
+      EvtVector4R p4_d2 = theParent->getDaug(1)->getP4Lab();
+      EvtVector4R p4_d3 = theParent->getDaug(2)->getP4Lab();
+
+      inv12 = (p4_d1+p4_d2)*(p4_d1+p4_d2);
+      inv13 = (p4_d1+p4_d3)*(p4_d1+p4_d3);
+      inv23 = (p4_d2+p4_d3)*(p4_d2+p4_d3);
+      inv12Sq = inv12*inv12;
+      inv13Sq = inv13*inv13;
+      inv23Sq = inv23*inv23;
+
+      dalitzTree->Fill();
+    }
+
     // Cleanup    
     baseParticle->deleteTree();
 
@@ -185,6 +214,7 @@ int main(int argc, char** argv) {
   theFile->cd();
   theTree->Write();
   nDaugTree->Write();
+  dalitzTree->Write();
 
   theFile->Close();
 

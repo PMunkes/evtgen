@@ -22,6 +22,7 @@
 #include "EvtGenBase/EvtReport.hh"
 #include "EvtGenBase/EvtParserXml.hh"
 #include "EvtGenBase/EvtPDL.hh"
+#include "EvtGenBase/EvtSpinType.hh"
 
 #include <stdlib.h>
 #include <sstream>
@@ -184,9 +185,26 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
           phase = 0.;
         }
 
-        double lifetime = parser.readAttributeDouble("lifetime");
-        double mass = parser.readAttributeDouble("mass");
-        int spin = parser.readAttributeInt("spin");
+        double mass(0.), width(0.);
+        int spin(0);
+
+        std::string particle = parser.readAttribute("particle");
+        if(particle != "") {
+          EvtId resId = EvtPDL::getId(particle);
+          if(resId == EvtId(-1,-1)) {
+            report(ERROR,"EvtGen") <<"Unknown particle name:"<<particle.c_str()<<endl;
+            report(ERROR,"EvtGen") <<"Will terminate execution!"<<endl;
+            ::abort();
+          } else {
+            mass = EvtPDL::getMeanMass(resId);
+            width = EvtPDL::getWidth(resId);
+            spin = EvtSpinType::getSpin2(EvtPDL::getSpinType(resId))/2;
+          }
+        }
+
+        width = parser.readAttributeDouble("width",width);
+        mass = parser.readAttributeDouble("mass",mass);
+        spin = parser.readAttributeInt("spin",spin);
         int daughterPair = parser.readAttributeInt("daughterPair");
         int bwFactor = parser.readAttributeInt("bwFactor");
         bool invMassAngDenom = parser.readAttributeBool("invMassAngDenom");
@@ -195,11 +213,11 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
         if(shape=="NonRes") {
           resonance = new EvtResonancePrototype(ampFactor, mag, phase);
         } else if(shape=="RelBW") {
-          resonance = new EvtResonancePrototype(ampFactor, mag, phase, lifetime, mass, spin, daughterPair, bwFactor);
+          resonance = new EvtResonancePrototype(ampFactor, mag, phase, width, mass, spin, daughterPair, bwFactor);
         } else if(shape=="Flatte") {
           resonance = new EvtResonancePrototype(ampFactor, mag, phase, mass, daughterPair);
         } else { //BW
-          resonance = new EvtResonancePrototype(ampFactor, mag, phase, lifetime, mass, spin, daughterPair, invMassAngDenom);
+          resonance = new EvtResonancePrototype(ampFactor, mag, phase, width, mass, spin, daughterPair, invMassAngDenom);
         }
 
         if(parser.isTagInline()) {

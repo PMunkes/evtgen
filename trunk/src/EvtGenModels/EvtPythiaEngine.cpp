@@ -31,7 +31,7 @@
 
 using std::endl;
 
-EvtPythiaEngine::EvtPythiaEngine(std::string xmlDir, bool convertPhysCodes) {
+EvtPythiaEngine::EvtPythiaEngine(std::string xmlDir, bool convertPhysCodes, CommandMap commands) {
 
   // Create two Pythia generators. One will be for generic
   // Pythia decays in the decay.dec file. The other one will be to 
@@ -44,10 +44,12 @@ EvtPythiaEngine::EvtPythiaEngine(std::string xmlDir, bool convertPhysCodes) {
   report(INFO,"EvtGen")<<"Creating generic Pythia generator"<<endl;
   _genericPythiaGen = new Pythia8::Pythia(xmlDir);
   _genericPartData = _genericPythiaGen->particleData;
+  _genericCommands = commands["GENERIC"];
 
   report(INFO,"EvtGen")<<"Creating alias Pythia generator"<<endl;
   _aliasPythiaGen  = new Pythia8::Pythia(xmlDir);
   _aliasPartData = _aliasPythiaGen->particleData;
+  _aliasCommands = commands["ALIAS"];
 
   _thePythiaGenerator = 0;
   _daugPDGVector.clear(); _daugP4Vector.clear();
@@ -724,4 +726,15 @@ void EvtPythiaEngine::updatePhysicsParameters() {
   _genericPythiaGen->readString(multiCut);
   _aliasPythiaGen->readString(multiCut);
 
+  //Now read in any custom configuration entered in the XML
+  std::vector<std::string>::iterator it = _genericCommands.begin();
+  for( ; it!=_genericCommands.end(); it++) {
+    report(INFO,"EvtGen")<<"Configuring generic Pythia generator: " << (*it) << endl;
+    _genericPythiaGen->readString((*it));
+  }
+  it = _aliasCommands.begin();
+  for( ; it!=_aliasCommands.end(); it++) {
+    report(INFO,"EvtGen")<<"Configuring alias Pythia generator: " << (*it) << endl;
+    _aliasPythiaGen->readString((*it));
+  }
 }

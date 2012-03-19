@@ -40,6 +40,8 @@
 #include "EvtGenBase/EvtModelAlias.hh"
 #include "EvtGenBase/EvtRadCorr.hh"
 
+#include "EvtGenModels/EvtExternalGenFactory.hh"
+
 using std::endl;
 using std::fstream;
 using std::ifstream;
@@ -765,6 +767,7 @@ void EvtDecayTable::readDecayFile(const std::string dec_name, bool verbose){
 void EvtDecayTable::readXMLDecayFile(const std::string dec_name, bool verbose){
   if ( _decaytable.size() < EvtPDL::entries() ) _decaytable.resize(EvtPDL::entries());
   EvtModel &modelist=EvtModel::instance();
+  EvtExternalGenFactory* externalGenerators = EvtExternalGenFactory::getInstance();
 
   EvtParserXml parser;
   parser.open(dec_name);
@@ -987,6 +990,20 @@ void EvtDecayTable::readXMLDecayFile(const std::string dec_name, bool verbose){
             report(DEBUG,"EvtGen") <<"Deleting selected decays of "
                                    <<decayParent.c_str()<<endl;
           }
+
+        } else if(parser.getTagTitle() == "pythiaParam") {
+          std::string generator = parser.readAttribute("generator");
+          std::string module = parser.readAttribute("module");
+          std::string param = parser.readAttribute("param");
+          std::string value = parser.readAttribute("value");
+          externalGenerators->addPythiaCommand(generator,module,param,value);
+
+        } else if(parser.getTagTitle() == "pythia6Param") {
+          std::string generator = parser.readAttribute("generator");
+          std::string module = parser.readAttribute("module");
+          std::string param = parser.readAttribute("param");
+          std::string value = parser.readAttribute("value");
+          externalGenerators->addPythia6Command(generator,module,param,value);
 
         } else if(parser.getTagTitle() == "/data") { //end of data
           endReached = true;

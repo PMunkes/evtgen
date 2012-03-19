@@ -34,11 +34,13 @@
 #include <vector>
 #include <map>
 
+typedef std::map<std::string, std::vector<std::string> > CommandMap;
+
 class EvtPythiaEngine : public EvtAbsExternalGen {
 
 public:
 
-  EvtPythiaEngine(std::string xmlDir = "./xmldoc", bool convertPhysCodes = false);
+  EvtPythiaEngine(std::string xmlDir = "./xmldoc", bool convertPhysCodes = false, CommandMap commands = CommandMap());
   virtual ~EvtPythiaEngine();
 
   virtual bool doDecay(EvtParticle* theMother);
@@ -69,6 +71,9 @@ private:
 
   Pythia8::ParticleData _genericPartData, _aliasPartData;  
   Pythia8::ParticleData _theParticleData;
+
+  std::vector<std::string> _genericCommands;
+  std::vector<std::string> _aliasCommands;
 
   std::vector<int> _daugPDGVector;
   std::vector<EvtVector4R> _daugP4Vector;

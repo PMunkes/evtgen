@@ -50,6 +50,7 @@ EvtPhotosEngine::EvtPhotosEngine(std::string photonType) {
   _mPhoton = EvtPDL::getMeanMass(_gammaId);
 
   _initialised = false;
+  this->initialise();
 
 }
 
@@ -78,8 +79,6 @@ void EvtPhotosEngine::initialise() {
 bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
 
   if (theMother == 0) {return false;}
-
-  if (_initialised == false) {this->initialise();}
 
   // Create a dummy HepMC GenEvent containing a single vertex, with the mother
   // assigned as the incoming particle and its daughters as outgoing particles.

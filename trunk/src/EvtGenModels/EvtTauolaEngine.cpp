@@ -48,6 +48,7 @@ EvtTauolaEngine::EvtTauolaEngine() {
   _nTauolaModes = 22;
 
   _initialised = false;
+  this->initialise();
 
 }
 
@@ -215,8 +216,6 @@ bool EvtTauolaEngine::doDecay(EvtParticle* tauParticle) {
   // Check that we have a tau particle.
   EvtId partId = tauParticle->getId();
   if (abs(EvtPDL::getStdHep(partId)) != _tauPDG) {return false;}
-
-  if (_initialised == false) {this->initialise();}
 
   int nTauDaug = tauParticle->getNDaug();
 

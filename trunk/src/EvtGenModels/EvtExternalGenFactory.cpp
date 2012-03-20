@@ -66,7 +66,7 @@ void EvtExternalGenFactory::definePythiaGenerator(std::string xmlDir, bool conve
 
   int genId = EvtExternalGenFactory::PythiaGenId;
 
-  EvtAbsExternalGen* pythiaGenerator = new EvtPythiaEngine(xmlDir, convertPhysCodes, _extGenCommandMap[genId]);
+  EvtAbsExternalGen* pythiaGenerator = new EvtPythiaEngine(xmlDir, convertPhysCodes);
   _extGenMap[genId] = pythiaGenerator;
 
 }
@@ -124,21 +124,3 @@ void EvtExternalGenFactory::initialiseAllGenerators() {
   }
   
 }
-
-void EvtExternalGenFactory::addPythiaCommand( std::string generator, std::string module, std::string param, std::string value) {
-  std::string command = module+":"+param+" = "+value;
-  if(generator == "GENERIC" || generator == "Generic" || generator == "generic" ||
-     generator == "BOTH" || generator == "Both" || generator == "both") {
-
-    _extGenCommandMap[EvtExternalGenFactory::PythiaGenId]["GENERIC"].push_back(command);
-  }
-  if(generator == "ALIAS" || generator == "Alias" || generator == "alias" ||
-     generator == "BOTH" || generator == "Both" || generator == "both") {
-    _extGenCommandMap[EvtExternalGenFactory::PythiaGenId]["ALIAS"].push_back(command);
-  }
-}
-
-void EvtExternalGenFactory::addPythia6Command(std::string generator, std::string module, std::string param, std::string value) {
-  
-}
-

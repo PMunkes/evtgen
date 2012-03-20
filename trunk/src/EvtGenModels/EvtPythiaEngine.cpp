@@ -24,6 +24,9 @@
 #include "EvtGenBase/EvtParticleFactory.hh"
 #include "EvtGenBase/EvtReport.hh"
 
+#include "EvtGenBase/EvtExtGeneratorCommandsTable.hh"
+#include "EvtGenModels/EvtPythia6CommandConverter.hh"
+
 #include "Event.h"
 
 #include <iostream>
@@ -31,7 +34,7 @@
 
 using std::endl;
 
-EvtPythiaEngine::EvtPythiaEngine(std::string xmlDir, bool convertPhysCodes, CommandMap commands) {
+EvtPythiaEngine::EvtPythiaEngine(std::string xmlDir, bool convertPhysCodes) {
 
   // Create two Pythia generators. One will be for generic
   // Pythia decays in the decay.dec file. The other one will be to 
@@ -44,12 +47,10 @@ EvtPythiaEngine::EvtPythiaEngine(std::string xmlDir, bool convertPhysCodes, Comm
   report(INFO,"EvtGen")<<"Creating generic Pythia generator"<<endl;
   _genericPythiaGen = new Pythia8::Pythia(xmlDir);
   _genericPartData = _genericPythiaGen->particleData;
-  _genericCommands = commands["GENERIC"];
 
   report(INFO,"EvtGen")<<"Creating alias Pythia generator"<<endl;
   _aliasPythiaGen  = new Pythia8::Pythia(xmlDir);
   _aliasPartData = _aliasPythiaGen->particleData;
-  _aliasCommands = commands["ALIAS"];
 
   _thePythiaGenerator = 0;
   _daugPDGVector.clear(); _daugP4Vector.clear();
@@ -57,6 +58,7 @@ EvtPythiaEngine::EvtPythiaEngine(std::string xmlDir, bool convertPhysCodes, Comm
   _convertPhysCodes = convertPhysCodes;
 
   _initialised = false;
+  this->initialise();
 
 }
 
@@ -135,9 +137,6 @@ bool EvtPythiaEngine::doDecay(EvtParticle* theParticle) {
     report(INFO,"EvtGen")<<"Error in EvtPythiaEngine::doDecay. The mother particle is null. Not doing any Pythia decay."<<endl;
     return false;
   }
-
-  // Check if the Pythia engine has been initialised
-  if (_initialised == false) {this->initialise();}
 
   // Delete EvtParticle daughters if they already exist
   if (theParticle->getNDaug() != 0) {
@@ -727,14 +726,39 @@ void EvtPythiaEngine::updatePhysicsParameters() {
   _aliasPythiaGen->readString(multiCut);
 
   //Now read in any custom configuration entered in the XML
-  std::vector<std::string>::iterator it = _genericCommands.begin();
-  for( ; it!=_genericCommands.end(); it++) {
-    report(INFO,"EvtGen")<<"Configuring generic Pythia generator: " << (*it) << endl;
-    _genericPythiaGen->readString((*it));
-  }
-  it = _aliasCommands.begin();
-  for( ; it!=_aliasCommands.end(); it++) {
-    report(INFO,"EvtGen")<<"Configuring alias Pythia generator: " << (*it) << endl;
-    _aliasPythiaGen->readString((*it));
+  GeneratorCommands commands = EvtExtGeneratorCommandsTable::getInstance()->getCommands("PYTHIA");
+  GeneratorCommands::iterator it = commands.begin();
+  std::vector<std::string> commandStrings;
+  for( ; it!=commands.end(); it++) {
+    Command command = *it;
+    if(command["VERSION"] == "PYTHIA6") {
+      report(INFO,"EvtGen")<<"Converting Pythia 6 command: "<<command["MODULE"]<<"("<<command["PARAM"]<<")="<<command["VALUE"]<<"..."<<endl;
+      commandStrings = convertPythia6Command(command);
+    } else if(command["VERSION"] == "PYTHIA8") {
+      commandStrings.push_back(command["MODULE"]+":"+command["PARAM"]+" = "+command["VALUE"]);
+    } else {
+      report(ERROR, "EvtGen") << "Pythia command received by EvtPythiaEngine has bad version:"<<endl;
+      report(ERROR, "EvtGen") << "Received "<<command["VERSION"]<<" but expected PYTHIA6 or PYTHIA8."<<endl;
+      report(ERROR, "EvtGen") << "The error is likely to be in EvtDecayTable.cpp"<<endl;
+      report(ERROR, "EvtGen") << "EvtGen will now abort."<<endl;
+      ::abort();
+    }
+    std::string generator = command["GENERATOR"];
+    if(generator == "GENERIC" || generator == "Generic" || generator == "generic" ||
+       generator == "BOTH" || generator == "Both" || generator == "both") {
+      std::vector<std::string>::iterator it2 = commandStrings.begin();
+      for( ; it2!=commandStrings.end(); it2++) {
+        report(INFO,"EvtGen")<<"Configuring generic Pythia generator: " << (*it2) << endl;
+        _genericPythiaGen->readString(*it2);
+      }
+    }
+    if(generator == "ALIAS" || generator == "Alias" || generator == "alias" ||
+       generator == "BOTH" || generator == "Both" || generator == "both") {
+      std::vector<std::string>::iterator it2 = commandStrings.begin();
+      for( ; it2!=commandStrings.end(); it2++) {
+        report(INFO,"EvtGen")<<"Configuring alias Pythia generator: " << (*it2) << endl;
+        _aliasPythiaGen->readString(*it2);
+      }
+    }
   }
 }

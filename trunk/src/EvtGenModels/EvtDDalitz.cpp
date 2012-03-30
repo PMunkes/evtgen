@@ -355,7 +355,7 @@ void EvtDDalitz::initProbMax() {
 
 //probmax different for different modes!  
 
-  if ( _flag==1 ) {setProbMax(1000000);}
+  if ( _flag==1 ) {setProbMax(5000.0);}
   if ( _flag==2 ) {setProbMax(147.9);}
   if ( _flag==3 ) {setProbMax(5000.0);}
   if ( _flag==4 ) {setProbMax(3000.0);}

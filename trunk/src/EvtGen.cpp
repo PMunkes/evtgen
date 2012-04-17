@@ -157,7 +157,7 @@ EvtGen::EvtGen(const char* const decayName,
 }
 
 
-void EvtGen::readUDecay(const char* const uDecayName){
+void EvtGen::readUDecay(const char* const uDecayName, bool useXml){
 
   ifstream indec;
 
@@ -167,7 +167,11 @@ void EvtGen::readUDecay(const char* const uDecayName){
   else{  
     indec.open(uDecayName);
     if (indec) {
-      EvtDecayTable::getInstance()->readDecayFile(uDecayName,true);
+      if(useXml) {
+        EvtDecayTable::getInstance()->readXMLDecayFile(uDecayName,true);
+      } else {
+        EvtDecayTable::getInstance()->readDecayFile(uDecayName,true);
+      }
     }    
     else{
       

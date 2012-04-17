@@ -6,7 +6,7 @@
 	<Author>D Craik</Author>
 	<Version>1.0</Version>
 <!-- flag=1 from D_DALITZ -->
-  <dalitzDecay particle="D+" daughters="K- pi+ pi+" probMax="1000000">
+  <dalitzDecay particle="D+" daughters="K- pi+ pi+" probMax="2500.0">
     <resonance real="-7.02168" imag="2.33580" shape="NonRes"/>
     <resonance ampFactorReal="-0.707106782" mag="1.0" phase="0.0" width="0.0503"
                mass="0.896" spin="1" daughterPair="1" invMassAngDenom="true"/>
@@ -31,7 +31,7 @@
   </dalitzDecay>
 
 <!-- flag=2 from D_DALITZ -->
-  <dalitzDecay particle="D+" daughters="anti-K0 pi+ pi0" probMax="147.9">
+  <dalitzDecay particle="D+" daughters="anti-K0 pi+ pi0" probMax="150.0">
     <resonance real="-0.268361" imag="-0.913601" shape="NonRes"/>
     <resonance ampFactorReal="1.00" mag="1.00" phase="0.00" width="0.1512"
                mass="0.7699" spin="1" daughterPair="2" shape="RelBW" bwFactor="0"/>
@@ -46,7 +46,7 @@
                                  anti_Do to K0 K+ K- -->
 
 <!-- flag=3 from D_DALITZ -->
-  <dalitzDecay particle="D0" daughters="anti-K0 pi+ pi-" probMax="5000">
+  <dalitzDecay particle="D0" daughters="anti-K0 pi+ pi-" probMax="3000.0">
     <resonance real="1.0" imag="0.0" shape="NonRes"/>
     <resonance ampFactorReal="1.00" mag="1.418" phase="-190.0" width="0.0508"
                mass="0.89166" spin="1" daughterPair="1"/>
@@ -71,7 +71,7 @@
   </dalitzDecay>
 
 <!-- flag=4 from D_DALITZ -->
-  <dalitzDecay particle="D0" daughters="K- pi+ pi0" probMax="3000">
+  <dalitzDecay particle="D0" daughters="K- pi+ pi0" probMax="600.0">
     <resonance real="1.497" imag="0.9065" shape="NonRes"/>
     <resonance ampFactorReal="1.00" mag="1.00" phase="0.00" width="0.1507"
                mass="0.777" spin="1" daughterPair="2"/>
@@ -90,7 +90,7 @@
   </dalitzDecay>
 
 <!-- flag=5 from D_DALITZ -->
-  <dalitzDecay particle="D0" daughters="K0 K+ K-" probMax="10000000">
+  <dalitzDecay particle="D0" daughters="K0 K+ K-" probMax="2500000.0">
     <resonance real="1.0" imag="0.0" shape="NonRes"/>
     <resonance ampFactorReal="1.00" mag="113.75" phase="-40.0" width="0.0043"
                mass="1.019456" spin="1" daughterPair="2"/>
@@ -105,7 +105,7 @@
   </dalitzDecay>
 
 <!-- flag=6 from D_DALITZ -->
-  <dalitzDecay particle="D_s+" daughters="K- K+ pi+" probMax="50000">
+  <dalitzDecay particle="D_s+" daughters="K- K+ pi+" probMax="45000.0">
     <resonance real="0" imag="0" shape="NonRes"/>
     <resonance ampFactorReal="1.00" mag="1.00" phase="0.00" width="0.0455"
                mass="0.8944" spin="1" daughterPair="3" invMassAngDenom="true"/>
@@ -125,7 +125,7 @@
   </dalitzDecay>
 
 <!-- flag=7 from D_DALITZ -->
-  <dalitzDecay particle="D+" daughters="K- K+ pi+" probMax="50000">
+  <dalitzDecay particle="D+" daughters="K- K+ pi+" probMax="35000.0">
     <resonance real="3.069" imag="4.073" shape="NonRes"/>
     <resonance ampFactorReal="1.00" mag="1.00" phase="0.00" width="0.0503"
                mass="0.8960" spin="1" daughterPair="3" invMassAngDenom="true"/>
@@ -142,7 +142,7 @@
   </dalitzDecay>
 
 <!-- flag=8 from D_DALITZ -->
-  <dalitzDecay particle="D+" daughters="pi- pi+ K+" probMax="1000000">
+  <dalitzDecay particle="D+" daughters="pi- pi+ K+" probMax="2500.0">
     <resonance real="0" imag="0" shape="NonRes"/>
     <resonance ampFactorReal="1.00" mag="1.00" phase="0.00" width="0.149"
                mass="0.775" spin="1" daughterPair="1" invMassAngDenom="true"/>
@@ -155,7 +155,7 @@
   </dalitzDecay>
 
 <!-- flag=9 from D_DALITZ -->
-  <dalitzDecay particle="D_s+" daughters="pi- pi+ K+" probMax="1000000">
+  <dalitzDecay particle="D_s+" daughters="pi- pi+ K+" probMax="1700.0">
     <resonance real="2.906" imag="2.719" shape="NonRes"/>
     <resonance ampFactorReal="1.00" mag="1.00" phase="0.00" width="0.149"
                mass="0.775" spin="1" daughterPair="1" invMassAngDenom="true"/>
@@ -170,7 +170,7 @@
   </dalitzDecay>
 
 <!-- flag=10 from D_DALITZ -->
-  <dalitzDecay particle="D+" daughters="pi- pi+ pi+" probMax="1000000">
+  <dalitzDecay particle="D+" daughters="pi- pi+ pi+" probMax="1300.0">
     <resonance real="-2.15" imag="-3.349" shape="NonRes"/>
     <resonance ampFactorReal="1.00" mag="1.00" phase="0.00" width="0.150"
                mass="0.769" spin="1" daughterPair="1" invMassAngDenom="true"/>
@@ -199,7 +199,7 @@
   </dalitzDecay>
 
 <!-- flag=11 from D_DALITZ -->
-  <dalitzDecay particle="D_s+" daughters="pi- pi+ pi+" probMax="1000000">
+  <dalitzDecay particle="D_s+" daughters="pi- pi+ pi+" probMax="2200.0">
     <resonance real="0.7229" imag="0.01262" shape="NonRes"/>
     <resonance ampFactorReal="1.00" mag="0.288" phase="109.0" width="0.150"
                mass="0.769" spin="1" daughterPair="1" invMassAngDenom="true"/>

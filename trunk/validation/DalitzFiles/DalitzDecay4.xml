@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="DECAY.XSL" type="text/xsl" ?>
 <data>
-  <dalitzDecay particle="D+" daughters="K- pi+ pi+" probMax="1000000">
+  <dalitzDecay particle="D+" daughters="K- pi+ pi+" probMax="2500.0">
     <resonance real="-7.02168" imag="2.33580" shape="NonRes"/>
     <resonance ampFactorReal="-0.707106782" mag="1.0" phase="0.0" width="0.0503"
                mass="0.896" spin="1" daughterPair="1" invMassAngDenom="true"/>

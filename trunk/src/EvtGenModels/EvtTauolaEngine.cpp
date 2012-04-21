@@ -48,7 +48,6 @@ EvtTauolaEngine::EvtTauolaEngine() {
   _nTauolaModes = 22;
 
   _initialised = false;
-  this->initialise();
 
 }
 
@@ -210,6 +209,8 @@ int EvtTauolaEngine::getModeInt(EvtDecayBase* decayModel) {
 }
 
 bool EvtTauolaEngine::doDecay(EvtParticle* tauParticle) {
+
+  if (_initialised == false) {this->initialise();}
 
   if (tauParticle == 0) {return false;}
 

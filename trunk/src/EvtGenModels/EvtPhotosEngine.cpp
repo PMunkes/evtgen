@@ -50,7 +50,6 @@ EvtPhotosEngine::EvtPhotosEngine(std::string photonType) {
   _mPhoton = EvtPDL::getMeanMass(_gammaId);
 
   _initialised = false;
-  this->initialise();
 
 }
 
@@ -77,6 +76,8 @@ void EvtPhotosEngine::initialise() {
 }
 
 bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
+
+  if (_initialised == false) {this->initialise();}
 
   if (theMother == 0) {return false;}
 

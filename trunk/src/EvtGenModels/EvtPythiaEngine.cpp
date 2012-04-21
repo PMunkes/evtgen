@@ -58,7 +58,6 @@ EvtPythiaEngine::EvtPythiaEngine(std::string xmlDir, bool convertPhysCodes) {
   _convertPhysCodes = convertPhysCodes;
 
   _initialised = false;
-  this->initialise();
 
 }
 
@@ -132,6 +131,8 @@ bool EvtPythiaEngine::doDecay(EvtParticle* theParticle) {
   // the total frequency for each Pythia decay mode will normalise correctly to what
   // we wanted via the specifications made to the decay.dec file, even though event-by-event
   // the EvtGen decay channel and the Pythia decay channel may be different.
+
+  if (_initialised == false) {this->initialise();}
   
   if (theParticle == 0) {
     report(INFO,"EvtGen")<<"Error in EvtPythiaEngine::doDecay. The mother particle is null. Not doing any Pythia decay."<<endl;

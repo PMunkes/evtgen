@@ -23,6 +23,8 @@
 #include "EvtGenBase/EvtParserXml.hh"
 #include "EvtGenBase/EvtPDL.hh"
 #include "EvtGenBase/EvtSpinType.hh"
+#include "EvtGenBase/EvtDalitzPlot.hh"
+#include "EvtGenBase/EvtCyclic3.hh"
 
 #include <stdlib.h>
 #include <sstream>
@@ -72,9 +74,11 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
   _readFiles.push_back(dec_name);
 
   EvtDalitzDecayInfo* dalitzDecay = 0;
-  EvtResonancePrototype* resonance = 0;
+  EvtDalitzReso* resonance = 0;
+  EvtComplex cAmp;
   EvtId ipar;
   std::string decayParent = "";
+  EvtDalitzPlot dp;
 
   EvtParserXml parser;
   parser.open(dec_name);
@@ -110,6 +114,10 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
               report(ERROR,"EvtGen") << "Will terminate execution!"<<endl;
               ::abort();
         }
+
+        double m_d1 = EvtPDL::getMass(daughter[0]), m_d2 = EvtPDL::getMass(daughter[1]), m_d3 = EvtPDL::getMass(daughter[2]), M = EvtPDL::getMass(ipar);
+
+        dp = EvtDalitzPlot( m_d1, m_d2, m_d3, M );
 
         dalitzDecay = new EvtDalitzDecayInfo(daughter[0],daughter[1],daughter[2]);
         dalitzDecay->setProbMax(probMax);
@@ -165,6 +173,7 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
     } else if(parser.getParentTagTitle() == "dalitzDecay") {
       if(parser.getTagTitle() == "resonance") {
 
+        //Amplitude
         EvtComplex ampFactor(parser.readAttributeDouble("ampFactorReal",1.),
                              parser.readAttributeDouble("ampFactorImag",0.));
         double mag = parser.readAttributeDouble("mag",-999.);
@@ -185,8 +194,11 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
           phase = 0.;
         }
 
+        cAmp = ampFactor*EvtComplex(cos(phase*1.0/EvtConst::radToDegrees),sin(phase*1.0/EvtConst::radToDegrees))*mag;
+
+        //Resonance particle properties
         double mass(0.), width(0.);
-        int spin(0);
+        EvtSpinType::spintype spinType(EvtSpinType::SCALAR);
 
         std::string particle = parser.readAttribute("particle");
         if(particle != "") {
@@ -198,30 +210,69 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
           } else {
             mass = EvtPDL::getMeanMass(resId);
             width = EvtPDL::getWidth(resId);
-            spin = EvtSpinType::getSpin2(EvtPDL::getSpinType(resId))/2;
+            spinType = EvtPDL::getSpinType(resId);
           }
         }
 
         width = parser.readAttributeDouble("width",width);
         mass = parser.readAttributeDouble("mass",mass);
-        spin = parser.readAttributeInt("spin",spin);
-        int daughterPair = parser.readAttributeInt("daughterPair");
-        int bwFactor = parser.readAttributeInt("bwFactor");
-        bool invMassAngDenom = parser.readAttributeBool("invMassAngDenom");
-        std::string shape = parser.readAttribute("shape");
+        switch(parser.readAttributeInt("spin",-1)) {
+        case -1://not set here
+          break;
+        case 0:
+          spinType = EvtSpinType::SCALAR;
+          break;
+        case 1:
+          spinType = EvtSpinType::VECTOR;
+          break;
+        case 2:
+          spinType = EvtSpinType::TENSOR;
+          break;
+        default:
+          report(ERROR,"EvtGen") << "Unsupported spin near line "<<parser.getLineNumber()<<" of XML file."<<endl;
+          ::abort();
+        }
 
-        if(shape=="NonRes") {
-          resonance = new EvtResonancePrototype(ampFactor, mag, phase);
-        } else if(shape=="RelBW") {
-          resonance = new EvtResonancePrototype(ampFactor, mag, phase, width, mass, spin, daughterPair, bwFactor);
-        } else if(shape=="Flatte") {
-          resonance = new EvtResonancePrototype(ampFactor, mag, phase, mass, daughterPair);
-        } else { //BW
-          resonance = new EvtResonancePrototype(ampFactor, mag, phase, width, mass, spin, daughterPair, invMassAngDenom);
+        //Shape and form factors
+        std::string shape = parser.readAttribute("shape");
+        double FFp = parser.readAttributeDouble("BlattWeisskopfFactorParent",0.0);
+        double FFr = parser.readAttributeDouble("BlattWeisskopfFactorResonance",1.5);
+
+        //Daughter pair for resonance
+        EvtCyclic3::Pair resPair, angPair;
+        switch(parser.readAttributeInt("daughterPair")) {
+        case 1:
+          resPair = EvtCyclic3::AB;
+          angPair = EvtCyclic3::BC;
+          break;
+        case 2:
+          resPair = EvtCyclic3::BC;
+          angPair = EvtCyclic3::CA;
+          break;
+        case 3:
+          resPair = EvtCyclic3::CA;
+          angPair = EvtCyclic3::AB;
+          break;
+        default:
+          if(shape == "NonRes") break; //We don't expect a pair for non-resonant terms
+          report(ERROR,"EvtGen") << "Daughter pair must be 1, 2 or 3 near line "<<parser.getLineNumber()<<" of XML file."<<endl;
+          ::abort();
+        }
+
+        if( shape=="RBW" || shape=="RBW_CLEO") {
+          resonance = new EvtDalitzReso( dp, angPair, resPair, spinType, mass, width, EvtDalitzReso::RBW_CLEO, FFp, FFr );
+        } else if( shape=="RBW_CLEO_ZEMACH" ) {
+          resonance = new EvtDalitzReso( dp, angPair, resPair, spinType, mass, width, EvtDalitzReso::RBW_CLEO_ZEMACH, FFp, FFr );
+        }else if( shape=="Flatte" ) {
+          resonance = new EvtDalitzReso( dp, resPair, mass );
+        } else if( shape=="NonRes" ) {
+          resonance = new EvtDalitzReso( );
+        } else { //NBW
+          resonance = new EvtDalitzReso( dp, angPair, resPair, spinType, mass, width, EvtDalitzReso::NBW, FFp, FFr );
         }
 
         if(parser.isTagInline()) {
-          dalitzDecay->addResonance(*resonance);
+          dalitzDecay->addResonance(cAmp,*resonance);
           delete resonance;
           resonance = 0;
         }
@@ -242,7 +293,7 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
                              parser.readAttributeDouble("g"));
         resonance->addFlatteParam(param);
       } else if(parser.getTagTitle() == "/resonance") {
-        dalitzDecay->addResonance(*resonance);
+        dalitzDecay->addResonance(cAmp,*resonance);
         delete resonance;
         resonance = 0;
       }
@@ -289,7 +340,7 @@ void EvtDalitzTable::copyDecay(EvtId parent, EvtId* daughters,
        (copyd[0] == daughter3 && copyd[1] == daughter1 && copyd[2] == daughter2) ||
        (copyd[0] == daughter3 && copyd[1] == daughter2 && copyd[2] == daughter1)) {
       decay.setProbMax((*i).getProbMax());
-      std::vector<EvtResonancePrototype>::const_iterator j = (*i).getResonances().begin();
+      std::vector<std::pair<EvtComplex, EvtDalitzReso> >::const_iterator j = (*i).getResonances().begin();
       for( ; j != (*i).getResonances().end(); j++) {
         decay.addResonance((*j));
       }

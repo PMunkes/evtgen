@@ -74,11 +74,17 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
   _readFiles.push_back(dec_name);
 
   EvtDalitzDecayInfo* dalitzDecay = 0;
-  EvtDalitzReso* resonance = 0;
-  EvtComplex cAmp;
   EvtId ipar;
   std::string decayParent = "";
+  EvtId daughter[3];
+
   EvtDalitzPlot dp;
+  EvtComplex cAmp;
+  std::vector< std::pair<EvtCyclic3::Pair,EvtCyclic3::Pair> > angAndResPairs;
+  std::string shape("");
+  EvtSpinType::spintype spinType(EvtSpinType::SCALAR);
+  double mass(0.), width(0.), FFp(0.), FFr(0.);
+  std::vector<EvtFlatteParam> flatteParams;
 
   EvtParserXml parser;
   parser.open(dec_name);
@@ -90,7 +96,6 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
     if(parser.getParentTagTitle() == "data") {
       if(parser.getTagTitle() == "dalitzDecay") {
         int nDaughters = 0;
-        EvtId daughter[3];
 
         decayParent = parser.readAttribute("particle");
         std::string daugStr = parser.readAttribute("daughters");
@@ -173,6 +178,8 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
     } else if(parser.getParentTagTitle() == "dalitzDecay") {
       if(parser.getTagTitle() == "resonance") {
 
+        flatteParams.clear();
+
         //Amplitude
         EvtComplex ampFactor(parser.readAttributeDouble("ampFactorReal",1.),
                              parser.readAttributeDouble("ampFactorImag",0.));
@@ -197,8 +204,9 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
         cAmp = ampFactor*EvtComplex(cos(phase*1.0/EvtConst::radToDegrees),sin(phase*1.0/EvtConst::radToDegrees))*mag;
 
         //Resonance particle properties
-        double mass(0.), width(0.);
-        EvtSpinType::spintype spinType(EvtSpinType::SCALAR);
+        mass = 0.;
+        width = 0.;
+        spinType = EvtSpinType::SCALAR;
 
         std::string particle = parser.readAttribute("particle");
         if(particle != "") {
@@ -234,47 +242,62 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
         }
 
         //Shape and form factors
-        std::string shape = parser.readAttribute("shape");
-        double FFp = parser.readAttributeDouble("BlattWeisskopfFactorParent",0.0);
-        double FFr = parser.readAttributeDouble("BlattWeisskopfFactorResonance",1.5);
+        shape = parser.readAttribute("shape");
+        FFp = parser.readAttributeDouble("BlattWeisskopfFactorParent",0.0);
+        FFr = parser.readAttributeDouble("BlattWeisskopfFactorResonance",1.5);
 
-        //Daughter pair for resonance
-        EvtCyclic3::Pair resPair, angPair;
-        switch(parser.readAttributeInt("daughterPair")) {
-        case 1:
-          resPair = EvtCyclic3::AB;
-          angPair = EvtCyclic3::BC;
-          break;
-        case 2:
-          resPair = EvtCyclic3::BC;
-          angPair = EvtCyclic3::CA;
-          break;
-        case 3:
-          resPair = EvtCyclic3::CA;
-          angPair = EvtCyclic3::AB;
-          break;
-        default:
-          if(shape == "NonRes") break; //We don't expect a pair for non-resonant terms
-          report(ERROR,"EvtGen") << "Daughter pair must be 1, 2 or 3 near line "<<parser.getLineNumber()<<" of XML file."<<endl;
-          ::abort();
+        //Daughter pairs for resonance
+        angAndResPairs.clear();
+
+        std::string resDaugStr = parser.readAttribute("resDaughters");
+        if(resDaugStr != "") {
+          std::istringstream resDaugStream(resDaugStr);
+          std::string resDaug;
+          int nResDaug(0);
+          EvtId resDaughter[2];
+          while(std::getline(resDaugStream, resDaug, ' ')) {
+            checkParticle(resDaug);
+            resDaughter[nResDaug++] = EvtPDL::getId(resDaug);
+          }
+          if(nResDaug != 2) {
+            report(ERROR,"EvtGen") << "Resonance must have exactly 2 daughters near line "<<parser.getLineNumber()<<" of XML file."<<endl;
+            ::abort();
+          }
+          int nRes = getDaughterPairs(resDaughter, daughter, angAndResPairs);
+          if(nRes==0) {
+            report(ERROR,"EvtGen") << "Resonance daughters must match decay daughters near line "<<parser.getLineNumber()<<" of XML file."<<endl;
+            ::abort();
+          }
+          if(parser.readAttributeBool("normalise",true)) cAmp /= sqrt(nRes);
         }
-
-        if( shape=="RBW" || shape=="RBW_CLEO") {
-          resonance = new EvtDalitzReso( dp, angPair, resPair, spinType, mass, width, EvtDalitzReso::RBW_CLEO, FFp, FFr );
-        } else if( shape=="RBW_CLEO_ZEMACH" ) {
-          resonance = new EvtDalitzReso( dp, angPair, resPair, spinType, mass, width, EvtDalitzReso::RBW_CLEO_ZEMACH, FFp, FFr );
-        }else if( shape=="Flatte" ) {
-          resonance = new EvtDalitzReso( dp, resPair, mass );
-        } else if( shape=="NonRes" ) {
-          resonance = new EvtDalitzReso( );
-        } else { //NBW
-          resonance = new EvtDalitzReso( dp, angPair, resPair, spinType, mass, width, EvtDalitzReso::NBW, FFp, FFr );
+        if(angAndResPairs.empty()) {
+          switch(parser.readAttributeInt("daughterPair")) {
+          case 1:
+            angAndResPairs.push_back(std::make_pair(EvtCyclic3::BC,EvtCyclic3::AB));
+            break;
+          case 2:
+            angAndResPairs.push_back(std::make_pair(EvtCyclic3::CA,EvtCyclic3::BC));
+            break;
+          case 3:
+            angAndResPairs.push_back(std::make_pair(EvtCyclic3::AB,EvtCyclic3::CA));
+            break;
+          default:
+            if(shape == "NonRes") { //We don't expect a pair for non-resonant terms but add dummy values for convenience
+              angAndResPairs.push_back(std::make_pair(EvtCyclic3::AB,EvtCyclic3::AB));
+              break;
+            }
+            report(ERROR,"EvtGen") << "Daughter pair must be 1, 2 or 3 near line "<<parser.getLineNumber()<<" of XML file."<<endl;
+            ::abort();
+          }
         }
 
         if(parser.isTagInline()) {
-          dalitzDecay->addResonance(cAmp,*resonance);
-          delete resonance;
-          resonance = 0;
+          std::vector< std::pair<EvtCyclic3::Pair,EvtCyclic3::Pair> >::iterator it = angAndResPairs.begin();
+          for( ; it != angAndResPairs.end(); it++) {
+            std::pair<EvtCyclic3::Pair,EvtCyclic3::Pair> pairs = *it;
+            EvtDalitzReso resonance = getResonance(shape, dp, pairs.first, pairs.second, spinType, mass, width, FFp, FFr);
+            dalitzDecay->addResonance(cAmp,resonance);
+          }
         }
       } else if(parser.getTagTitle() == "/dalitzDecay") {
         addDecay(ipar, *dalitzDecay);
@@ -291,11 +314,20 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
         EvtFlatteParam param(parser.readAttributeDouble("mass1"),
                              parser.readAttributeDouble("mass2"),
                              parser.readAttributeDouble("g"));
-        resonance->addFlatteParam(param);
+        flatteParams.push_back(param);
       } else if(parser.getTagTitle() == "/resonance") {
-        dalitzDecay->addResonance(cAmp,*resonance);
-        delete resonance;
-        resonance = 0;
+        std::vector< std::pair<EvtCyclic3::Pair,EvtCyclic3::Pair> >::iterator it = angAndResPairs.begin();
+        for( ; it != angAndResPairs.end(); it++) {
+          std::pair<EvtCyclic3::Pair,EvtCyclic3::Pair> pairs = *it;
+          EvtDalitzReso resonance = getResonance(shape, dp, pairs.first, pairs.second, spinType, mass, width, FFp, FFr);
+
+          std::vector<EvtFlatteParam>::iterator flatteIt = flatteParams.begin();
+          for( ; flatteIt != flatteParams.end(); flatteIt++) {
+            resonance.addFlatteParam((*flatteIt));
+          }
+
+          dalitzDecay->addResonance(cAmp,resonance);
+        }
       }
     }
   }
@@ -366,3 +398,43 @@ std::vector<EvtDalitzDecayInfo> EvtDalitzTable::getDalitzTable(const EvtId& pare
 
   return table;
 }
+
+
+EvtDalitzReso EvtDalitzTable::getResonance(std::string shape, EvtDalitzPlot dp, EvtCyclic3::Pair angPair, EvtCyclic3::Pair resPair,
+                                           EvtSpinType::spintype spinType, double mass, double width, double FFp, double FFr) {
+  if( shape=="RBW" || shape=="RBW_CLEO") {
+    return EvtDalitzReso( dp, angPair, resPair, spinType, mass, width, EvtDalitzReso::RBW_CLEO, FFp, FFr );
+  } else if( shape=="RBW_CLEO_ZEMACH" ) {
+    return EvtDalitzReso( dp, angPair, resPair, spinType, mass, width, EvtDalitzReso::RBW_CLEO_ZEMACH, FFp, FFr );
+  }else if( shape=="Flatte" ) {
+    return EvtDalitzReso( dp, resPair, mass );
+  } else if( shape=="NonRes" ) {
+    return EvtDalitzReso( );
+  } else { //NBW
+    return EvtDalitzReso( dp, angPair, resPair, spinType, mass, width, EvtDalitzReso::NBW, FFp, FFr );
+  }
+}
+
+int EvtDalitzTable::getDaughterPairs(EvtId* resDaughter, EvtId* daughter, std::vector< std::pair<EvtCyclic3::Pair,EvtCyclic3::Pair> >& angAndResPairs) {
+  int n(0);
+  if(resDaughter[0]==daughter[0] && resDaughter[1]==daughter[1]) {
+    angAndResPairs.push_back(std::make_pair(EvtCyclic3::BC,EvtCyclic3::AB)); n++;
+  } else if(resDaughter[0]==daughter[1] && resDaughter[1]==daughter[0]) {
+    angAndResPairs.push_back(std::make_pair(EvtCyclic3::CA,EvtCyclic3::AB)); n++;
+  }
+  
+  if(resDaughter[0]==daughter[1] && resDaughter[1]==daughter[2]) {
+    angAndResPairs.push_back(std::make_pair(EvtCyclic3::CA,EvtCyclic3::BC)); n++;
+  } else if(resDaughter[0]==daughter[2] && resDaughter[1]==daughter[1]) {
+    angAndResPairs.push_back(std::make_pair(EvtCyclic3::AB,EvtCyclic3::BC)); n++;
+  }
+
+  if(resDaughter[0]==daughter[2] && resDaughter[1]==daughter[0]) {
+    angAndResPairs.push_back(std::make_pair(EvtCyclic3::AB,EvtCyclic3::CA)); n++;
+  } else if(resDaughter[0]==daughter[0] && resDaughter[1]==daughter[2]) {
+    angAndResPairs.push_back(std::make_pair(EvtCyclic3::BC,EvtCyclic3::CA)); n++;
+  }
+
+  return n;
+}
+

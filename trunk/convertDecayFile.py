@@ -467,7 +467,7 @@ def main(inFile, outFile, extraFiles):
           particleDatum = particleData[particle]
         else:
           particleDatum = {}
-        particleDatum["decayFactor"] = massMin
+        particleDatum["decayFactor"] = decayFactor
         particleData[particle] = particleDatum
         if len(words) > 3:
           line = " ".join(words[3:])
@@ -480,13 +480,32 @@ def main(inFile, outFile, extraFiles):
           getMore = True
           continue
         particle = words[1]
-        decayFactor = words[2]
+        blattWeisskopf = words[2]
 
         if particle in particleData:
           particleDatum = particleData[particle]
         else:
           particleDatum = {}
-        particleDatum["blattWeisskopf"] = massMin
+        particleDatum["blattWeisskopf"] = blattWeisskopf
+        particleData[particle] = particleDatum
+        if len(words) > 3:
+          line = " ".join(words[3:])
+        else:
+          getMore = True
+  #######BLATTWEISSKOPFBIRTH####
+      elif words[0] == "BlattWeisskopfBirth":
+        if len(words) < 3:
+          previousLine = line
+          getMore = True
+          continue
+        particle = words[1]
+        blattWeisskopf = words[2]
+
+        if particle in particleData:
+          particleDatum = particleData[particle]
+        else:
+          particleDatum = {}
+        particleDatum["blattWeisskopfBirth"] = blattWeisskopf
         particleData[particle] = particleDatum
         if len(words) > 3:
           line = " ".join(words[3:])
@@ -505,24 +524,6 @@ def main(inFile, outFile, extraFiles):
         else:
           particleDatum = {}
         particleDatum["lineShape"] = "NONRELBW"
-        particleData[particle] = particleDatum
-        if len(words) > 2:
-          line = " ".join(words[2:])
-        else:
-          getMore = True
-  #######SP8LSFIX###############
-      elif words[0] == "SP8LSFIX" or words[0] == "SP6LSFIX":
-        if len(words) < 2:
-          previousLine = line
-          getMore = True
-          continue
-        particle = words[1]
-
-        if particle in particleData:
-          particleDatum = particleData[particle]
-        else:
-          particleDatum = {}
-        particleDatum["fixLS"] = "yes"
         particleData[particle] = particleDatum
         if len(words) > 2:
           line = " ".join(words[2:])
@@ -625,6 +626,7 @@ def main(inFile, outFile, extraFiles):
           decayFactor = particleData[particle].get("decayFactor","")
           lineShape = particleData[particle].get("lineShape","")
           blattWeisskopf = particleData[particle].get("blattWeisskopf","")
+          blattWeisskopfBirth = particleData[particle].get("blattWeisskopfBirth","")
           fixLS = particleData[particle].get("fixLS","")
 
           toWrite = "<particle name=\""+particle+"\""
@@ -644,8 +646,8 @@ def main(inFile, outFile, extraFiles):
             toWrite += " lineShape=\""+lineShape+"\""
           if blattWeisskopf:
             toWrite += " blattWeisskopfFactor=\""+blattWeisskopf+"\""
-          if fixLS:
-            toWrite += " fixLS=\""+fixLS+"\""
+          if blattWeisskopfBirth:
+            toWrite += " blattWeisskopfBirth=\""+blattWeisskopfBirth+"\""
           toWrite += "/>\n"
           fh2.write(toWrite)
         fh2.write("</data>")

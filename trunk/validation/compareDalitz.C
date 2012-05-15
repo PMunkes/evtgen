@@ -1,4 +1,4 @@
-void compareDalitz(TString name1, TString name2) {
+void compareDalitz(TString name1, TString name2, TString save="") {
   TCanvas c1;
   c1.Divide(2,2);
   TFile f1(name1);
@@ -36,6 +36,10 @@ void compareDalitz(TString name1, TString name2) {
   ((TH1F*)gPad->GetPrimitive("htemp"))->SetYTitle("");
   c1.Update();
 
-  cout <<"Hit Enter to continue"<<endl;
-  while (getchar() != '\n');
+  if(save!="") {
+    c1.SaveAs(save+".png");
+  } else {
+    cout <<"Hit Enter to continue"<<endl;
+    while (getchar() != '\n');
+  }
 }

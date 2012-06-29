@@ -188,19 +188,21 @@ int main(int argc, char** argv) {
       
     } // Number of daughters
 
-    if(nDaug == 3) {
+    if (nDaug == 3) {
+
       EvtVector4R p4_d1 = theParent->getDaug(0)->getP4Lab();
       EvtVector4R p4_d2 = theParent->getDaug(1)->getP4Lab();
       EvtVector4R p4_d3 = theParent->getDaug(2)->getP4Lab();
 
-      inv12 = (p4_d1+p4_d2)*(p4_d1+p4_d2);
-      inv13 = (p4_d1+p4_d3)*(p4_d1+p4_d3);
-      inv23 = (p4_d2+p4_d3)*(p4_d2+p4_d3);
-      inv12Sq = inv12*inv12;
-      inv13Sq = inv13*inv13;
-      inv23Sq = inv23*inv23;
+      inv12Sq = (p4_d1+p4_d2)*(p4_d1+p4_d2);
+      inv13Sq = (p4_d1+p4_d3)*(p4_d1+p4_d3);
+      inv23Sq = (p4_d2+p4_d3)*(p4_d2+p4_d3);
+      inv12 = sqrt(inv12Sq);
+      inv13 = sqrt(inv13Sq);
+      inv23 = sqrt(inv23Sq);
 
       dalitzTree->Fill();
+
     }
 
     // Cleanup    

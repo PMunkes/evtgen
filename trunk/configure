@@ -66,7 +66,7 @@ check_dirs() {
   pythiaFile=${PYTHIADIR}/include/Pythia.h
   hepmcFile=${HEPMCDIR}/include/HepMC/GenParticle.h
   photosFile=${PHOTOSDIR}/include/Photos/Photos.h
-  tauolaFile=${TAUOLADIR}/include/Tauola.h
+  tauolaFile=${TAUOLADIR}/include/Tauola/Tauola.h
 
   stop=0
   if [ -f $pythiaFile ]; then

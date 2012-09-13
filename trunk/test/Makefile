@@ -13,10 +13,28 @@ BASEDIR = ../
 include ${BASEDIR}/config.mk
 include extraConfig.mk
 
-# Define the path to all required libraries
-GENLIBS = -L${BASEDIR}/lib/archive -L${HEPMCLIBDIR} -L${PHOTOSLIBDIR} \
-        -L${TAUOLALIBDIR} -L${PYTHIALIBDIR} -lEvtGen -lgfortran \
-        ${HEPMCLIBLIST} ${PHOTOSLIBLIST} ${TAUOLALIBLIST} ${PYTHIALIBLIST}
+# Need to first add EvtGen libraries, then HepMC, then Photos, Tauola and Pythia,
+# since Photos depends on HepMC etc..                                            
+
+allLibDir=-L$(HEPMCLIBDIR)
+allLibs=$(HEPMCLIBLIST)   
+
+ifeq ("$(EVTGEN_PHOTOS)", "1")
+        allLibDir+=-L$(PHOTOSLIBDIR)
+        allLibs+=$(PHOTOSLIBLIST)   
+endif
+
+ifeq ("$(EVTGEN_PYTHIA)", "1")
+        allLibDir+=-L$(PYTHIALIBDIR)
+        allLibs+=$(PYTHIALIBLIST)
+endif
+
+ifeq ("$(EVTGEN_TAUOLA)", "1")
+        allLibDir+=-L$(TAUOLALIBDIR)
+        allLibs+=$(TAUOLALIBLIST)
+endif
+
+GENLIBS = -L${BASEDIR}/lib/archive ${allLibDir} -lEvtGen -lgfortran ${allLibs}
 
 INCLUDEDIR = ${BASEDIR}
 

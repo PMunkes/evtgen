@@ -3,7 +3,7 @@ RELEASE NOTES
 
 The major points comparing this version with the 2009 release are the following:
 
-1. This version uses Pythia 8 (version 8.160 and above is required) and the 
+1. This version can use Pythia 8 (version 8.160 and above is required) and the 
    C++ interfaced packages Photos (version 3.5 and above) and Tauola 
    (version 1.0.7 and above).
    A new abstract interface has been created in EvtGenModels/EvtAbsExternalGen.hh
@@ -24,11 +24,16 @@ The major points comparing this version with the 2009 release are the following:
    possible to have one (unique) instance of each of these external generators. 
    This can only be fixed if these packages are converted to pure C++ code.
 
+   In the installation instructions below, it is possible to ignore using these
+   new external generators. Note, however, that the generic "DECAY.DEC" file contains
+   Pythia decays, and if Pythia is not included in the build, these decays are not
+   generated.
 
 2. This version of EvtGen is a merger of the latest LHCb and BaBar EvtGenBase
-   and EvtGenModels code. Most changes since the last release are related to
-   bug/compiler fixes.
-
+   and EvtGenModels code. New decay models have been added. There is also a new
+   Dalitz decay class, EvtGenericDalitz, that should be used instead of EvtDDalitz.
+   The generic Dalitz model uses xml files to configure the daughter particles as 
+   well as the resonance amplitude parameters.
 
 3. Bug fixes for Bs mixing decay/CP violation amplitudes.
    Added the capability to use either coherent or incoherent mixing in EvtCPUtil. 
@@ -36,13 +41,10 @@ The major points comparing this version with the 2009 release are the following:
    choosing 0 (coherent) or 1 (incoherent) for the last integer argument 
    in the EvtGen() constructor.
 
-
 4. Added two sub-amplitude types LASS_ELASTIC and LASS_RESONANT to the EvtLASSAmp
    model. Also added EvtBaryonPCR and EvtBaryonPCRFF models for baryonic semileptonic 
-   decays using more realistic dynamics.
-
-5. Changed EvtWilsonCoeficients to EvtWilsonCoefficients, used in 
-   EvtGenModels/EvtLb2Lll.hh.
+   decays using more realistic dynamics. Changed EvtWilsonCoeficients to 
+   EvtWilsonCoefficients, used in EvtGenModels/EvtLb2Lll.hh.
 
 
 BUILDING THE CODE

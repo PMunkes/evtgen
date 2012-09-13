@@ -20,22 +20,13 @@
 //------------------------------------------------------------------------
 // 
 #include "EvtGenBase/EvtPatches.hh"
-#include <stdio.h>
-#include <fstream>
-#include <math.h>
-#include "EvtGenBase/EvtComplex.hh"
-#include <stdlib.h>
+
 #include "EvtGen/EvtGen.hh"
 #include "EvtGenBase/EvtVector4R.hh"
-#include "EvtGenBase/EvtVectorParticle.hh"
 #include "EvtGenBase/EvtParticle.hh"
-#include "EvtGenBase/EvtScalarParticle.hh"
 #include "EvtGenBase/EvtDecayTable.hh"
 #include "EvtGenBase/EvtPDL.hh"
-#include "EvtGenBase/EvtStdHep.hh"
-#include "EvtGenBase/EvtSecondary.hh"
 #include "EvtGenBase/EvtReport.hh"
-#include "EvtGenBase/EvtId.hh"
 #include "EvtGenBase/EvtRandom.hh"
 #include "EvtGenBase/EvtRandomEngine.hh"
 #include "EvtGenBase/EvtSimpleRandomEngine.hh"
@@ -49,6 +40,9 @@
 #include "EvtGenBase/EvtHepMCEvent.hh"
 
 #include "EvtGenModels/EvtExternalGenFactory.hh"
+
+#include <cstdlib>
+#include <fstream>
 #include <string>
 
 using std::endl;
@@ -115,11 +109,10 @@ EvtGen::EvtGen(const char* const decayName,
   EvtExternalGenFactory* externalGenerators = EvtExternalGenFactory::getInstance();
 
   // Set the radiative correction engine
-  report(INFO,"EvtGen") << "Defining the radiative correction engine"<<endl;
 
   if (isrEngine != 0) {
 
-    EvtRadCorr::setRadCorrEngine(isrEngine);    
+    EvtRadCorr::setRadCorrEngine(isrEngine);
 
   } else {
 
@@ -134,18 +127,16 @@ EvtGen::EvtGen(const char* const decayName,
 
   // Set the Pythia external generator
   // We are using Pythia 6 physics codes in the decay.dec file(s).
-  std::string xmlDir("./xmldoc");
   bool convertPhysCode(true);
-  if (convertPhysCode) {
-    report(INFO,"EvtGen") << "Defining the PYTHIA 8 generator: data tables in "
-			  << xmlDir << ".\n Will convert Pythia 6 codes in decayfiles "
-			  << "to Pythia 8 codes." << endl;
-  } else {
-    report(INFO,"EvtGen") << "Defining the PYTHIA 8 generator: data tables in "
-			  << xmlDir << ".\n Decay files must use Pythia 8 physics codes." << endl;
+  std::string xmlDir("./xmldoc");
+  // Check to see if we have the standard Pythia8 environment variable for
+  // specifying the location of the xml data files.
+  char* pythiaXmlDir = getenv("PYTHIA8DATA");
+  if (pythiaXmlDir != 0) {
+    xmlDir = pythiaXmlDir;
   }
 
-  externalGenerators->definePythiaGenerator(xmlDir, convertPhysCode);
+  externalGenerators->definePythiaGenerator(pythiaXmlDir, convertPhysCode);
 
   // Set the Tauola external generator
   externalGenerators->defineTauolaGenerator();

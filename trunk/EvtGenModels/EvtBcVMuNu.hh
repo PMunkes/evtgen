@@ -24,14 +24,13 @@
 #include <fstream>
 #include <stdio.h>
 
-
 #include "EvtGenBase/EvtDecayAmp.hh"
 #include "EvtGenBase/EvtSemiLeptonicFF.hh"
 #include "EvtGenBase/EvtSemiLeptonicAmp.hh"
 
 class EvtParticle;
 
-class EvtBcVMuNu:public  EvtDecayAmp  {
+class EvtBcVMuNu: public EvtDecayAmp {
 
 public:
 

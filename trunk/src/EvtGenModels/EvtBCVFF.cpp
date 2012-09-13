@@ -106,7 +106,6 @@ void EvtBCVFF::getvectorff(EvtId,EvtId,
   };
 }
 
-
 void EvtBCVFF::getscalarff(EvtId, EvtId, double, double, double*, 
 			       double*){
   

@@ -1,3 +1,4 @@
+#ifdef EVTGEN_PYTHIA
 //--------------------------------------------------------------------------
 //
 // Environment:
@@ -763,3 +764,5 @@ void EvtPythiaEngine::updatePhysicsParameters() {
     }
   }
 }
+
+#endif

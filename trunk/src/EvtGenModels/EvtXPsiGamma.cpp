@@ -29,16 +29,12 @@
 #include "EvtGenBase/EvtVector4C.hh"
 #include "EvtGenBase/EvtTensor4C.hh"
 
-
 #include "EvtGenModels/EvtXPsiGamma.hh"
-
 
 #include <string>
 #include <iostream>
 
 using namespace std;
-
-
 
 EvtXPsiGamma::~EvtXPsiGamma() {
 /*  cout<<"(* AVL EvtXPsiGamma::destructor getProbMax(-1) = "<<getProbMax(-1)<<" *)"<<endl;

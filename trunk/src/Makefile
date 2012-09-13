@@ -15,12 +15,31 @@ lib_shared: $(LIB_SHARED)
 
 lib_archive: $(LIB_ARCHIVE)
 
+evtgenExclude=EVTGEN_PHOTOS
+
+allShLibs=-L$(HEPMCSHLIBDIR) $(HEPMCLIBLIST)
+
+allIncDir=-I$(INCLUDEDIR)
+allIncDir+=-I$(HEPMCINCDIR)
+
+ifeq ($(EVTGEN_PHOTOS),1)
+	allShLibs+=-L$(PHOTOSSHLIBDIR) $(PHOTOSLIBLIST)
+	allIncDir+=-I$(PHOTOSINCDIR)
+endif
+ifeq ($(EVTGEN_TAUOLA),1)
+	allShLibs+=-L$(TAUOLASHLIBDIR) $(TAUOLALIBLIST)
+	allIncDir+=-I$(TAUOLAINCDIR)
+endif
+ifeq ($(EVTGEN_PYTHIA),1)
+	allShLibs+=-L$(PYTHIASHLIBDIR) $(PYTHIALIBLIST)
+	allIncDir+=-I$(PYTHIAINCDIR)
+endif
+
 $(LIB_SHARED) : $(objects)
 	mkdir -p $(LIBDIR_SHARED)
 	@echo creating the shared library $@
 	$(CXX) $(LDFLAGSSHARED) $(objects) -o $@ -shared -Wl,-soname,$(notdir $@) $(FLIBS) \
-	-L$(HEPMCSHLIBDIR) $(HEPMCLIBLIST) -L$(PHOTOSSHLIBDIR) $(PHOTOSLIBLIST) \
-	-L$(TAUOLASHLIBDIR) $(TAUOLALIBLIST) -L$(PYTHIASHLIBDIR) $(PYTHIALIBLIST)
+	$(allShLibs)
 
 $(LIB_ARCHIVE) : $(objects)
 	ar cru $(LIB_ARCHIVE) $(objects)
@@ -28,7 +47,8 @@ $(LIB_ARCHIVE) : $(objects)
 #---- The following is for dependency checking:
 
 $(TMPDIR)/%.mk: %.cpp
-	$(CXX) -MM $(CXXFLAGS) $< -I$(INCLUDEDIR) -I$(PYTHIAINCDIR) -I$(PHOTOSINCDIR) -I$(TAUOLAINCDIR) -I$(HEPMCINCDIR) | sed 's,[^ ]*\.o:,$(TMPDIR)/&,' > $@
+	echo $(allIncDir)
+	$(CXX) -MM $(CXXFLAGS) $(EXTRAFLAGS) $< $(allIncDir) | sed 's,[^ ]*\.o:,$(TMPDIR)/&,' > $@
 
 $(TMPDIR)/%.mk: %.F
 	$(FC) $(FFLAGS) -c $< -I$(INCLUDEDIR) | sed 's,[^ ]*\.o:,$(TMPDIR)/&,' > $@
@@ -42,8 +62,8 @@ endif
 
 #----
 
-$(TMPDIR)/%.o : %.cpp  $(TMPDIR)/%.mk
-	$(CXX) $(CXXFLAGS) $(CXXFLAGSSHARED) -c -o $@ $< -I$(INCLUDEDIR) -I$(PYTHIAINCDIR) -I$(PHOTOSINCDIR) -I$(TAUOLAINCDIR) -I$(HEPMCINCDIR)
+$(TMPDIR)/%.o : %.cpp $(TMPDIR)/%.mk
+	$(CXX) $(CXXFLAGS) $(CXXFLAGSSHARED) $(EXTRAFLAGS) -c -o $@ $< $(allIncDir)
 
 $(TMPDIR)/%.o: %.F $(TMPDIR)/%.mk
 	$(FC) $(FFLAGS) $(FFLAGSSHARED) -c -o $@ $< -I$(INCLUDEDIR)

@@ -1,3 +1,4 @@
+#ifdef EVTGEN_TAUOLA
 //--------------------------------------------------------------------------
 //
 // Environment:
@@ -59,5 +60,7 @@ private:
   void decayTauEvent(EvtParticle* tauParticle);
 
 };
+
+#endif
 
 #endif

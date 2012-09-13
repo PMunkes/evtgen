@@ -1,3 +1,4 @@
+#ifdef EVTGEN_TAUOLA
 //--------------------------------------------------------------------------
 //
 // Environment:
@@ -443,3 +444,5 @@ HepMC::GenParticle* EvtTauolaEngine::createGenParticle(EvtParticle* theParticle)
   return genParticle;
 
 }
+
+#endif

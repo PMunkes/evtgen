@@ -31,10 +31,7 @@
 #include "EvtGenModels/EvtBcVMuNu.hh"
 #include "EvtGenModels/EvtBCVFF.hh"
 
-
 using namespace std;
-
-
 
 EvtBcVMuNu::~EvtBcVMuNu() {
 //   cout<<"EvtBcVMuNu::destructor getProbMax(-1) = "<<getProbMax(-1)<<endl;

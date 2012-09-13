@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
   for (i = 0; i < nEvents; i++) {
 
     if (i%1000 == 0) {cout<<"Event number = "<<i+1<<" out of "<<nEvents<<std::endl;}
-
+    
     // Set up the parent particle
     EvtVector4R pInit(EvtPDL::getMass(theId), 0.0, 0.0, 0.0);
 
@@ -138,10 +138,12 @@ int main(int argc, char** argv) {
     // Find out if the first daughter is a string.
     // If so, set this as the new parent particle.
 
-    EvtId daugEvtId = baseParticle->getDaug(0)->getId();
+    EvtId daugEvtId(-1, -1);
+    EvtParticle* baseDaughter = baseParticle->getDaug(0);
+    if (baseDaughter != 0) {daugEvtId = baseDaughter->getId();}
 
     if (daugEvtId == stringId) {
-      theParent = baseParticle->getDaug(0);
+      theParent = baseDaughter;
     } else {
       theParent = baseParticle;
     }

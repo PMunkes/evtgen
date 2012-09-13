@@ -1,3 +1,4 @@
+#ifdef EVTGEN_PHOTOS
 //--------------------------------------------------------------------------
 //
 // Environment:
@@ -50,5 +51,7 @@ private:
   HepMC::GenParticle* createGenParticle(EvtParticle* theParticle, bool incoming);
 
 };
+
+#endif
 
 #endif

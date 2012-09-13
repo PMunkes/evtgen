@@ -28,6 +28,7 @@ class EvtId;
 class EvtBCVFF : public EvtSemiLeptonicFF {
 
 public:
+
   EvtBCVFF(int idV, int fit);
   void getvectorff( EvtId parent, EvtId daught,
                        double t, double mass, double *a1f,
@@ -49,6 +50,7 @@ public:
 		   double*, double*, double*, double*, double*, double*);
 
 private:
+
   int idVector, whichfit;
 
 };

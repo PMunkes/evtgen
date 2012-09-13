@@ -1,3 +1,4 @@
+#ifdef EVTGEN_PHOTOS
 //--------------------------------------------------------------------------
 //
 // Environment:
@@ -228,3 +229,5 @@ HepMC::GenParticle* EvtPhotosEngine::createGenParticle(EvtParticle* theParticle,
   return genParticle;
 
 }
+
+#endif

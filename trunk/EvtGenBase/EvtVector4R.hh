@@ -31,9 +31,9 @@ class EvtVector4R {
   friend EvtVector4R rotateEuler(const EvtVector4R& rs,
 				 double alpha,double beta,double gamma);
   friend EvtVector4R boostTo(const EvtVector4R& rs,
-			     const EvtVector4R& p4);
+			     const EvtVector4R& p4, bool inverse = false);
   friend EvtVector4R boostTo(const EvtVector4R& rs,
-			     const EvtVector3R& boost);
+			     const EvtVector3R& boost, bool inverse = false);
   
 
   inline friend EvtVector4R operator*(double d,const EvtVector4R& v2); 
@@ -59,8 +59,8 @@ public:
   double mass2() const;     
   double mass() const;
   void applyRotateEuler(double alpha,double beta,double gamma);
-  void applyBoostTo(const EvtVector4R& p4);
-  void applyBoostTo(const EvtVector3R& boost);
+  void applyBoostTo(const EvtVector4R& p4, bool inverse = false);
+  void applyBoostTo(const EvtVector3R& boost, bool inverse = false);
   EvtVector4R cross(const EvtVector4R& v2);
   double dot(const EvtVector4R& v2) const;
   double d3mag() const;

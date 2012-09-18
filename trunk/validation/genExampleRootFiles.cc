@@ -11,6 +11,10 @@
 #include "EvtGenBase/EvtPDL.hh"
 #include "EvtGenBase/EvtRandom.hh"
 #include "EvtGenBase/EvtStdlibRandomEngine.hh"
+#include "EvtGenBase/EvtDecayBase.hh"
+
+#include "EvtGenExternal/EvtExternalGenList.hh"
+
 //#include "EvtGenBase/EvtHepMCEvent.hh"
 #include "HepMC/GenEvent.h"
 
@@ -19,6 +23,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -96,7 +101,14 @@ int main(int argc, char** argv) {
   // For our validation purposes, we just want to read in one decay file and create
   // plots from that.
 
-  EvtGen myGenerator(decayFileName.c_str(), "../evt.pdl", myRandomEngine, 0, 0, 1, useXml);
+  EvtExternalGenList genList;
+  EvtAbsRadCorr* radCorrEngine = genList.getPhotosModel();
+  std::list<EvtDecayBase*> extraModels = genList.getListOfModels();
+
+  int mixingType(1);
+
+  EvtGen myGenerator(decayFileName.c_str(), "../evt.pdl", myRandomEngine, 
+  		     radCorrEngine, &extraModels, mixingType, useXml);
 
   // If I wanted a user decay file, I would read it in now, e.g:
   // myGenerator.readUDecay(otherFileName);

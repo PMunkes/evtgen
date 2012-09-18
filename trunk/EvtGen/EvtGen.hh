@@ -66,9 +66,6 @@ private:
 
   EvtPDL _pdl;
   int _mixingType;
-  bool _initExternalGenerators;
-
-  void initExternalGenerators();
 
 };
 

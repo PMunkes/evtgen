@@ -20,19 +20,19 @@
 //
 
 #include "EvtGenBase/EvtPatches.hh"
-#include "EvtGenModels/EvtExternalGenFactory.hh"
 #include "EvtGenBase/EvtReport.hh"
+#include "EvtGenExternal/EvtExternalGenFactory.hh"
 
 #ifdef EVTGEN_PYTHIA
-#include "EvtGenModels/EvtPythiaEngine.hh"
+#include "EvtGenExternal/EvtPythiaEngine.hh"
 #endif
 
 #ifdef EVTGEN_PHOTOS
-#include "EvtGenModels/EvtPhotosEngine.hh"
+#include "EvtGenExternal/EvtPhotosEngine.hh"
 #endif
 
 #ifdef EVTGEN_TAUOLA
-#include "EvtGenModels/EvtTauolaEngine.hh"
+#include "EvtGenExternal/EvtTauolaEngine.hh"
 #endif
 
 #include <iostream>

@@ -19,7 +19,8 @@
 //
 //------------------------------------------------------------------------
 
-#include "EvtGenModels/EvtTauolaEngine.hh"
+#include "EvtGenExternal/EvtTauolaEngine.hh"
+
 #include "EvtGenBase/EvtPDL.hh"
 #include "EvtGenBase/EvtVector4R.hh"
 #include "EvtGenBase/EvtDecayTable.hh"
@@ -44,10 +45,23 @@ using std::endl;
 
 EvtTauolaEngine::EvtTauolaEngine() {
 
-  EvtId tauId = EvtPDL::getId("tau-");
-  _tauPDG = abs(EvtPDL::getStdHep(tauId));
+  // PDG standard code integer ID for tau particle
+  _tauPDG = 15; 
+  // Number of possible decay modes in Tauola
   _nTauolaModes = 22;
 
+  report(INFO,"EvtGen")<<"Setting up TAUOLA."<<endl;
+
+  // These three lines are not really necessary since they are the default.
+  // But they are here so that we know what the initial conditions are.
+  Tauolapp::Tauola::setDecayingParticle(_tauPDG); // tau PDG code
+  Tauolapp::Tauola::setSameParticleDecayMode(Tauolapp::Tauola::All); // all modes allowed
+  Tauolapp::Tauola::setOppositeParticleDecayMode(Tauolapp::Tauola::All); // all modes allowed
+  
+  // Initial the Tauola external generator
+  Tauolapp::Tauola::initialize();
+
+  // Set-up possible decay modes when we have read the (user) decay file
   _initialised = false;
 
 }
@@ -58,22 +72,13 @@ EvtTauolaEngine::~EvtTauolaEngine() {
 
 void EvtTauolaEngine::initialise() {
 
-  // Initialise Tauola. This should be done just before the first doDecay() call,
+  // Set up all possible tau decay modes.
+  // This should be done just before the first doDecay() call,
   // since we want to make sure that any decay.dec files are processed
   // first to get lists of particle modes and their alias definitions
   // (for creating EvtParticles with the right history information).
 
   if (_initialised == false) {
-
-    report(INFO,"EvtGen")<<"Initialising TAUOLA."<<endl;
-
-    // These three lines are not really necessary since they are the default.
-    // But they are here so that we know what the initial conditions are.
-    Tauolapp::Tauola::setDecayingParticle(_tauPDG); // tau PDG code
-    Tauolapp::Tauola::setSameParticleDecayMode(Tauolapp::Tauola::All); // all modes allowed
-    Tauolapp::Tauola::setOppositeParticleDecayMode(Tauolapp::Tauola::All); // all modes allowed
-
-    Tauolapp::Tauola::initialize();
 
     this->setUpPossibleTauModes();
 

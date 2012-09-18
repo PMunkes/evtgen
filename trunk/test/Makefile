@@ -1,9 +1,3 @@
-CXX = g++
-CXXFLAGS = -g -Wall -fPIC
-LD = g++
-LDFLAGS = -g
-SOFLAGS = -shared
-
 # Base directory where the EvtGen libraries are
 BASEDIR = ../
 
@@ -34,7 +28,12 @@ ifeq ("$(EVTGEN_TAUOLA)", "1")
         allLibs+=$(TAUOLALIBLIST)
 endif
 
-GENLIBS = -L${BASEDIR}/lib/archive ${allLibDir} -lEvtGen -lgfortran ${allLibs}
+evtgenLibs=-lEvtGen
+ifeq ($(EVTGEN_EXTERNAL),1)
+	evtgenLibs+=-lEvtGenExternal
+endif
+
+GENLIBS = -L${BASEDIR}/lib ${allLibDir} -lgfortran ${allLibs} ${evtgenLibs}
 
 INCLUDEDIR = ${BASEDIR}
 

@@ -16,6 +16,7 @@ COMPMODE=OPT        # Default: compiler optimization mode
 EVTGEN_PHOTOS=
 EVTGEN_PYTHIA=
 EVTGEN_TAUOLA=
+EVTGEN_EXTERNAL=
 
 #<
 
@@ -84,6 +85,7 @@ check_dirs() {
   if [ -f $pythiaFile ]; then
       echo "PYTHIADIR set to $PYTHIADIR";
       EVTGEN_PYTHIA=1
+      EVTGEN_EXTERNAL=1
   else
       echo "To use PYTHIA: --pythiadir=[full directory path] or set the PYTHIADIR"\
            "environment variable"
@@ -93,6 +95,7 @@ check_dirs() {
   if [ -f $photosFile ]; then
       echo "PHOTOSDIR set to $PHOTOSDIR";
       EVTGEN_PHOTOS=1
+      EVTGEN_EXTERNAL=1
   else
       echo "To use PHOTOS: --photosdir=[full directory path] or set the PHOTOSDIR"\
            " environment variable"
@@ -101,6 +104,7 @@ check_dirs() {
   if [ -f $tauolaFile ]; then
       echo "TAUOLADIR set to $TAUOLADIR";
       EVTGEN_TAUOLA=1
+      EVTGEN_EXTERNAL=1
   else
       echo "To use TAUOLA: --tauoladir=[full directory path] or set the TAUOLADIR"\
            " environment variable"
@@ -241,15 +245,18 @@ INCLUDEDIR = \$(EVTGENDIR)
 HEPMCDIR = ${HEPMCDIR}
 HEPMCINCDIR = ${HEPMCDIR}/include
 HEPMCLIBDIR = ${HEPMCDIR}/lib
-HEPMCSHLIBDIR = ${HEPMCDIR}/lib
 HEPMCLIBLIST = ${HEPMCLIBLIST}
 
 SRCDIR = \$(EVTGENDIR)/src
 LIBDIR_SHARED = \$(EVTGENDIR)/lib
 LIBDIR_ARCHIVE = \$(EVTGENDIR)/lib/archive
+LIBDIRLIST = -lEvtGen
 
 LIB_SHARED = \$(LIBDIR_SHARED)/lib\$(GENERATOR).so
 LIB_ARCHIVE = \$(LIBDIR_ARCHIVE)/lib\$(GENERATOR).a
+
+LIBEXT_SHARED = \$(LIBDIR_SHARED)/lib\$(GENERATOR)External.so
+LIBEXT_ARCHIVE = \$(LIBDIR_ARCHIVE)/lib\$(GENERATOR)External.a
 
 # Flags:
 #
@@ -263,6 +270,8 @@ FLIBS = ${FLIBS}
 
 # External generators:
 
+EVTGEN_EXTERNAL = ${EVTGEN_EXTERNAL}
+
 EOF
 
 if [ "${EVTGEN_PYTHIA}" == "1" ] ; then
@@ -270,8 +279,7 @@ if [ "${EVTGEN_PYTHIA}" == "1" ] ; then
   echo "EXTRAFLAGS += -D EVTGEN_PYTHIA" >> config.mk
   echo "PYTHIADIR = ${PYTHIADIR}" >> config.mk
   echo "PYTHIAINCDIR = ${PYTHIADIR}/include" >> config.mk
-  echo "PYTHIALIBDIR = ${PYTHIADIR}/lib/archive" >> config.mk
-  echo "PYTHIASHLIBDIR = ${PYTHIADIR}/lib" >> config.mk
+  echo "PYTHIALIBDIR = ${PYTHIADIR}/lib" >> config.mk
   echo "PYTHIALIBLIST = ${PYTHIALIBLIST}" >> config.mk
 fi
 
@@ -281,7 +289,6 @@ if [ "${EVTGEN_PHOTOS}" == "1" ] ; then
   echo "PHOTOSDIR = ${PHOTOSDIR}" >> config.mk
   echo "PHOTOSINCDIR = ${PHOTOSDIR}/include" >> config.mk
   echo "PHOTOSLIBDIR = ${PHOTOSDIR}/lib" >> config.mk
-  echo "PHOTOSSHLIBDIR = ${PHOTOSDIR}/lib" >> config.mk
   echo "PHOTOSLIBLIST = ${PHOTOSLIBLIST}" >> config.mk
 fi
 
@@ -291,14 +298,13 @@ if [ "${EVTGEN_TAUOLA}" == "1" ] ; then
   echo "TAUOLADIR = ${TAUOLADIR}" >> config.mk
   echo "TAUOLAINCDIR = ${TAUOLADIR}/include" >> config.mk
   echo "TAUOLALIBDIR = ${TAUOLADIR}/lib" >> config.mk
-  echo "TAUOLASHLIBDIR = ${TAUOLADIR}/lib" >> config.mk
   echo "TAUOLALIBLIST = ${TAUOLALIBLIST}" >> config.mk
 fi
 
 echo " done"
 
 set -v
-mkdir -p tmp/ tmp/EvtGenBase tmp/EvtGenModels lib/ lib/archive/
+mkdir -p tmp/ tmp/EvtGenBase tmp/EvtGenModels tmp_ext/EvtGenExternal lib/ lib/archive
 set +v 
 
 echo -e  "\n\nType 'make' to build everything or 'make help' to list build targets.\n\n"

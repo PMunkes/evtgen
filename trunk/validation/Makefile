@@ -27,7 +27,12 @@ ifeq ("$(EVTGEN_TAUOLA)", "1")
 	allLibs+=$(TAUOLALIBLIST)
 endif
 
-GENLIBS = -L${BASEDIR}/lib/archive ${allLibDir} -lEvtGen -lgfortran ${allLibs}
+evtgenLibs=-lEvtGen
+ifeq ($(EVTGEN_EXTERNAL),1)
+	evtgenLibs+=-lEvtGenExternal
+endif
+
+GENLIBS = -L${BASEDIR}/lib ${allLibDir} -lgfortran ${allLibs} ${evtgenLibs}
 
 INCLUDEDIR = ${BASEDIR}
 

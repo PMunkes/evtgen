@@ -43,8 +43,8 @@ public:
   void defineTauolaGenerator();
 
   //methods to add configuration commands to the pythia generators
-  void addPythiaCommand( std::string generator, std::string module, std::string param, std::string value);
-  void addPythia6Command(std::string generator, std::string module, std::string param, std::string value);
+  //void addPythiaCommand( std::string generator, std::string module, std::string param, std::string value);
+  //void addPythia6Command(std::string generator, std::string module, std::string param, std::string value);
 
 protected:
 

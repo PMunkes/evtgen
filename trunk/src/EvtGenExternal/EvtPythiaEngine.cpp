@@ -18,7 +18,8 @@
 //
 //------------------------------------------------------------------------
 
-#include "EvtGenModels/EvtPythiaEngine.hh"
+#include "EvtGenExternal/EvtPythiaEngine.hh"
+
 #include "EvtGenBase/EvtPDL.hh"
 #include "EvtGenBase/EvtDecayTable.hh"
 #include "EvtGenBase/EvtSpinType.hh"
@@ -26,7 +27,7 @@
 #include "EvtGenBase/EvtReport.hh"
 
 #include "EvtGenBase/EvtExtGeneratorCommandsTable.hh"
-#include "EvtGenModels/EvtPythia6CommandConverter.hh"
+#include "EvtGenExternal/EvtPythia6CommandConverter.hh"
 
 #include "Event.h"
 

@@ -18,7 +18,8 @@
 //
 //------------------------------------------------------------------------
 
-#include "EvtGenModels/EvtPythia6CommandConverter.hh"
+#include "EvtGenExternal/EvtPythia6CommandConverter.hh"
+
 #include "EvtGenBase/EvtReport.hh"
 
 #include <iostream>

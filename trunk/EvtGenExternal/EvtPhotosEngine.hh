@@ -29,6 +29,8 @@
 #include "HepMC/GenEvent.h"
 #include "HepMC/GenParticle.h"
 
+#include <string>
+
 class EvtPhotosEngine : public EvtAbsExternalGen {
 
 public:
@@ -44,9 +46,10 @@ protected:
 
 private:
 
+  std::string _photonType;
   EvtId _gammaId;
   double _mPhoton;
-  bool _initialised;
+  bool _initialised;  
 
   HepMC::GenParticle* createGenParticle(EvtParticle* theParticle, bool incoming);
 

@@ -8,6 +8,7 @@ GENERATOR=EvtGen
 # === Default values of input parameters ====
 PATH_TO_EXTERNAL=
 CLHEP_VERSION=
+PREFIX=.
 PYTHIADIR=${PYTHIADIR}
 PHOTOSDIR=${PHOTOSDIR}
 TAUOLADIR=${TAUOLADIR}
@@ -30,6 +31,7 @@ check_arguments () {
       echo -e \
       "\nUsage: ./configure [options] , where options are:\n\n"\
       "--help                                 : prints this help\n"\
+      "--prefix=[installation path]           : specifies installation path\n"\
       "--hepmcdir=[full directory path]       : specifies location of HepMC base directory (required)\n"\
       "--pythiadir=[full directory path]      : specifies location of Pythia 8 base directory (optional)\n"\
       "--photosdir=[full directory path]      : specifies location of PHOTOS base directory (optional)\n"\
@@ -42,7 +44,9 @@ check_arguments () {
       else
         option=${arg/=*/}
         value=${arg/*=/}
-	if [ "x${option}" = "x--pythiadir" ] ; then
+	if [ "x${option}" = "x--prefix" ] ; then
+	    PREFIX=${value}
+	elif [ "x${option}" = "x--pythiadir" ] ; then
 	    PYTHIADIR=${value}
 	elif [ "x${option}" = "x--hepmcdir" ] ; then
 	    HEPMCDIR=${value}
@@ -66,6 +70,8 @@ check_arguments () {
 # specifying the base directory correct location(s).
 
 check_dirs() {
+
+  echo "PREFIX = $PREFIX"
 
   hepmcFile=${HEPMCDIR}/include/HepMC/GenParticle.h
   pythiaFile=${PYTHIADIR}/include/Pythia.h
@@ -111,7 +117,7 @@ check_dirs() {
   fi
 
   if [ $stop = 1 ] ; then
-      exit
+      exit 1
   fi
 
 }
@@ -227,6 +233,8 @@ cat > config.mk << EOF
 
 GENERATOR = ${GENERATOR}
 VERSION = ${VERSION}
+
+PREFIX = ${PREFIX}
 
 SHELL = /bin/bash 
 ARCH = ${ARCH} 

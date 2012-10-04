@@ -13,7 +13,9 @@
 #include "EvtGenBase/EvtStdlibRandomEngine.hh"
 #include "EvtGenBase/EvtDecayBase.hh"
 
+#ifdef EVTGEN_EXTERNAL
 #include "EvtGenExternal/EvtExternalGenList.hh"
+#endif
 
 //#include "EvtGenBase/EvtHepMCEvent.hh"
 #include "HepMC/GenEvent.h"
@@ -101,9 +103,14 @@ int main(int argc, char** argv) {
   // For our validation purposes, we just want to read in one decay file and create
   // plots from that.
 
+  EvtAbsRadCorr* radCorrEngine = 0;
+  std::list<EvtDecayBase*> extraModels;
+
+#ifdef EVTGEN_EXTERNAL
   EvtExternalGenList genList;
-  EvtAbsRadCorr* radCorrEngine = genList.getPhotosModel();
-  std::list<EvtDecayBase*> extraModels = genList.getListOfModels();
+  radCorrEngine = genList.getPhotosModel();
+  extraModels = genList.getListOfModels();
+#endif
 
   int mixingType(1);
 

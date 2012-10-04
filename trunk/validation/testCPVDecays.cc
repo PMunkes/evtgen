@@ -25,7 +25,9 @@
 #include "HepMC/GenParticle.h"
 #include "HepMC/SimpleVector.h"
 
+#ifdef EVTGEN_EXTERNAL
 #include "EvtGenExternal/EvtExternalGenList.hh"
+#endif
 
 #include "TFile.h"
 #include "TTree.h"
@@ -83,15 +85,20 @@ int main(int argc, char** argv) {
 
   EvtRandomEngine* myRandomEngine = new EvtStdlibRandomEngine();
 
+  EvtAbsRadCorr* radCorrEngine = 0;
+  std::list<EvtDecayBase*> extraModels;
+
+#ifdef EVTGEN_EXTERNAL
   EvtExternalGenList genList;
-  EvtAbsRadCorr* radCorrEngine = genList.getPhotosModel();
-  std::list<EvtDecayBase*> extraModels = genList.getListOfModels();
+  radCorrEngine = genList.getPhotosModel();
+  extraModels = genList.getListOfModels();
+#endif
 
   int mixingType = EvtCPUtil::Incoherent;
 
   // Initialize the generator - read in the decay table and particle properties.
   EvtGen myGenerator("../DECAY_2010.DEC", "../evt.pdl", myRandomEngine, 
-  		     radCorrEngine, &extraModels, mixingType);
+		     radCorrEngine, &extraModels, mixingType);
 
   myGenerator.readUDecay(decayFileName.c_str());
 

@@ -28,7 +28,9 @@
 
 using std::ostream;
 
-
+EvtVector4R::EvtVector4R() {
+  v[0] = 0.0; v[1] = 0.0; v[2] = 0.0; v[3] = 0.0;
+}
 
 EvtVector4R::EvtVector4R(double e,double p1,double p2, double p3){
   

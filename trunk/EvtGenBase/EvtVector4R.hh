@@ -44,7 +44,7 @@ class EvtVector4R {
   inline friend EvtVector4R operator-(const EvtVector4R& v1,const EvtVector4R& v2); 
   
 public:
-  EvtVector4R(){}
+  EvtVector4R();
   EvtVector4R(double e,double px,double py ,double pz);
   inline void set(int i,double d);
   inline void set(double e,double px,double py ,double pz);

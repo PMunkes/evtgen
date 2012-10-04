@@ -31,6 +31,7 @@ endif
 evtgenLibs=-lEvtGen
 ifeq ($(EVTGEN_EXTERNAL),1)
 	evtgenLibs+=-lEvtGenExternal
+	EXTRAFLAGS+= -D EVTGEN_EXTERNAL
 endif
 
 GENLIBS = -L${BASEDIR}/lib ${allLibDir} -lgfortran ${allLibs} ${evtgenLibs}
@@ -49,16 +50,16 @@ GLIBS          = $(filter-out -lNew, $(NGLIBS))
 default: evtgenlhc_test1 evt_dalitz example1
 
 evtgenlhc_test1: evtgenlhc_test1.o
-	$(CXX) $(CXXFLAGS) -o evtgenlhc_test1 evtgenlhc_test1.o $(GENLIBS) $(LIBS)
+	$(CXX) $(CXXFLAGS) $(EXTRAFLAGS) -o evtgenlhc_test1 evtgenlhc_test1.o $(GENLIBS) $(LIBS)
 
 evt_dalitz: evt_dalitz.o
-	$(CXX) $(CXXFLAGS) -o evt_dalitz evt_dalitz.o $(GENLIBS) $(LIBS)
+	$(CXX) $(CXXFLAGS) $(EXTRAFLAGS) -o evt_dalitz evt_dalitz.o $(GENLIBS) $(LIBS)
 
 example1: example1.o
-	$(CXX) $(CXXFLAGS) -o example1 example1.o $(GENLIBS) $(LIBS)
+	$(CXX) $(CXXFLAGS) $(EXTRAFLAGS) -o example1 example1.o $(GENLIBS) $(LIBS)
 
 .cc.o:
-	$(CXX) $(CXXFLAGS) -c -o $@ $< -I$(INCLUDEDIR) -I$(HEPMCINCDIR)
+	$(CXX) $(CXXFLAGS) $(EXTRAFLAGS) -c -o $@ $< -I$(INCLUDEDIR) -I$(HEPMCINCDIR)
 
 clean:
 	rm -f evtgenlhc_test1 evt_dalitz example1 *.o

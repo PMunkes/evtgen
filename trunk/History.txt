@@ -8,6 +8,10 @@ R01-01-00-------------------------------------------------------------------
 4th October 2012 John Back
      New tag, version "1.1.0", incorporating all changes below.
 
+     Provide proper default constructors for EvtVector4R and 
+     EvtPhotonParticle. Modified the validation and test code to also
+     compile/link in the case of no external generators being included.
+
 3rd October 2012 John Back
      Corrected the t3 vector form factor values for the Ball-Zwicky '05 
      model (modelId = 6) in EvtbTosllBallFF::getVectorFF(), which

@@ -52,7 +52,10 @@
 
 #include "EvtGenBase/EvtAbsRadCorr.hh"
 #include "EvtGenBase/EvtDecayBase.hh"
+
+#ifdef EVTGEN_EXTERNAL
 #include "EvtGenExternal/EvtExternalGenList.hh"
+#endif
 
 #include <cstdio>
 #include <fstream>
@@ -169,9 +172,14 @@ int main(int argc, char* argv[]){
     return 1;
   }
 
+  EvtAbsRadCorr* radCorrEngine = 0;
+  std::list<EvtDecayBase*> extraModels;
+
+#ifdef EVTGEN_EXTERNAL
   EvtExternalGenList genList;
-  EvtAbsRadCorr* radCorrEngine = genList.getPhotosModel();
-  std::list<EvtDecayBase*> extraModels = genList.getListOfModels();
+  radCorrEngine = genList.getPhotosModel();
+  extraModels = genList.getListOfModels();
+#endif
 
   EvtGen myGenerator("../DECAY_2010.DEC", "../evt.pdl", myRandomEngine,
 		     radCorrEngine, &extraModels);

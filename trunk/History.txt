@@ -4,6 +4,11 @@
 //
 //===========================================================================
 
+15th October 2012 John Back
+     Make EvtSimpleRandomEngine inherit from EvtRandomEngine to avoid
+     crash in EvtGen.cpp when no random engine is defined 
+     (from Bjoern Spruck).
+
 R01-01-00-------------------------------------------------------------------
 4th October 2012 John Back
      New tag, version "1.1.0", incorporating all changes below.

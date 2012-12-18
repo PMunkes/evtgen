@@ -4,6 +4,18 @@
 //
 //===========================================================================
 
+18th December 2012 John Back
+     Corrected some wrong daughter ordering assignments for decay modes 5 and
+     12 in EvtDDalitz. Updated validation/DalitzDecays.xml to also contain
+     D decay mode 12, as well as various modes that may use K_S0 and K_L0. 
+     Added validation/genDDalitzModes.sh and updated 
+     validation/compareDalitz.C to do a complete comparison of the D Dalitz 
+     modes with the xml versions.
+
+11th December 2012 Daniel Craik
+     Updated the Xml parser to support named model parameters. Updated the 
+     generic Dalitz model to use named model parameters as an example.
+
 15th October 2012 John Back
      Make EvtSimpleRandomEngine inherit from EvtRandomEngine to avoid
      crash in EvtGen.cpp when no random engine is defined 

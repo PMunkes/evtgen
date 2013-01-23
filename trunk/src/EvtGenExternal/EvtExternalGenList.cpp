@@ -27,7 +27,7 @@
 #include "EvtGenExternal/EvtTauola.hh"
 
 EvtExternalGenList::EvtExternalGenList(bool convertPythiaCodes, std::string pythiaXmlDir,
-				       std::string photonType) {
+				       std::string photonType, bool useEvtGenRandom) {
 
   // Instantiate the external generator factory
   EvtExternalGenFactory* extFactory = EvtExternalGenFactory::getInstance();
@@ -43,7 +43,8 @@ EvtExternalGenList::EvtExternalGenList(bool convertPythiaCodes, std::string pyth
     if (pythiaDataDir != 0) {pythiaXmlDir = pythiaDataDir;}
   }
 
-  extFactory->definePythiaGenerator(pythiaXmlDir, convertPythiaCodes);
+  extFactory->definePythiaGenerator(pythiaXmlDir, convertPythiaCodes,
+				    useEvtGenRandom);
   extFactory->defineTauolaGenerator();  
 
 }

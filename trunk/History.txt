@@ -4,6 +4,12 @@
 //
 //===========================================================================
 
+23rd January 2013 John Back
+     Added EvtGenExternal/EvtPythiaRandom to allow the use of the EvtGen
+     random number engine to also be used for the random engine for Pythia 8.
+     Added a boolean (useEvtGenRandom, default = true) within the 
+     EvtExternalGenList constructor to use this feature.
+
 18th December 2012 John Back
      Corrected some wrong daughter ordering assignments for decay modes 5 and
      12 in EvtDDalitz. Updated validation/DalitzDecays.xml to also contain

@@ -24,6 +24,7 @@
 #include "EvtGenBase/EvtVector4R.hh"
 #include "EvtGenBase/EvtPhotonParticle.hh"
 #include "EvtGenBase/EvtReport.hh"
+#include "EvtGenBase/EvtRandom.hh"
 
 #include "Photos/Photos.h"
 #include "Photos/PhotosHepMCEvent.h"
@@ -40,14 +41,22 @@
 
 using std::endl;
 
-EvtPhotosEngine::EvtPhotosEngine(std::string photonType) {
+EvtPhotosEngine::EvtPhotosEngine(std::string photonType, bool useEvtGenRandom) {
 
   _photonType = photonType;
   _gammaId = EvtId(-1,-1);
   _mPhoton = 0.0;
 
   report(INFO,"EvtGen")<<"Setting up PHOTOS."<<endl;
-  
+
+  if (useEvtGenRandom == true) {
+      
+    report(INFO,"EvtGen")<<"Using EvtGen random number engine also for Photos++"<<endl;
+
+    Photospp::Photos::setRandomGenerator(EvtRandom::Flat);
+
+  }
+
   Photospp::Photos::initialize();
   // Set minimum photon energy (50keV at 1 GeV scale)
   Photospp::Photos::setInfraredCutOff(50.0e-6);

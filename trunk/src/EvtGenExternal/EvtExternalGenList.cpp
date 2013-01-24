@@ -33,7 +33,7 @@ EvtExternalGenList::EvtExternalGenList(bool convertPythiaCodes, std::string pyth
   EvtExternalGenFactory* extFactory = EvtExternalGenFactory::getInstance();
 
   // Define the external generator "engines" here
-  extFactory->definePhotosGenerator(photonType);
+  extFactory->definePhotosGenerator(photonType, useEvtGenRandom);
 
   if (pythiaXmlDir.size() < 1) {
     // If we have no string defined, check the value of the
@@ -45,7 +45,8 @@ EvtExternalGenList::EvtExternalGenList(bool convertPythiaCodes, std::string pyth
 
   extFactory->definePythiaGenerator(pythiaXmlDir, convertPythiaCodes,
 				    useEvtGenRandom);
-  extFactory->defineTauolaGenerator();  
+
+  extFactory->defineTauolaGenerator(useEvtGenRandom);  
 
 }
 

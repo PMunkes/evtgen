@@ -4,6 +4,9 @@
 //
 //===========================================================================
 
+30th January 2013 John Back
+     Fixed some of the parameter arguments used in the EvtSVSCPiso model.
+
 24th January 2013 John Back
      Set the Photos++ and Tauola++ models to use the EvtGen random number 
      engine when useEvtGenRandom is set to true in the EvtExternalGenList 

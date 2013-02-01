@@ -4,6 +4,12 @@
 //
 //===========================================================================
 
+1st  February 2013 John Back
+     Added the ability to read in Pythia 6 commands in ascii decay files in
+     EvtDecayTable::readDecayFile (this was already possible in xml files).
+     Modified the Photos++ engine default settings to be more suited to B
+     decays (from LHCb defaults).
+
 31st January 2013 John Back
      Added the ability to read in Pythia 8 commands in ascii decay files
      in EvtDecayTable::readDecayFile. They can be set using the syntax:

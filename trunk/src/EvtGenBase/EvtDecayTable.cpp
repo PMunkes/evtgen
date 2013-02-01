@@ -234,6 +234,31 @@ void EvtDecayTable::readDecayFile(const std::string dec_name, bool verbose){
 
       EvtPDL::aliasChgConj(a,abar);
 
+    } else if (token == "JetSetPar") {
+
+      // Check if any old Pythia 6 commands are present
+      std::string pythiaCommand = parser.getToken(itoken++);
+
+      Command command;
+
+      // The old command format is NAME(INT)=VALUE
+      int i1 = pythiaCommand.find_first_of("(");
+      int i2 = pythiaCommand.find_first_of(")");
+      int i3 = pythiaCommand.find_first_of("=");
+
+      std::string pythiaModule = pythiaCommand.substr(0, i1);
+      std::string pythiaParam = pythiaCommand.substr(i1+1, i2-i1-1);
+      std::string pythiaValue = pythiaCommand.substr(i3+1);
+
+      command["MODULE"] = pythiaModule;
+      command["PARAM"] = pythiaParam;
+      command["VALUE"] = pythiaValue;
+
+      command["GENERATOR"] = "Both";
+      command["VERSION"] = "PYTHIA6";
+
+      extGenCommands->addCommand("PYTHIA", command);
+
     } else if (modelist.isCommand(token)){
 
       std::string cnfgstr;

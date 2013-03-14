@@ -7,6 +7,9 @@
 14th March 2013 John Back
      Added the method EvtParticle::getPDGId() to get the PDG integer for a
      particle directly (which just calls EvtPDL::getStdHep()).
+     Added a check in EvtPhotosEngine::doDecay to skip Photos if a given 
+     particle has too many daughters (>= 10) to avoid a problem with a 
+     hard coded upper limit in the Photos PHOENE subroutine.
 
 2nd February 2013 Daniel Craik
      Updated EvtDalitzTable to estimate probMax when it is missing from a 

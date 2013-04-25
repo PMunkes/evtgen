@@ -156,11 +156,11 @@ with the required Makefile. If there are errors about missing shared libraries,
 and they have been built correctly, then the LD_LIBRARY_PATH needs to be set-up
 to include them:
 
-setenv LD_LIBRAY_PATH ${LD_LIBRARY_PATH}:<location of HepMC library directory>
-setenv LD_LIBRAY_PATH ${LD_LIBRARY_PATH}:<location of Pythia 8 library directory>
-setenv LD_LIBRAY_PATH ${LD_LIBRARY_PATH}:<location of Tauola library directory>
-setenv LD_LIBRAY_PATH ${LD_LIBRARY_PATH}:<location of Photos library directory>
-setenv LD_LIBRAY_PATH ${LD_LIBRARY_PATH}:<location of EvtGen library directory>
+setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:<location of HepMC library directory>
+setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:<location of Pythia 8 library directory>
+setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:<location of Tauola library directory>
+setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:<location of Photos library directory>
+setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:<location of EvtGen library directory>
 
 Code validation
 ===============

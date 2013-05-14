@@ -4,6 +4,10 @@
 //
 //===========================================================================
 
+14th May 2013 John Back
+     Added additional entries (appended at the end) to the evt.pdl particle 
+     data file courtesy of Romulus Godang and Belle II colleagues.
+
 14th March 2013 John Back
      Added the method EvtParticle::getPDGId() to get the PDG integer for a
      particle directly (which just calls EvtPDL::getStdHep()).

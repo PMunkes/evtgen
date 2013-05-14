@@ -76,7 +76,14 @@ double EvtBlattWeisskopf::compute(double p) const
     value = sqrt(1.0/(1.0 + zSq));
   } else if (_LL == 2) {
     value = sqrt(1.0/(zSq*(zSq + 3.0) + 9.0));
+  } else if (_LL == 3) {
+    value = sqrt(1.0/(zSq*zSq*zSq+6*zSq*zSq+45*zSq+225));
+  } else if (_LL == 4) {
+    value = sqrt(1.0/(zSq*zSq*zSq*zSq+10*zSq*zSq*zSq+135*zSq*zSq+1575*zSq+11025));
+  } else if (_LL == 5) {
+    value = sqrt(1.0/(zSq*zSq*zSq*zSq*zSq+15*zSq*zSq*zSq*zSq+315*zSq*zSq*zSq+6300*zSq*zSq+99225*zSq+893025));
   }
+
 
   return value;
 

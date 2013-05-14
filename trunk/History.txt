@@ -4,6 +4,10 @@
 //
 //===========================================================================
 
+14th May 2013 Michal Kreps
+     Added Blatt-Weisskopf barrier factors up to L=5 in 
+     EvtGenBase/EvtBlattWeisskopf::compute().
+
 14th May 2013 John Back
      Added additional entries (appended at the end) to the evt.pdl particle 
      data file courtesy of Romulus Godang and Belle II colleagues.

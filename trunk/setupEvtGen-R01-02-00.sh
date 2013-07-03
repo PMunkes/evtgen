@@ -54,4 +54,4 @@ make
 
 echo Setup done.
 echo To complete, add the following command to your .bashrc file or run it in your terminal before running any programs that use the EvtGen library:
-echo LD_LIBRARY_PATH=$INSTALL_BASE/external/HepMC/lib:$INSTALL_BASE/external/pythia8176/lib:$INSTALL_BASE/external/PHOTOS/lib:PATH/EvtGen/external/TAUOLA/lib:$INSTALL_BASE/R01-02-00/lib:\$LD_LIBRARY_PATH
+echo LD_LIBRARY_PATH=$INSTALL_BASE/external/HepMC/lib:$INSTALL_BASE/external/pythia8176/lib:$INSTALL_BASE/external/PHOTOS/lib:$INSTALL_BASE/external/TAUOLA/lib:$INSTALL_BASE/R01-02-00/lib:\$LD_LIBRARY_PATH

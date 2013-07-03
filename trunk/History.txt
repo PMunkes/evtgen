@@ -4,6 +4,9 @@
 //
 //===========================================================================
 
+3rd July 2013 Daniel Craik
+     Fixed auto-install script for R01-02-00.
+
 1st July 2013 Daniel Craik
      Added auto-install script for R01-02-00.
 

@@ -4,6 +4,9 @@
 //
 //===========================================================================
 
+4th July 2013 Daniel Craik
+     Added LASS, exponential non-resonant and linear non-resonant shapes to EvtGenericDalitz.
+
 3rd July 2013 Daniel Craik
      Fixed auto-install script for R01-02-00.
 

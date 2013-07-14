@@ -94,7 +94,7 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
   //Nonres parameters
   double alpha(0.);
   //LASS parameters
-  double aLass(0.), rLass(0.), BLass(0.), phiBLass(0.), RLass(0.), phiRLass(0.);
+  double aLass(0.), rLass(0.), BLass(0.), phiBLass(0.), RLass(0.), phiRLass(0.), cutoffLass(-1.);
 
   EvtParserXml parser;
   parser.open(dec_name);
@@ -266,6 +266,7 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
           phiBLass = parser.readAttributeDouble("phiB",0.0);
           RLass = parser.readAttributeDouble("R",0.0);
           phiRLass = parser.readAttributeDouble("phiR",0.0);
+          cutoffLass = parser.readAttributeDouble("cutoff",-1.0);
         }
 
         //Daughter pairs for resonance
@@ -317,7 +318,7 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
           std::vector< std::pair<EvtCyclic3::Pair,EvtCyclic3::Pair> >::iterator it = angAndResPairs.begin();
           for( ; it != angAndResPairs.end(); it++) {
             std::pair<EvtCyclic3::Pair,EvtCyclic3::Pair> pairs = *it;
-            EvtDalitzReso resonance = getResonance(shape, dp, pairs.first, pairs.second, spinType, mass, width, FFp, FFr, alpha, aLass, rLass, BLass, phiBLass, RLass, phiRLass);
+            EvtDalitzReso resonance = getResonance(shape, dp, pairs.first, pairs.second, spinType, mass, width, FFp, FFr, alpha, aLass, rLass, BLass, phiBLass, RLass, phiRLass, cutoffLass);
             dalitzDecay->addResonance(cAmp,resonance);
           }
         }
@@ -347,7 +348,7 @@ void EvtDalitzTable::readXMLDecayFile(const std::string dec_name, bool verbose){
         std::vector< std::pair<EvtCyclic3::Pair,EvtCyclic3::Pair> >::iterator it = angAndResPairs.begin();
         for( ; it != angAndResPairs.end(); it++) {
           std::pair<EvtCyclic3::Pair,EvtCyclic3::Pair> pairs = *it;
-          EvtDalitzReso resonance = getResonance(shape, dp, pairs.first, pairs.second, spinType, mass, width, FFp, FFr, alpha, aLass, rLass, BLass, phiBLass, RLass, phiRLass);
+          EvtDalitzReso resonance = getResonance(shape, dp, pairs.first, pairs.second, spinType, mass, width, FFp, FFr, alpha, aLass, rLass, BLass, phiBLass, RLass, phiRLass, cutoffLass);
 
           std::vector<EvtFlatteParam>::iterator flatteIt = flatteParams.begin();
           for( ; flatteIt != flatteParams.end(); flatteIt++) {
@@ -430,7 +431,7 @@ std::vector<EvtDalitzDecayInfo> EvtDalitzTable::getDalitzTable(const EvtId& pare
 
 EvtDalitzReso EvtDalitzTable::getResonance(std::string shape, EvtDalitzPlot dp, EvtCyclic3::Pair angPair, EvtCyclic3::Pair resPair,
                                            EvtSpinType::spintype spinType, double mass, double width, double FFp, double FFr, double alpha,
-                                           double aLass, double rLass, double BLass, double phiBLass, double RLass, double phiRLass) {
+                                           double aLass, double rLass, double BLass, double phiBLass, double RLass, double phiRLass, double cutoffLass) {
   if( shape=="RBW" || shape=="RBW_CLEO") {
     return EvtDalitzReso( dp, angPair, resPair, spinType, mass, width, EvtDalitzReso::RBW_CLEO, FFp, FFr );
   } else if( shape=="RBW_CLEO_ZEMACH" ) {
@@ -438,7 +439,8 @@ EvtDalitzReso EvtDalitzTable::getResonance(std::string shape, EvtDalitzPlot dp, 
   } else if( shape=="Flatte" ) {
     return EvtDalitzReso( dp, resPair, mass );
   } else if( shape=="LASS" ) {
-    return EvtDalitzReso( dp, resPair, mass, width, aLass, rLass, BLass, phiBLass, RLass, phiRLass );
+    std::cout << rLass << "\t" << aLass << "\t" << RLass << "\t" << BLass << "\t" << phiRLass << "\t" << phiBLass << "\t" << cutoffLass << std::endl;
+    return EvtDalitzReso( dp, resPair, mass, width, aLass, rLass, BLass, phiBLass, RLass, phiRLass, cutoffLass );
   } else if( shape=="NonRes" ) {
     return EvtDalitzReso( );
   } else if( shape=="NonRes_Linear" ) {

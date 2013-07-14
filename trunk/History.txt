@@ -4,6 +4,11 @@
 //
 //===========================================================================
 
+15th July 2013 Daniel Craik
+     EvtParserXML now accepts file names containing environment variables,
+     exponential non-resonant shape in EvtDalitzReso now defined as exp(-alpha*m^2),
+     LASS shape in EvtDalitzReso now takes a cutoff parameter
+
 4th July 2013 Daniel Craik
      Added LASS, exponential non-resonant and linear non-resonant shapes to EvtGenericDalitz.
 

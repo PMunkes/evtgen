@@ -48,7 +48,7 @@ EvtDalitzReso::EvtDalitzReso(const EvtDalitzPlot& dp, Pair pairAng, Pair pairRes
     _g1(-1.),_g2(-1.),_coupling2(Undefined),
     _f_b(f_b), _f_d(f_d),
     _kmatrix_index(-1),_fr12prod(0.,0.),_fr13prod(0.,0.),_fr14prod(0.,0.),_fr15prod(0.,0.),_s0prod(0.),
-    _a(0.),_r(0.),_Blass(0.),_phiB(0.),_R(0.),_phiR(0.),
+    _a(0.),_r(0.),_Blass(0.),_phiB(0.),_R(0.),_phiR(0.),_cutoff(-1.),
     _alpha(0.)
 {
   _vb = EvtTwoBodyVertex(_m0,_dp.m(EvtCyclic3::other(_pairRes)),_dp.bigM(),_spin); 
@@ -74,7 +74,7 @@ EvtDalitzReso::EvtDalitzReso(const EvtDalitzPlot& dp, Pair pairAng, Pair pairRes
     _g1(-1.),_g2(-1.),_coupling2(Undefined),
     _f_b(0.0), _f_d(1.5),
     _kmatrix_index(-1),_fr12prod(0.,0.),_fr13prod(0.,0.),_fr14prod(0.,0.),_fr15prod(0.,0.),_s0prod(0.),
-    _a(0.),_r(0.),_Blass(0.),_phiB(0.),_R(0.),_phiR(0.),
+    _a(0.),_r(0.),_Blass(0.),_phiB(0.),_R(0.),_phiR(0.),_cutoff(-1.),
     _alpha(0.)
 {
   _vb = EvtTwoBodyVertex(_m0,_dp.m(EvtCyclic3::other(_pairRes)),_dp.bigM(),_spin); 
@@ -99,7 +99,7 @@ EvtDalitzReso::EvtDalitzReso(const EvtDalitzPlot& dp, Pair pairAng, Pair pairRes
     _g1(g1),_g2(g2),_coupling2(coupling2),
     _f_b(0.0), _f_d(1.5),
     _kmatrix_index(-1),_fr12prod(0.,0.),_fr13prod(0.,0.),_fr14prod(0.,0.),_fr15prod(0.,0.),_s0prod(0.),
-    _a(0.),_r(0.),_Blass(0.),_phiB(0.),_R(0.),_phiR(0.),
+    _a(0.),_r(0.),_Blass(0.),_phiB(0.),_R(0.),_phiR(0.),_cutoff(-1.),
     _alpha(0.)
 {
   _vb = EvtTwoBodyVertex(_m0,_dp.m(EvtCyclic3::other(_pairRes)),_dp.bigM(),_spin);   
@@ -125,7 +125,7 @@ EvtDalitzReso::EvtDalitzReso(const EvtDalitzPlot& dp, Pair pairRes, std::string 
     _g1(-1.),_g2(-1.),_coupling2(Undefined),
     _f_b(0.), _f_d(0.),
     _kmatrix_index(-1),_fr12prod(fr12prod),_fr13prod(fr13prod),_fr14prod(fr14prod),_fr15prod(fr15prod),_s0prod(s0prod),
-    _a(0.),_r(0.),_Blass(0.),_phiB(0.),_R(0.),_phiR(0.),
+    _a(0.),_r(0.),_Blass(0.),_phiB(0.),_R(0.),_phiR(0.),_cutoff(-1.),
     _alpha(0.)
 {
   assert(_typeN==K_MATRIX || _typeN==K_MATRIX_I || _typeN==K_MATRIX_II);
@@ -142,7 +142,7 @@ EvtDalitzReso::EvtDalitzReso(const EvtDalitzPlot& dp, Pair pairRes, std::string 
 
 // LASS parameterization
 EvtDalitzReso::EvtDalitzReso(const EvtDalitzPlot& dp, Pair pairRes, 
-			     double m0, double g0, double a, double r, double B, double phiB, double R, double phiR) 
+			     double m0, double g0, double a, double r, double B, double phiB, double R, double phiR, double cutoff) 
   : _dp(dp),
     _pairRes(pairRes),
     _typeN(LASS),
@@ -152,7 +152,7 @@ EvtDalitzReso::EvtDalitzReso(const EvtDalitzPlot& dp, Pair pairRes,
     _g1(-1.),_g2(-1.),_coupling2(Undefined),
     _f_b(0.0), _f_d(1.5),
     _kmatrix_index(-1),_fr12prod(0.,0.),_fr13prod(0.,0.),_fr14prod(0.,0.),_fr15prod(0.,0.),_s0prod(0.),
-    _a(a),_r(r),_Blass(B),_phiB(phiB),_R(R),_phiR(phiR),
+    _a(a),_r(r),_Blass(B),_phiB(phiB),_R(R),_phiR(phiR), _cutoff(cutoff),
     _alpha(0.)
 {
   _spin=EvtSpinType::SCALAR;
@@ -172,7 +172,7 @@ EvtDalitzReso::EvtDalitzReso(const EvtDalitzPlot& dp, EvtCyclic3::Pair pairRes, 
     _g1(-1.),_g2(-1.),_coupling2(Undefined),
     _f_b(0.), _f_d(0.),
     _kmatrix_index(-1),_fr12prod(0.,0.),_fr13prod(0.,0.),_fr14prod(0.,0.),_fr15prod(0.,0.),_s0prod(0.),
-    _a(0.),_r(0.),_Blass(0.),_phiB(0.),_R(0.),_phiR(0.),
+    _a(0.),_r(0.),_Blass(0.),_phiB(0.),_R(0.),_phiR(0.),_cutoff(-1.),
     _alpha(0.)
 {
   _spin=EvtSpinType::SCALAR;
@@ -194,7 +194,7 @@ EvtDalitzReso::EvtDalitzReso(const EvtDalitzReso& other)
     _kmatrix_index(other._kmatrix_index),
     _fr12prod(other._fr12prod),_fr13prod(other._fr13prod),_fr14prod(other._fr14prod),_fr15prod(other._fr15prod),
     _s0prod(other._s0prod),
-    _a(other._a),_r(other._r),_Blass(other._Blass),_phiB(other._phiB),_R(other._R),_phiR(other._phiR),
+    _a(other._a),_r(other._r),_Blass(other._Blass),_phiB(other._phiB),_R(other._R),_phiR(other._phiR),_cutoff(other._cutoff),
     _alpha(other._alpha),
     _flatteParams(other._flatteParams)
 {}
@@ -215,7 +215,7 @@ EvtComplex EvtDalitzReso::evaluate(const EvtDalitzPoint& x)
     return m*m;
 
   if (_typeN==NON_RES_EXP)
-    return exp(_alpha*m*m);
+    return exp(-_alpha*m*m);
 
   // do use always hash table (speed up fitting)
   if (_typeN==K_MATRIX || _typeN==K_MATRIX_I || _typeN==K_MATRIX_II)
@@ -874,7 +874,10 @@ EvtComplex EvtDalitzReso::lass(double s)
   EvtComplex  bkgB,resT;
   bkgB = EvtComplex(_Blass*sin(totalB),0)*EvtComplex(cos(totalB),sin(totalB));
   resT = EvtComplex(_R*sin(deltaR),0)*EvtComplex(cos(totalR),sin(totalR))*EvtComplex(cos(2*totalB),sin(2*totalB));
-  EvtComplex T = bkgB + resT;      
+
+  EvtComplex T;
+  if(_cutoff>0 && sqrt(s)>_cutoff) T = resT;
+  else T = bkgB + resT;
 
   return T;
 }

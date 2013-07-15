@@ -72,7 +72,7 @@ public:
 
   // LASS
   EvtDalitzReso(const EvtDalitzPlot& dp, EvtCyclic3::Pair pairRes, double m0, double g0,
-		double a, double r, double B, double phiB, double R, double phiR, double cutoff=-1);
+		double a, double r, double B, double phiB, double R, double phiR, double cutoff=-1, bool scaleByMOverQ=false);
 
   //Flatte
   EvtDalitzReso(const EvtDalitzPlot& dp, EvtCyclic3::Pair pairRes, double m0);
@@ -161,6 +161,7 @@ private:
   double _R;
   double _phiR;
   double _cutoff;
+  bool _scaleByMOverQ;
 
   //Nonresonant
   double _alpha;

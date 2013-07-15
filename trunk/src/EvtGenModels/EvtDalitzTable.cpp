@@ -439,8 +439,7 @@ EvtDalitzReso EvtDalitzTable::getResonance(std::string shape, EvtDalitzPlot dp, 
   } else if( shape=="Flatte" ) {
     return EvtDalitzReso( dp, resPair, mass );
   } else if( shape=="LASS" ) {
-    std::cout << rLass << "\t" << aLass << "\t" << RLass << "\t" << BLass << "\t" << phiRLass << "\t" << phiBLass << "\t" << cutoffLass << std::endl;
-    return EvtDalitzReso( dp, resPair, mass, width, aLass, rLass, BLass, phiBLass, RLass, phiRLass, cutoffLass );
+    return EvtDalitzReso( dp, resPair, mass, width, aLass, rLass, BLass, phiBLass, RLass, phiRLass, cutoffLass, true );
   } else if( shape=="NonRes" ) {
     return EvtDalitzReso( );
   } else if( shape=="NonRes_Linear" ) {

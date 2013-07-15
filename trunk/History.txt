@@ -5,6 +5,9 @@
 //===========================================================================
 
 15th July 2013 Daniel Craik
+     Added flag to turn on scaling of LASS amplitude by M/q in EvtDalitzReso
+
+15th July 2013 Daniel Craik
      EvtParserXML now accepts file names containing environment variables,
      exponential non-resonant shape in EvtDalitzReso now defined as exp(-alpha*m^2),
      LASS shape in EvtDalitzReso now takes a cutoff parameter

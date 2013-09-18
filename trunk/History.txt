@@ -4,6 +4,9 @@
 //
 //===========================================================================
 
+18th September 2013 John Back
+     Added Mac OS flags for the configure script and src/Makefile.
+
 15th July 2013 Daniel Craik
      Added flag to turn on scaling of LASS amplitude by M/q in EvtDalitzReso
 

@@ -35,7 +35,7 @@ make install
 echo Installing pythia8 in $INSTALL_BASE/external/pythia8176/
 cd ../pythia8176/
 ./configure --with-hepmc=$INSTALL_BASE/external/HepMC/ --with-hepmcversion=2.06.08 --enable-shared
-gmake
+make
 
 echo Installing TAUOLA in $INSTALL_BASE/external/TAUOLA/
 cd ../TAUOLA/

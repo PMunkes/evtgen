@@ -167,7 +167,7 @@ Code validation
 
 The validation sub-directory contains code validation test cases for Pythia, Tauola 
 and B mixing models. Run the "configure" script here, which should create a file 
-called extraConfig.mk, and build the examples using "gmake". Note that some extra 
+called extraConfig.mk, and build the examples using "make". Note that some extra 
 configuration may be necessary to set the location of the ROOT libraries, which are 
 only used to create ntuples and plots for the validation examples.
 

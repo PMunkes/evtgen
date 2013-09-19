@@ -84,6 +84,8 @@ private:
 
   EvtPythiaRandom* _evtgenRandom;
 
+  std::map<int, int> _addedPDGCodes;
+
 };
 
 #endif

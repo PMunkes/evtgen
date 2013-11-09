@@ -4,6 +4,10 @@
 //
 //===========================================================================
 
+9th October 2013 Daniel Craik
+     Added Gounaris-Sakurai and Gaussian shapes to EvtGenericDalitz 
+     and set sensible defaults for LASS parameters.
+
 19th September 2013 John Back
      Modified EvtGenExternal/EvtPythiaEngine to keep track of any new 
      particles that are added to the default Pythia database to avoid

@@ -4,6 +4,10 @@
 //
 //===========================================================================
 
+7th January 2014 John Back
+     Modified EvtBCVFF to correct the Kiselev form factors from 
+     Jack Wimberley (LHCb).
+
 9th October 2013 Daniel Craik
      Added Gounaris-Sakurai and Gaussian shapes to EvtGenericDalitz 
      and set sensible defaults for LASS parameters.

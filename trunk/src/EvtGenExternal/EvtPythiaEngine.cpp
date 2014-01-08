@@ -29,7 +29,7 @@
 #include "EvtGenBase/EvtExtGeneratorCommandsTable.hh"
 #include "EvtGenExternal/EvtPythia6CommandConverter.hh"
 
-#include "Event.h"
+#include "Pythia8/Event.h"
 
 #include <iostream>
 #include <sstream>
@@ -187,8 +187,7 @@ bool EvtPythiaEngine::doDecay(EvtParticle* theParticle) {
   double m0 = theParticle->mass();
   double E = m0;
 
-  int entryIndex(0);
-  entryIndex = theEvent.append(PDGCode, status, colour, anticolour, px, py, pz, E, m0);
+  theEvent.append(PDGCode, status, colour, anticolour, px, py, pz, E, m0);
 
   // Generate the Pythia event
   int iTrial(0);
@@ -480,11 +479,11 @@ void EvtPythiaEngine::updateParticleLists() {
 
   } // Loop over EvtPDL entries
 
-  report(INFO,"EvtGen")<<"Writing out changed generic Pythia decay list"<<endl;
-  _genericPythiaGen->particleData.listChanged();
+  //report(INFO,"EvtGen")<<"Writing out changed generic Pythia decay list"<<endl;
+  //_genericPythiaGen->particleData.listChanged();
 
-  report(INFO,"EvtGen")<<"Writing out changed alias Pythia decay list"<<endl;
-  _aliasPythiaGen->particleData.listChanged();
+  //report(INFO,"EvtGen")<<"Writing out changed alias Pythia decay list"<<endl;
+  //_aliasPythiaGen->particleData.listChanged();
 
 }
 

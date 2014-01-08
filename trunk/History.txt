@@ -4,6 +4,12 @@
 //
 //===========================================================================
 
+8th January 2014 John Back
+     Fix gcc 4.6 and 4.8 compilation warnings, courtesy of 
+     Patrick Robbe (LHCb); main changes are removal of unused variables.
+     Changed the EvtPythiaEngine class and configure script to use new 
+     Pythia 8 header locations; Pythia 8.180 or above is now required.
+
 7th January 2014 John Back
      Modified EvtBCVFF to correct the Kiselev form factors from 
      Jack Wimberley (LHCb).

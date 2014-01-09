@@ -100,9 +100,9 @@ radiative corrections) and Tauola (for tau decays):
 
 Pythia8  http://home.thep.lu.se/~torbjorn/Pythia.html
 
-Photos   http://www.ph.unimelb.edu.au/~ndavidson/photos/doxygen/index.html
+Photos   http://photospp.web.cern.ch/photospp/
 
-Tauola   http://www.ph.unimelb.edu.au/~ndavidson/tauola/doxygen/index.html
+Tauola   http://tauolapp.web.cern.ch/tauolapp/
 
 All of these packages have instructions for building them, usually by
 running their "configure" script. HepMC is used to store particle information.
@@ -161,6 +161,13 @@ setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:<location of Pythia 8 library director
 setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:<location of Tauola library directory>
 setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:<location of Photos library directory>
 setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:<location of EvtGen library directory>
+
+To use Pythia 8, the environment variable PYTHIA8DATA needs to be set to the location
+of the corresponding xml documentation directory, which also contains the default values 
+for particle decays and models.
+
+setenv PYTHIA8DATA <location of Pythia 8 base directory>/xmldoc
+
 
 Code validation
 ===============

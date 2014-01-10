@@ -149,7 +149,7 @@ PYTHIADIR = <base directory of Pythia8>
 LIBS = -L${BASEDIR}/lib -L${HEPMCDIR}/lib -L${PHOTOSDIR}/lib \
        -L${TAUOLADIR}/lib -L${PYTHIADIR}/lib -lgfortran \
        -lHepMC -lPhotosCxxInterface -lPhotosFortran -lTauolaCxxInterface -lTauolaFortran \
-       -lpythia8 -llhapdfdummy -lhepmcinterface -lEvtGen -lEvtGenExternal
+       -lpythia8 -llhapdfdummy -lEvtGen -lEvtGenExternal
 
 Three example programs using EvtGen can be seen in the test sub-directory along 
 with the required Makefile. If there are errors about missing shared libraries,

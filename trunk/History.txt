@@ -4,6 +4,10 @@
 //
 //===========================================================================
 
+27th January 2014 John Back
+     Minor corrections to Vub models to remove further gcc 4.8 warnings.
+     Updated configure script to work for MacOS clang (from Genser team).
+
 R01-03-00-------------------------------------------------------------------
 9th January 2014 John Back
      New tag version "1.3.0", incorporating all changes below.

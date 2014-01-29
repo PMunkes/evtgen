@@ -4,6 +4,10 @@
 //
 //===========================================================================
 
+29th January 2014 Daniel Craik
+     Removed mass assertion on GS shape in EvtDalitzReso to allow it to also 
+     be used for charged rho resonances.
+
 27th January 2014 John Back
      Minor corrections to Vub models to remove further gcc 4.8 warnings.
      Updated configure script to work for MacOS clang (from Genser team).

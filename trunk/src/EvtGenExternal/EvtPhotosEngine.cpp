@@ -197,6 +197,9 @@ bool EvtPhotosEngine::doDecay(EvtParticle* theMother) {
 	gamma->init(_gammaId, newP4);
 	gamma->setFSRP4toZero();
 	gamma->addDaug(theMother); // Let the mother know about this new particle
+	// Set its particle attribute to specify it is a FSR photon.
+	gamma->setAttribute("FSR", 1); // it is a FSR photon
+	gamma->setAttribute("ISR", 0); // it is not an ISR photon
 
       }
       

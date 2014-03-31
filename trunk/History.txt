@@ -4,6 +4,16 @@
 //
 //===========================================================================
 
+31st March 2014 John Back
+     Added the ability to store named attributes for EvtParticles in the
+     form of a map<string, int>. The setAttribute(name, value) stores the
+     required value, while getAttribute(name) retrieves the integer value.
+     This is used in EvtPhotosEngine to specify the final-state radiation
+     "FSR" attribute to 1 for any additional photons (EvtPhotonParticles)
+     created by Photos++. It also stores the "ISR" attribute, but this 
+     is always set to zero, since only FSR photons are created.
+     If the named attribute doesn't exist, then getAttribute() returns zero.
+
 29th January 2014 Daniel Craik
      Removed mass assertion on GS shape in EvtDalitzReso to allow it to also 
      be used for charged rho resonances.

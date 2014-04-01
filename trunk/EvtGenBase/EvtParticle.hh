@@ -396,7 +396,7 @@ public:
   //void setUnMixed() {_mix=false;}
   //bool getMixed() {return _mix;}
 
-  //void takeCConj() {report(INFO,"EvtGen") << "should take conj\n";}
+  //void takeCConj() {EvtGenReport(EVTGEN_INFO,"EvtGen") << "should take conj\n";}
 
   //this means that the particle has gone through initDecay
   // and thus has a mass

@@ -4,6 +4,11 @@
 //
 //===========================================================================
 
+1st April 2014 John Back
+     In EvtReport, modified the logging output severity status flags
+     to have the "EVTGEN_" prefix, e.g. INFO becomes EVTGEN_INFO. 
+     The global report() function has been renamed to EvtGenReport().
+
 31st March 2014 John Back
      Added the ability to store named attributes for EvtParticles in the
      form of a map<string, int>. The setAttribute(name, value) stores the

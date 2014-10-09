@@ -8,7 +8,7 @@ INSTALL_BASE=`pwd`
 echo Will setup EvtGen R01-03-00 in $INSTALL_BASE
 
 echo Downloading EvtGen from SVN
-svn export http://svnweb.cern.ch/guest/evtgen/tags/R01-03-00
+svn export http://svn.cern.ch/guest/evtgen/tags/R01-03-00
 
 echo Downloading external dependencies
 mkdir -p external

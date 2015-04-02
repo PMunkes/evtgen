@@ -61,7 +61,7 @@ void EvtBcToNPi::init(){
 	// the others are scalar
 	for (int i=1; i<=(getNDaug()-1);i++) {
 		checkSpinDaughter(i,EvtSpinType::SCALAR);
-	};
+	}
 
 	_beta=-0.108; _mRho=0.775; _gammaRho=0.149;
 	_mRhopr=1.364; _gammaRhopr=0.400; _mA1=1.23; _gammaA1=0.4;
@@ -102,7 +102,7 @@ void EvtBcToNPi::init(){
 			EvtGenReport(EVTGEN_ERROR,"EvtGen") << "Daug " << id << " "<<EvtPDL::name(getDaug(id)).c_str() << endl;
 		return;
 
-	};
+	}
 
 	if(getNDaug()<2 || getNDaug()>4) {
 		EvtGenReport(EVTGEN_ERROR,"EvtGen") << "Have not yet implemented this final state in BCPSINPI model" << endl;
@@ -116,12 +116,12 @@ void EvtBcToNPi::init(){
 
 double EvtBcToNPi::_ee(double M, double m1, double m2) {
         return (M*M+m1*m1-m2*m2)/(2*M);
-};
+}
 
 double EvtBcToNPi::_pp(double M, double m1, double m2) {
         double __ee=_ee(M,m1,m2);
         return sqrt(__ee*__ee-m1*m1);
-};
+}
 
 
 void EvtBcToNPi::initProbMax(){
@@ -175,7 +175,7 @@ void EvtBcToNPi::initProbMax(){
                         p->getDaug(1)->setP4(_p2);
                         EvtVector4R _p3( _ee(_mRho, m2, m3), 0, 0, -__ppPi); _p2.applyBoostTo(_pRho);
                         p->getDaug(2)->setP4(_p3);
-                };
+                }
 
 
                 _amp2.init(p->getId(),getNDaug(),getDaugs());
@@ -189,7 +189,7 @@ void EvtBcToNPi::initProbMax(){
                 if(prob>0) setProbMax(0.9*prob);
 
 
-	};
+	}
 }
 
 void EvtBcToNPi::decay( EvtParticle *root_particle ){
@@ -254,7 +254,7 @@ void EvtBcToNPi::decay( EvtParticle *root_particle ){
 		for ( id=0; id<(getNDaug()-1); id++ ) 
 		EvtGenReport(EVTGEN_ERROR,"EvtGen") << "Daug " << id << " "<<EvtPDL::name(getDaug(id)).c_str() << endl;
 		::abort();
-	};
+	}
 
  	EvtTensor4C H;
 	double amp2=0.;
@@ -283,7 +283,7 @@ void EvtBcToNPi::decay( EvtParticle *root_particle ){
 		EvtComplex amp=H*hardCur;
 		vertex(amp);
 		amp2+=pow( abs(amp),2);
-	};
+	}
 	if(amp2>maxAmp2) maxAmp2=amp2;
 
   return ;

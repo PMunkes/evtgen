@@ -4,6 +4,31 @@
 //
 //===========================================================================
 
+R01-04-00-------------------------------------------------------------------
+2nd April 2015 John Back
+    Removed the EvtStdlibRandomEngine class since this can produce biases
+    to kinematic distributions when one or more of the daughters is a 
+    resonance, such as B0 -> K pi psi (courtesy Antonio Augusto Alves Jr).
+    EvtSimpleRandomEngine is now the default random number generator
+    in the validation and test examples.
+
+    Incorporated several additions and modifications from LHCb:
+    a) From Michal Kreps, Tom Blake & Christoph Langenbruch,
+       added rare Lb --> Lambda^(*) ell ell models described in
+       arXiv:1108.6129, with various form factors from Gutsche et al. 
+       (arXiv:1301.3737) and lattice QCD  (arXiv:1212.4827)
+    b) From Andrew Crocombe, implemented Bs --> K* form factors 
+       from Ball-Zwicky and z-parametrization form factors from 
+       arXiv:1006.4945 for EvtbTosllBallFF
+    c) Christoph Langenbruch fixed the Bs -> phi ll form factors in
+       EvtbTosllBallFF; T3 showed a non-physical pole at very low 
+       q2 which significantly affected the electron mode
+    d) From Michal Kreps, removed semicolons from wrong places to
+       clear warnings when compiled with the "-pedantic" option.
+
+9th October 2014 John Back
+    Change svnweb.cern.ch to svn.cern.ch in the setup script.
+
 1st April 2014 John Back
      In EvtReport, modified the logging output severity status flags
      to have the "EVTGEN_" prefix, e.g. INFO becomes EVTGEN_INFO. 

@@ -46,7 +46,7 @@
 #include "EvtGenBase/EvtConst.hh"
 #include "EvtGen/EvtGen.hh"
 #include "EvtGenBase/EvtParticleFactory.hh"
-#include "EvtGenBase/EvtStdlibRandomEngine.hh"
+#include "EvtGenBase/EvtSimpleRandomEngine.hh"
 #include "EvtGenBase/EvtIdSet.hh"
 #include "EvtGenBase/EvtParser.hh"
 
@@ -153,7 +153,7 @@ void runBaryonic(int nEvent, EvtGen& myGenerator);
 
 int main(int argc, char* argv[]){
 
-  EvtRandomEngine* myRandomEngine = new EvtStdlibRandomEngine();
+  EvtRandomEngine* myRandomEngine = new EvtSimpleRandomEngine();
 
   if (!TROOT::Initialized()) {
     static TROOT root("RooTuple", "RooTuple ROOT in EvtGen");

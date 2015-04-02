@@ -280,13 +280,4 @@ double EvtRelBreitWignerBarrierFact::getRandMass(EvtId *parId,int nDaug, EvtId *
   EvtPoint1D point = predgen();
   return point.value();
 
-};
-
-
-
-
-
-
-
-
-
+}

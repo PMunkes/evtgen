@@ -8,9 +8,9 @@ R01-04-00-------------------------------------------------------------------
 2nd April 2015 John Back
     Removed the EvtStdlibRandomEngine class since this can produce biases
     to kinematic distributions when one or more of the daughters is a 
-    resonance, such as B0 -> K pi psi (courtesy Antonio Augusto Alves Jr).
-    EvtSimpleRandomEngine is now the default random number generator
-    in the validation and test examples.
+    resonance, such as B0 -> K pi psi (thanks to Antonio Augusto Alves Jr 
+    who discovered this issue). EvtSimpleRandomEngine is now the default 
+    random number generator in the validation and test examples.
 
     Incorporated several additions and modifications from LHCb:
     a) From Michal Kreps, Tom Blake & Christoph Langenbruch,

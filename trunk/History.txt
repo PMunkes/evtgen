@@ -4,6 +4,11 @@
 //
 //===========================================================================
 
+1st May 2015 John Back
+    Added Bc -> scalar ell nu (EvtBcSMuNu) and Bc -> tensor ell nu 
+    (EvtBcTMuNu) decays, courtesy of Jack Wimberley, LHCb. Also included the 
+    chi_c1 mode for EvtBcVMuNu.   
+
 R01-04-00-------------------------------------------------------------------
 2nd April 2015 John Back
     Removed the EvtStdlibRandomEngine class since this can produce biases

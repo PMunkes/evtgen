@@ -8,33 +8,35 @@
 // Copyright Information: See EvtGen/COPYRIGHT
 //      Copyright (C) 1998      Caltech, UCSB
 //
-// Module: EvtGen/EvtXPsiGamma.hh
+// Module: EvtGen/EvtBcSMuNu.hh
 //
-// Description:Implementation of the X3872(2-+) -> J/psi gamma decay
+// Description:Implementation of the model for semileptonic Bc decays
 //
 // Modification history:
 //
-//    7 May 2012: Module created
+//    DJL     April 20, 1998         Module created
 //
 //------------------------------------------------------------------------
 
-#ifndef EVTXPSIGAMMA_HH
-#define EVTXPSIGAMMA_HH
+#ifndef EVTBcSMuNu_HH
+#define EVTBcSMuNu_HH
 
 #include <fstream>
 #include <stdio.h>
 
 
 #include "EvtGenBase/EvtDecayAmp.hh"
+#include "EvtGenBase/EvtSemiLeptonicFF.hh"
+#include "EvtGenBase/EvtSemiLeptonicAmp.hh"
 
 class EvtParticle;
 
-class EvtXPsiGamma: public EvtDecayAmp {
+class EvtBcSMuNu:public  EvtDecayAmp  {
 
 public:
 
-  EvtXPsiGamma() {}
-  virtual ~EvtXPsiGamma();
+  EvtBcSMuNu() {}
+  virtual ~EvtBcSMuNu();
 
   std::string getName();
   EvtDecayBase* clone();
@@ -43,14 +45,14 @@ public:
   void init();
 
   virtual void initProbMax();
+  void PrintMaxProbs();
 
 
 private:
-//  int whichfit;
-  EvtComplex fT2(EvtVector4R p, EvtVector4R q , EvtTensor4C epsPI, EvtVector4C epsEps, EvtVector4C epsEta); 
-  EvtComplex fT3(EvtVector4R p, EvtVector4R q , EvtTensor4C epsPI, EvtVector4C epsEps, EvtVector4C epsEta);
-  EvtId _ID0;
-  int ncall;
+  EvtSemiLeptonicFF *ffmodel;
+  EvtSemiLeptonicAmp *calcamp;
+  int whichfit;
+  int idScalar;
 };
 
 #endif

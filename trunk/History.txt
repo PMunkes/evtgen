@@ -4,6 +4,9 @@
 //
 //===========================================================================
 
+12th June 2015 John Back
+    Changed the width of chi_b1 in evt.pdl from 9.8928 GeV (!) to zero.
+
 1st May 2015 John Back
     Added Bc -> scalar ell nu (EvtBcSMuNu) and Bc -> tensor ell nu 
     (EvtBcTMuNu) decays, courtesy of Jack Wimberley, LHCb. Also included the 

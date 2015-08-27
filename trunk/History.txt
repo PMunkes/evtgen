@@ -4,6 +4,22 @@
 //
 //===========================================================================
 
+27th August 2015 John Back
+    Added Mersenne-Twister random number generator (RNG) EvtMTRandomEngine.
+    It requires c++11 compiler features (>= gcc 4.7), which should 
+    automatically be enabled by the configure script. Introduced the 
+    preprocessor environment variable EVTGEN_CPP11 for c++11 features.
+    EvtMTRandomEngine is the default RNG for the validation and test examples
+    if c++11 features are enabled.
+
+    Added a phase-space test validation/genPHSP.sh and PhaseSpacePlots.C to
+    visually check the flatness of Dalitz plots in order to ensure that the
+    RNG is not producing biased results that depend on particle ordering.
+
+    Added the models EvtbsToLLLLAmp and EvtbsToLLLLHyperCP for 
+    B0_q -> l+ l- l+ l- decays (SM and one supersymmetric scenario), 
+    courtesy of Nikolai Nikitin and Konstantin Toms.
+
 12th June 2015 John Back
     Changed the width of chi_b1 in evt.pdl from 9.8928 GeV (!) to zero.
 

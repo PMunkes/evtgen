@@ -224,6 +224,24 @@ if [ $ARCH = Linux-gcc4 ]; then
   fi
 fi
 
+# Add C++11 options if required
+theGcc2=`g++ --version | grep '[0-9]\.[0-9]\.[0-9]' -o | head -1 | awk -F . '{print $2}'`
+gccVar=`echo $theGcc`
+gccVar2=`echo $theGcc2`
+# Flag to make sure c++11 is enabled for compiling certain classes, e.g. MT random engine.
+CPP11=1
+# Check that we have gcc version 4.7 and above
+if [ $gccVar -le 4 ]; then
+  if [ $gccVar2 -le 6 ]; then
+    echo "Not enabling c++11 features"
+    CPP11=0
+  fi
+fi
+
+if [ $CPP11 = 1 ]; then
+  echo "c++11 is enabled"
+fi
+
 # Mac OS platform with gcc4
 if [[ $ARCH == Darwin* ]]; then
   FLIBS="-lgfortran"
@@ -316,6 +334,14 @@ if [ "${EVTGEN_TAUOLA}" == "1" ] ; then
   echo "TAUOLALIBDIR = ${TAUOLADIR}/lib" >> config.mk
   echo "TAUOLALIBLIST = ${TAUOLALIBLIST}" >> config.mk
 fi
+
+if [ ${CPP11} == "1" ] ; then
+  echo "" >> config.mk
+  echo "# c++11 features:" >> config.mk
+  echo "EVTGEN_CPP11 = 1" >> config.mk
+  echo "CXXFLAGS += -std=c++11 -D EVTGEN_CPP11" >> config.mk
+fi
+
 
 echo " done"
 

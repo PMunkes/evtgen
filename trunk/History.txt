@@ -18,7 +18,13 @@
 
     Added the models EvtbsToLLLLAmp and EvtbsToLLLLHyperCP for 
     B0_q -> l+ l- l+ l- decays (SM and one supersymmetric scenario), 
-    courtesy of Nikolai Nikitin and Konstantin Toms.
+    courtesy of Nikolai Nikitin and Konstantin Toms. Documentation provided
+    in doc/evt_BQTOLLLL_model.pdf and doc/evt_BQTOLLLLHYPERCP_model.pdf.
+
+    Changed the installation and set-up script name to be just setupEvtGen.sh;
+    it uses the VERSION variable to specify the required tag. List of tags
+    are available using either "svn ls -v http://svn.cern.ch/guest/evtgen/tags"
+    or by going to http://svn.cern.ch/guest/evtgen/tags in a web browser.
 
 12th June 2015 John Back
     Changed the width of chi_b1 in evt.pdl from 9.8928 GeV (!) to zero.

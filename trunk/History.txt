@@ -8,10 +8,14 @@
     Updated setupEvtGen.sh to use the recommended external packages:
     HepMC 2.06.09, pythia 8.186, Photos++ 3.56 and Tauola++ 1.1.5. 
 
+    Fixed form-factor calculations for the BTOSLLBALL model 6 used to generate
+    b -> sll decays, courtesy of Christoph Langenbruch and David Loh (LHCb). 
+    Affects B->K*ll, B->rholl and B->omegall, particularly the electron modes.
+
     In the validation directory, added runPhotosTest.sh for testing FSR in
     Upsilon(4S) -> e+ e- decays, and changed the plot comparison scripts to
     use the 2nd directory "oldRootFiles" (which could be a soft-link) for 
-    including ROOT histograms made from a previous version of EvtGen.
+    including ROOT histograms made from a previous version of EvtGen.    
 
 27th August 2015 John Back
     Added Mersenne-Twister random number generator (RNG) EvtMTRandomEngine.

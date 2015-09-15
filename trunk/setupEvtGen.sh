@@ -20,22 +20,31 @@ echo Will setup EvtGen $VERSION in $INSTALL_BASE
 echo Downloading EvtGen from SVN
 svn export http://svn.cern.ch/guest/evtgen/tags/$VERSION
 
+osArch=`uname`
+
 echo Downloading external dependencies
 mkdir -p external
 cd external
 
 # Minimum required versions of the external packages. Later versions should be OK as well,
 # assuming their C++ interfaces do not change
-wget http://home.thep.lu.se/~torbjorn/pythia8/pythia8186.tgz
-wget http://photospp.web.cern.ch/photospp/resources/PHOTOS.3.56/PHOTOS.3.56.tar.gz
-wget http://tauolapp.web.cern.ch/tauolapp/resources/TAUOLA.1.1.5/TAUOLA.1.1.5.tar.gz
-wget http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-2.06.09.tar.gz
+curl -O http://home.thep.lu.se/~torbjorn/pythia8/pythia8186.tgz
+curl -O http://photospp.web.cern.ch/photospp/resources/PHOTOS.3.56/PHOTOS.3.56.tar.gz
+curl -O http://tauolapp.web.cern.ch/tauolapp/resources/TAUOLA.1.1.5/TAUOLA.1.1.5.tar.gz
+curl -O http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-2.06.09.tar.gz
 
 echo Extracting external dependencies
 tar -xzf PHOTOS.3.56.tar.gz 
 tar -xzf HepMC-2.06.09.tar.gz 
 tar -xzf pythia8186.tgz
 tar -xzf TAUOLA.1.1.5.tar.gz 
+
+# Patch TAUOLA and PHOTOS on Darwin (Mac)
+if [ "$osArch" == "Darwin" ]
+then
+  patch -p0 < $INSTALL_BASE/$VERSION/platform/tauola_Darwin.patch
+  patch -p0 < $INSTALL_BASE/$VERSION/platform/photos_Darwin.patch
+fi
 
 echo Installing HepMC in $INSTALL_BASE/external/HepMC/
 mkdir -p HepMC

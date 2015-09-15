@@ -244,7 +244,21 @@ fi
 
 # Mac OS platform with gcc4
 if [[ $ARCH == Darwin* ]]; then
-  FLIBS="-lgfortran"
+  tt=`gfortran -print-search-dirs|grep libraries|cut -d'=' -f2|sed  's/:/ /g'`
+  LIBGFORTRANLOCATION=''
+  for i in $tt
+  do
+    if [ -e $i/libgfortran.so ]
+    then
+      LIBGFORTRANLOCATION=$i
+      break
+    elif [ -e $i/libgfortran.dylib ]
+    then
+      LIBGFORTRANLOCATION=$i
+      break
+    fi
+  done
+  FLIBS="-L${LIBGFORTRANLOCATION} -lgfortran"
   SOFLAGS="-install_name"
 fi
 

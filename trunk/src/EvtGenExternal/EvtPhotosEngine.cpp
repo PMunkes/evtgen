@@ -59,12 +59,14 @@ EvtPhotosEngine::EvtPhotosEngine(std::string photonType, bool useEvtGenRandom) {
 
   Photospp::Photos::initialize();
 
-  // Set minimum photon energy (0.1 keV at 1 GeV scale)
-  Photospp::Photos::setInfraredCutOff(1.0e-7);
   // Increase the maximum possible value of the interference weight
   Photospp::Photos::maxWtInterference(64.0); // 2^n, where n = number of charges (+,-)
   Photospp::Photos::setInterference(true);
-  Photospp::Photos::setExponentiation(true);
+  Photospp::Photos::setExponentiation(true); // sets infrared cut-off at 1e-7
+  // Reset the minimum photon energy, if required, in units of half of the decaying particle mass.
+  // This must be done after exponentiation! Keep the cut at 1e-7, i.e. 0.1 keV at the 1 GeV scale,
+  // which is appropriate for B decays
+  Photospp::Photos::setInfraredCutOff(1.0e-7);
 
   _initialised = false;
 

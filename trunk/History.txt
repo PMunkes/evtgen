@@ -4,6 +4,29 @@
 //
 //===========================================================================
 
+2nd October 2015 John Back    
+    Modified EvtSVPHelAmp and added a new EvtSVPHelCPMix model, implementing 
+    the complete mixing phenomenology of Bs to vector gamma decays, courtesy 
+    of Clara Remon (LHCb).
+
+    EvtD0mixDalitz code: cleanup, inverted q/p for decays of D0bar (simplifies
+    user decay files) and fixed y parameter bug, courtesy of Jordi Tico (LHCb).
+
+    Changed the initialisation order of the infrared cut-off in EvtPhotosEngine.
+    This actually has no effect, since the exponentiation function sets it to the
+    same 1e-7 value, but it's now in the correct order if we need to update it.
+
+    Removed all remaining obsolete pragma (Win32) warnings from some classes.
+
+23rd September 2015 Michal Kreps
+    Reimplement the real Spence function in C++ and removed its fortran
+    implementation.
+
+15th September 2015 Michal Kreps
+    Fixed accessed uninitialised memory in EvtPDL.cpp, line 213.
+    Modified the configure and setupEvtGen.sh scripts to work on Mac; needed
+    Mac compilation patch files added to the new "platform" subdirectory. 
+
 10th September 2015 John Back
     Updated setupEvtGen.sh to use the recommended external packages:
     HepMC 2.06.09, pythia 8.186, Photos++ 3.56 and Tauola++ 1.1.5. 

@@ -166,8 +166,7 @@ void genRootDecayChain::generateEvents() {
     // Define the random number generator
 #ifdef EVTGEN_CPP11
     // Use the Mersenne-Twister generator (C++11 only)
-    //_randomEngine = new EvtMTRandomEngine();
-    randomEngine = new EvtSimpleRandomEngine();
+    randomEngine = new EvtMTRandomEngine();
 #else
     randomEngine = new EvtSimpleRandomEngine();
 #endif

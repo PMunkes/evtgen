@@ -4,6 +4,17 @@
 //
 //===========================================================================
 
+7th October 2015 John Back
+    Updated EvtGenExternal/EvtPhotosEngine to check that additional particles
+    from the outgoing vertex are indeed (FSR) photons, since later versions of 
+    PHOTOS introduce pair emission, where particles may not always be photons.
+
+    Added the genRootDecayChain.cc validation program to create ROOT files 
+    containing information about the complete decay tree. Two example test
+    decay files BKstarGamma.dec and BuDst0rhop.dec can be used with this; the
+    first tests PHOTOS, the second looks at sequential decay chain storage.
+    The plotBKstarGamma.C ROOT macro can be used for B -> K* gamma plots.
+
 2nd October 2015 John Back    
     Modified EvtSVPHelAmp and added a new EvtSVPHelCPMix model, implementing 
     the complete mixing phenomenology of Bs to vector gamma decays, courtesy 

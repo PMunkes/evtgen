@@ -9,6 +9,7 @@
     for PHOTOS++; version 3.56 and below uses Fortran, version 3.61 and above
     uses C++ only (default). Avoid using v3.60, since it does not work.
     This needs the PHOTOS libraries built before EvtGen is configured.
+    Modified setupEvtGen.sh to use Photos++ v3.61.
 
 7th October 2015 John Back
     Updated EvtGenExternal/EvtPhotosEngine to check that additional particles

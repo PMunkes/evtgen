@@ -29,12 +29,12 @@ cd external
 # Minimum required versions of the external packages. Later versions should be OK as well,
 # assuming their C++ interfaces do not change
 curl -O http://home.thep.lu.se/~torbjorn/pythia8/pythia8186.tgz
-curl -O http://photospp.web.cern.ch/photospp/resources/PHOTOS.3.56/PHOTOS.3.56.tar.gz
+curl -O http://photospp.web.cern.ch/photospp/resources/PHOTOS.3.61/PHOTOS.3.61.tar.gz
 curl -O http://tauolapp.web.cern.ch/tauolapp/resources/TAUOLA.1.1.5/TAUOLA.1.1.5.tar.gz
 curl -O http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-2.06.09.tar.gz
 
 echo Extracting external dependencies
-tar -xzf PHOTOS.3.56.tar.gz 
+tar -xzf PHOTOS.3.61.tar.gz
 tar -xzf HepMC-2.06.09.tar.gz 
 tar -xzf pythia8186.tgz
 tar -xzf TAUOLA.1.1.5.tar.gz 

@@ -4,6 +4,10 @@
 //
 //===========================================================================
 
+21st October 2015 John Back
+    Added the EvtB2MuMuMuNu model for simulating the very rare four-leptonic 
+    decays B- -> mu+ mu- anti-nu_mu mu-, courtesy Nikolai Nikitin.
+
 16th October 2015 John Back
     Updated the configure script to automatically select the library names
     for PHOTOS++; version 3.56 and below uses Fortran, version 3.61 and above

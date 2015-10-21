@@ -8,7 +8,7 @@
 # interface differences; see the specific tagged version of the EvtGen/README file for guidance
 
 # Version or tag number. No extraneous spaces on this line!
-VERSION=R01-04-00
+VERSION=R01-05-00
 
 mkdir -p EvtGen
 cd EvtGen
@@ -26,8 +26,8 @@ echo Downloading external dependencies
 mkdir -p external
 cd external
 
-# Minimum required versions of the external packages. Later versions should be OK as well,
-# assuming their C++ interfaces do not change
+# Recommended versions of the external packages. HepMC is mandatory. 
+# Later versions should be OK as well, assuming their C++ interfaces do not change
 curl -O http://home.thep.lu.se/~torbjorn/pythia8/pythia8186.tgz
 curl -O http://photospp.web.cern.ch/photospp/resources/PHOTOS.3.61/PHOTOS.3.61.tar.gz
 curl -O http://tauolapp.web.cern.ch/tauolapp/resources/TAUOLA.1.1.5/TAUOLA.1.1.5.tar.gz

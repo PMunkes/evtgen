@@ -4,7 +4,11 @@
 //
 //===========================================================================
 
+R01-05-00-------------------------------------------------------------------
 21st October 2015 John Back
+    New tag incorporating all changes below. Recommended external packages
+    are HepMC 2.06.09, pythia 8.186, Photos++ 3.61 and Tauola++ 1.1.5.
+
     Added the EvtB2MuMuMuNu model for simulating the very rare four-leptonic 
     decays B- -> mu+ mu- anti-nu_mu mu-, courtesy Nikolai Nikitin.
 

@@ -26,5 +26,4 @@ const double EvtConst::twoPi        =  2.0*pi;
 const double EvtConst::radToDegrees =  180.0/pi;
  
 const double EvtConst::c            =  2.99792458E11;       // mm/sec
-const double EvtConst::Fermi        =  1.166378E-5;  // Fermi coupling constant, GeV^-2
-//const double EvtConst::Fermi        =  1.1663787E-5;  // Fermi coupling constant, GeV^-2
+const double EvtConst::Fermi        =  1.1663787E-5;  // Fermi coupling constant, GeV^-2

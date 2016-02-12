@@ -4,6 +4,12 @@
 //
 //===========================================================================
 
+12th February 2016 John Back
+     From LHCb, added extensions to the EvtHQET2(FF) model for semitauonic
+     decays from Brian Hamilton, which needs a patch to EvtSemiLeptonicAmp 
+     from Jack Wimberley to ensure that the q^2 range is physical when 
+     finding the maximum amplitude probability.
+
 2nd December 2015 John Back
     From LHCb, added EvtKStopizmumu model for KS -> pi0 mu mu decays based on
     JHEP08(1998)004, courtesy of Veronika Chobanova, Diego Martinez Santos

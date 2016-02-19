@@ -4,11 +4,15 @@
 //
 //===========================================================================
 
+19th Feburary 2016 John Back
+    Fixed bug in the definition of the initial spinor term Sinit in 
+    EvtRareLbToLll::HadronicAmpRS(), from Tom Blake (LHCb).
+
 12th February 2016 John Back
-     From LHCb, added extensions to the EvtHQET2(FF) model for semitauonic
-     decays from Brian Hamilton, which needs a patch to EvtSemiLeptonicAmp 
-     from Jack Wimberley to ensure that the q^2 range is physical when 
-     finding the maximum amplitude probability.
+    From LHCb, added extensions to the EvtHQET2(FF) model for semitauonic
+    decays from Brian Hamilton, which needs a patch to EvtSemiLeptonicAmp 
+    from Jack Wimberley to ensure that the q^2 range is physical when 
+    finding the maximum amplitude probability.
 
 2nd December 2015 John Back
     From LHCb, added EvtKStopizmumu model for KS -> pi0 mu mu decays based on

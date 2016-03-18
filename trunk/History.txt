@@ -4,6 +4,11 @@
 //
 //===========================================================================
 
+18th March 2016 John Back
+    Fixed incorrect spinor algebra used in S1 -> 1/2 S2, 1/2 -> S3 S4 decays
+    in EvtDiracParticle::rotateToHelicityBasis() functions, courtesy of
+    Luis Miguel Garcia Martin and the IFIC Valencia LHCb group.
+
 19th Feburary 2016 John Back
     Fixed bug in the definition of the initial spinor term Sinit in 
     EvtRareLbToLll::HadronicAmpRS(), from Tom Blake (LHCb).

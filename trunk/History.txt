@@ -4,6 +4,15 @@
 //
 //===========================================================================
 
+25th April 2016 Michal Kreps
+    Added DECAY.DEC/XML, which contain updated semileptonic charm and beauty 
+    branching fractions using the 2014 PDG, tuned to minimize disagreements 
+    between measurements and EvtGen for both inclusive and exclusive decays. 
+    Updated the evt.pdl particle properties file to the PDG 2014 edition.
+
+    Implemented new LQCD form factors for Lb --> L mu mu from arXiv paper 
+    1602.01399 (EvtRareLbToLllFFlQCD); old LQCD form factors are removed.
+
 18th March 2016 John Back
     Fixed incorrect spinor algebra used in S1 -> 1/2 S2, 1/2 -> S3 S4 decays
     in EvtDiracParticle::rotateToHelicityBasis() functions, courtesy of

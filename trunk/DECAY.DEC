@@ -6382,16 +6382,21 @@ Decay D_s+
 0.015600000 eta     pi+                                     PHSP; #[Reconstructed PDG2011]
 0.038000000 eta'    pi+                                     PHSP; #[Reconstructed PDG2011]
 0.002300000 omega   pi+                                     SVS; #[Reconstructed PDG2011]
-0.000200000 rho0    pi+                                     SVS; #[Reconstructed PDG2011]
 0.000304906 rho+    pi0                                     SVS; #[Reconstructed PDG2011]
-#?
 0.000076226 pi+     pi0                                     PHSP; #[Reconstructed PDG2011]
-0.007622650 f_0     pi+                                     PHSP; #[Reconstructed PDG2011]
-0.000914718 f_2     pi+                                     PHSP; #[Reconstructed PDG2011]
+#?
+0.000196200 rho0    pi+                                     SVS;  # PDG 2014 
+0.007852048 f_0     pi+                                     PHSP; # PDG 2014
+0.001753646 f_2     pi+                                     PHSP; # PDG 2014
+0.004754077 f'_0    pi+                                     PHSP; # PDG 2014
+0.005768112 f_0(1500) pi+                                   PHSP; # PDG 2014
+#0.000735750 rho(2S)0 pi+                                    PHSP; # PDG 2014
+0.000000000 pi+     pi-     pi+                             PHSP; # PDG 2014 (filled by exclusives)
 0.084000000 phi     rho+                                    SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #[Reconstructed PDG2011]
 0.089000000 rho+    eta                                     SVS; #[Reconstructed PDG2011]
-0.125000000 rho+    eta'                                    SVS; #[Reconstructed PDG2011]
-0.010800000 pi+     pi-     pi+                             PHSP; #[Reconstructed PDG2011]
+0.124213286 rho+    eta'                                    SVS; # Decrease compared to PDG 2014 to preserve unitarity after 
+#                                                                # fixing Ds --> 3pi, we also have too much of inclusive eta', 
+#                                                                #so pick this decay
 0.006500000 pi+     pi0     pi0                             PHSP; #[Reconstructed PDG2011]
 0.007622650 phi     pi+     pi0                             PHSP; #[Reconstructed PDG2011]
 0.011433975 eta     pi+     pi0                             PHSP; #[Reconstructed PDG2011]
@@ -6482,15 +6487,18 @@ Decay D_s-
 0.015600000 eta     pi-                                     PHSP; #[Reconstructed PDG2011]
 0.038000000 eta'    pi-                                     PHSP; #[Reconstructed PDG2011]
 0.002300000 omega   pi-                                     SVS; #[Reconstructed PDG2011]
-0.000200000 rho0    pi-                                     SVS; #[Reconstructed PDG2011]
 0.000304906 rho-    pi0                                     SVS; #[Reconstructed PDG2011]
 0.000076226 pi-     pi0                                     PHSP; #[Reconstructed PDG2011]
-0.007622650 f_0     pi-                                     PHSP; #[Reconstructed PDG2011]
-0.000914718 f_2     pi-                                     PHSP; #[Reconstructed PDG2011]
+0.000196200 rho0    pi-                                     SVS;  # PDG 2014 
+0.007852048 f_0     pi-                                     PHSP; # PDG 2014
+0.001753646 f_2     pi-                                     PHSP; # PDG 2014
+0.004754077 f'_0    pi-                                     PHSP; # PDG 2014
+0.005768112 f_0(1500) pi-                                   PHSP; # PDG 2014
+#0.000735750 rho(2S)0 pi-                                    PHSP; # PDG 2014
+0.000000000 pi-     pi+     pi-                             PHSP; # PDG 2014 (filled by exclusives)
 0.084000000 phi     rho-                                    SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #[Reconstructed PDG2011]
 0.089000000 rho-    eta                                     SVS; #[Reconstructed PDG2011]
-0.125000000 rho-    eta'                                    SVS; #[Reconstructed PDG2011]
-0.010800000 pi-     pi-     pi+                             PHSP; #[Reconstructed PDG2011]
+0.124213286 rho-    eta'                                    SVS; # Decrease compared to PDG 2014 to preserve unitarity after 
 0.006500000 pi-     pi0     pi0                             PHSP; #[Reconstructed PDG2011]
 0.007622650 phi     pi-     pi0                             PHSP; #[Reconstructed PDG2011]
 0.011433975 eta     pi-     pi0                             PHSP; #[Reconstructed PDG2011]
@@ -7262,6 +7270,19 @@ Decay f_0
 #0.0550   K_L0  K_L0                        PHSP;
 Enddecay
 #
+#
+# MK: Based on PDG 2014 without any attempt to really include everything. One
+# thing, which is missing is KK mode, but data are scattered quite lot and
+# I would also need to find place where to make space for it. For needs I
+# have at this moment, this should be sufficient
+#Decay f_0(1370)
+#0.17333 pi+ pi-           PHSP;
+#0.08667 pi0 pi0           PHSP;
+#0.26000 pi+ pi+ pi- pi-   PHSP;
+#0.32000 pi+ pi- pi0 pi0   PHSP;
+#0.10667 rho+ rho-         PHSP;
+#0.05333 rho0 rho0         PHSP;
+#Enddecay
 Decay f'_0
 0.5200   pi+  pi-                        PHSP;
 0.2600   pi0  pi0                        PHSP;

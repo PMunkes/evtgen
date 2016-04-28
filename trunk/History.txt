@@ -4,6 +4,11 @@
 //
 //===========================================================================
 
+28th April 2016 Michal Kreps
+    For Ds+ --> 2pi+ pi- there was double counting of branching fraction
+    resulting in total branching fraction being 1.5 times larger than measured
+    one. Fix by revisiting submodes, which now fill total Ds --> 3pi.
+
 25th April 2016 Michal Kreps
     Added DECAY.DEC/XML, which contain updated semileptonic charm and beauty 
     branching fractions using the 2014 PDG, tuned to minimize disagreements 

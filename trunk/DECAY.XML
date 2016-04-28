@@ -6893,25 +6893,32 @@
 <!--[Reconstructed PDG2011] -->
 		<channel br="0.002300000" daughters="omega pi+" model="SVS"/>
 <!--[Reconstructed PDG2011] -->
-		<channel br="0.000200000" daughters="rho0 pi+" model="SVS"/>
-<!--[Reconstructed PDG2011] -->
 		<channel br="0.000304906" daughters="rho+ pi0" model="SVS"/>
 <!--[Reconstructed PDG2011] -->
-<!--? -->
 		<channel br="0.000076226" daughters="pi+ pi0" model="PHSP"/>
 <!--[Reconstructed PDG2011] -->
-		<channel br="0.007622650" daughters="f_0 pi+" model="PHSP"/>
-<!--[Reconstructed PDG2011] -->
-		<channel br="0.000914718" daughters="f_2 pi+" model="PHSP"/>
-<!--[Reconstructed PDG2011] -->
+<!--? -->
+		<channel br="0.000196200" daughters="rho0 pi+" model="SVS"/>
+<!-- PDG 2014 -->
+		<channel br="0.007852048" daughters="f_0 pi+" model="PHSP"/>
+<!-- PDG 2014 -->
+		<channel br="0.001753646" daughters="f_2 pi+" model="PHSP"/>
+<!-- PDG 2014 -->
+		<channel br="0.004754077" daughters="f'_0 pi+" model="PHSP"/>
+<!-- PDG 2014 -->
+		<channel br="0.005768112" daughters="f_0(1500) pi+" model="PHSP"/>
+<!-- PDG 2014 -->
+<!--0.000735750 rho(2S)0 pi+                                    PHSP; # PDG 2014 -->
+		<channel br="0.000000000" daughters="pi+ pi- pi+" model="PHSP"/>
+<!-- PDG 2014 (filled by exclusives) -->
 		<channel br="0.084000000" daughters="phi rho+" model="SVV_HELAMP" params="1.0 0.0 1.0 0.0 1.0 0.0"/>
 <!--[Reconstructed PDG2011] -->
 		<channel br="0.089000000" daughters="rho+ eta" model="SVS"/>
 <!--[Reconstructed PDG2011] -->
-		<channel br="0.125000000" daughters="rho+ eta'" model="SVS"/>
-<!--[Reconstructed PDG2011] -->
-		<channel br="0.010800000" daughters="pi+ pi- pi+" model="PHSP"/>
-<!--[Reconstructed PDG2011] -->
+		<channel br="0.124213286" daughters="rho+ eta'" model="SVS"/>
+<!-- Decrease compared to PDG 2014 to preserve unitarity after -->
+<!--                                                                # fixing Ds -> 3pi, we also have too much of inclusive eta',  -->
+<!--                                                                #so pick this decay -->
 		<channel br="0.006500000" daughters="pi+ pi0 pi0" model="PHSP"/>
 <!--[Reconstructed PDG2011] -->
 		<channel br="0.007622650" daughters="phi pi+ pi0" model="PHSP"/>
@@ -7067,24 +7074,29 @@
 <!--[Reconstructed PDG2011] -->
 		<channel br="0.002300000" daughters="omega pi-" model="SVS"/>
 <!--[Reconstructed PDG2011] -->
-		<channel br="0.000200000" daughters="rho0 pi-" model="SVS"/>
-<!--[Reconstructed PDG2011] -->
 		<channel br="0.000304906" daughters="rho- pi0" model="SVS"/>
 <!--[Reconstructed PDG2011] -->
 		<channel br="0.000076226" daughters="pi- pi0" model="PHSP"/>
 <!--[Reconstructed PDG2011] -->
-		<channel br="0.007622650" daughters="f_0 pi-" model="PHSP"/>
-<!--[Reconstructed PDG2011] -->
-		<channel br="0.000914718" daughters="f_2 pi-" model="PHSP"/>
-<!--[Reconstructed PDG2011] -->
+		<channel br="0.000196200" daughters="rho0 pi-" model="SVS"/>
+<!-- PDG 2014 -->
+		<channel br="0.007852048" daughters="f_0 pi-" model="PHSP"/>
+<!-- PDG 2014 -->
+		<channel br="0.001753646" daughters="f_2 pi-" model="PHSP"/>
+<!-- PDG 2014 -->
+		<channel br="0.004754077" daughters="f'_0 pi-" model="PHSP"/>
+<!-- PDG 2014 -->
+		<channel br="0.005768112" daughters="f_0(1500) pi-" model="PHSP"/>
+<!-- PDG 2014 -->
+<!--0.000735750 rho(2S)0 pi-                                    PHSP; # PDG 2014 -->
+		<channel br="0.000000000" daughters="pi- pi+ pi-" model="PHSP"/>
+<!-- PDG 2014 (filled by exclusives) -->
 		<channel br="0.084000000" daughters="phi rho-" model="SVV_HELAMP" params="1.0 0.0 1.0 0.0 1.0 0.0"/>
 <!--[Reconstructed PDG2011] -->
 		<channel br="0.089000000" daughters="rho- eta" model="SVS"/>
 <!--[Reconstructed PDG2011] -->
-		<channel br="0.125000000" daughters="rho- eta'" model="SVS"/>
-<!--[Reconstructed PDG2011] -->
-		<channel br="0.010800000" daughters="pi- pi- pi+" model="PHSP"/>
-<!--[Reconstructed PDG2011] -->
+		<channel br="0.124213286" daughters="rho- eta'" model="SVS"/>
+<!-- Decrease compared to PDG 2014 to preserve unitarity after -->
 		<channel br="0.006500000" daughters="pi- pi0 pi0" model="PHSP"/>
 <!--[Reconstructed PDG2011] -->
 		<channel br="0.007622650" daughters="phi pi- pi0" model="PHSP"/>
@@ -7885,6 +7897,18 @@
 <!--0.0550   K_S0  K_S0                        PHSP; -->
 <!--0.0550   K_L0  K_L0                        PHSP; -->
 	</decay>
+<!-- MK: Based on PDG 2014 without any attempt to really include everything. One -->
+<!-- thing, which is missing is KK mode, but data are scattered quite lot and -->
+<!-- I would also need to find place where to make space for it. For needs I -->
+<!-- have at this moment, this should be sufficient -->
+<!--Decay f_0(1370) -->
+<!--0.17333 pi+ pi-           PHSP; -->
+<!--0.08667 pi0 pi0           PHSP; -->
+<!--0.26000 pi+ pi+ pi- pi-   PHSP; -->
+<!--0.32000 pi+ pi- pi0 pi0   PHSP; -->
+<!--0.10667 rho+ rho-         PHSP; -->
+<!--0.05333 rho0 rho0         PHSP; -->
+<!--Enddecay -->
 	<decay name="f'_0">
 		<channel br="0.5200" daughters="pi+ pi-" model="PHSP"/>
 		<channel br="0.2600" daughters="pi0 pi0" model="PHSP"/>

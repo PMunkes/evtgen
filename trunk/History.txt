@@ -4,6 +4,11 @@
 //
 //===========================================================================
 
+R01-06-00-------------------------------------------------------------------
+1st June 2016 John Back
+    New tag incorporating all changes below. Recommended external packages
+    are HepMC 2.06.09, pythia 8.186, Photos++ 3.61 and Tauola++ 1.1.5.
+
 28th April 2016 Michal Kreps
     For Ds+ --> 2pi+ pi- there was double counting of branching fraction
     resulting in total branching fraction being 1.5 times larger than measured

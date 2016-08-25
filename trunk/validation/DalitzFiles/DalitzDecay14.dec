@@ -1,5 +1,5 @@
 Decay D0
-1.0  K0  K-  K+              D_DALITZ;
+1.0  anti-K0  K-  K+              D_DALITZ;
 Enddecay
 
 Decay anti-D0
